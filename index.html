@@ -1,9 +1,432 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Page</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#47202D">
+<title>AuraVelo — a free, private bike-ride tracker for iPhone</title>
+<meta name="description" content="AuraVelo is a free bike-ride tracker from openPeak. No accounts, no analytics, no ads. Your rides stay on your device.">
+<style>
+  :root {
+    /* Sampled from the app: icon gradient, brand pink, launch plum, confetti gold. */
+    --plum-black: #150A13;
+    --wine: #833A55;
+    --rose: #E97578;
+    --pink: #F06E8C;
+    --gold: #FFD700;
+    --panel: #231119;
+    --paper: #F7EDF0;
+    --muted: #C9A9B5;
+    --hairline: rgba(233, 117, 120, 0.16);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--plum-black);
+    color: var(--paper);
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  ::selection { background: var(--pink); color: var(--plum-black); }
+  a { color: var(--rose); }
+
+  /* ---------- Hero: the app's splash screen, in HTML ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 620px;
+    background: linear-gradient(135deg, #150A13 0%, #833A55 58%, #E97578 100%);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .glyphs { color: rgba(0, 0, 0, 0.38); }
+  .star { animation: twinkle 3s ease-in-out infinite; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50%      { opacity: 0.7; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .star { animation: none; }
+  }
+  .hero-inner {
+    position: relative;
+    padding: 24px;
+    text-shadow: 0 2px 28px rgba(21, 10, 19, 0.45);
+  }
+  h1 {
+    font-size: clamp(3rem, 9vw, 4.6rem);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: #fff;
+  }
+  .tagline {
+    font-size: clamp(1.1rem, 2.6vw, 1.3rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    margin-top: 10px;
+  }
+  .nofuss {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.66);
+    margin-top: 18px;
+    letter-spacing: 0.01em;
+  }
+  .heart {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 42px;
+  }
+  .heart span { color: var(--pink); }
+
+  /* ---------- Content ---------- */
+  main { max-width: 880px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 72px 0 8px; }
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 40px;
+  }
+  h2 .spark { flex: none; width: 20px; height: 20px; color: var(--pink); }
+
+  /* The essentials: a 2x2 spread. */
+  .essentials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 48px 64px;
+  }
+  .roundel {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2B1119 0%, #833A55 58%, #E97578 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .roundel svg { width: 30px; height: 30px; overflow: visible; }
+  .feature h3 { font-size: 1.32rem; font-weight: 700; margin-bottom: 6px; }
+  .feature p { color: var(--muted); max-width: 46ch; }
+
+  /* The pannier: the extensive list. */
+  .kit {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px 40px;
+  }
+  .kit li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+  .kit svg {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin-top: 7px;
+    color: var(--pink);
+    overflow: visible;
+  }
+  .kit li:nth-child(5n) svg { color: var(--gold); }
+  .kit strong { color: var(--paper); font-weight: 650; }
+
+  /* Privacy */
+  .privacy-note {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    padding: 28px 32px;
+  }
+  .privacy-note p, .privacy-note ul { margin-bottom: 14px; color: var(--muted); }
+  .privacy-note p:last-child { margin-bottom: 0; }
+  .privacy-note ul { padding-left: 22px; }
+  .privacy-note li { margin-bottom: 8px; }
+  .privacy-note strong { color: var(--paper); }
+
+  footer {
+    margin-top: 80px;
+    border-top: 1px solid var(--hairline);
+    padding: 30px 28px 46px;
+    color: var(--muted);
+    font-size: 0.88rem;
+    text-align: center;
+  }
+  footer span { color: var(--pink); }
+</style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
+
+<!-- The app's confetti/splash glyphs, traced from ConfettiBurst.swift. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="moon-mask" maskUnits="userSpaceOnUse" x="-1.2" y="-1.2" width="2.4" height="2.4">
+      <circle cx="0" cy="0" r="0.55" fill="#fff"/>
+      <circle cx="0.25" cy="-0.15" r="0.55" fill="#000"/>
+    </mask>
+    <g id="g-sparkle">
+      <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d="M0 0L0 -1M0 0L0 1M0 0L-.8 0M0 0L.8 0M0 0L.28 -.28M0 0L-.28 .28M0 0L.28 .28M0 0L-.28 -.28"/>
+    </g>
+    <g id="g-burst">
+      <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d="M0 0L1 0M0 0L.39 .39M0 0L0 1M0 0L-.39 .39M0 0L-1 0M0 0L-.39 -.39M0 0L0 -1M0 0L.39 -.39"/>
+    </g>
+    <g id="g-comet">
+      <circle cx="0.38" cy="-0.32" r="0.18" fill="currentColor" stroke="none"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d="M.2 -.25L-.9 .45M.35 -.1L-.6 .75M.05 -.45L-1 .1"/>
+    </g>
+    <g id="g-constellation">
+      <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
+        d="M-.9 -.25L-.3 -.65L.3 -.05L.85 .55"/>
+      <circle cx="-0.9" cy="-0.25" r="0.14" fill="currentColor" stroke="none"/>
+      <circle cx="-0.3" cy="-0.65" r="0.14" fill="currentColor" stroke="none"/>
+      <circle cx="0.3" cy="-0.05" r="0.14" fill="currentColor" stroke="none"/>
+      <circle cx="0.85" cy="0.55" r="0.14" fill="currentColor" stroke="none"/>
+    </g>
+    <g id="g-spiral">
+      <polyline fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
+        points="0.06,0.0 0.092,0.05 0.08,0.126 0.012,0.194 -0.102,0.216 -0.23,0.167 -0.326,0.041 -0.347,-0.138 -0.267,-0.322 -0.087,-0.455 0.157,-0.483 0.403,-0.378 0.579,-0.149 0.622,0.16 0.501,0.47 0.226,0.696 -0.146,0.763 -0.524,0.633 -0.806,0.319 -0.904,-0.114 -0.773,-0.562"/>
+    </g>
+    <g id="g-crescent">
+      <circle cx="0" cy="0" r="0.55" fill="currentColor" stroke="none" mask="url(#moon-mask)"/>
+    </g>
+    <g id="g-ringedPlanet">
+      <circle cx="0" cy="0" r="0.42" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+      <ellipse cx="0" cy="0" rx="0.95" ry="0.28" transform="rotate(-20)" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+    </g>
+    <g id="g-astronaut">
+      <circle cx="0" cy="-0.55" r="0.3" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+      <rect x="-0.26" y="-0.25" width="0.52" height="0.62" rx="0.16" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d="M-.26 -.1L-.6 .2M.26 -.1L.62 -.35M-.12 .37L-.2 .8M.12 .37L.24 .78"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="hero">
+  <!-- The splash screen's hand-placed composition: embossed space line-art over the icon gradient. -->
+  <svg class="backdrop" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="stars">
+      <circle class="star" cx="1087.0" cy="512.9" r="1.51" fill="#FFFFFF" opacity="0.33" style="animation-duration:3.26s;animation-delay:-5.5s"/>
+      <circle class="star" cx="734.0" cy="125.7" r="2.12" fill="#FFD700" opacity="0.41" style="animation-duration:3.91s;animation-delay:-5.0s"/>
+      <circle class="star" cx="381.1" cy="638.6" r="1.13" fill="#FFFFFF" opacity="0.49" style="animation-duration:4.57s;animation-delay:-4.51s"/>
+      <circle class="star" cx="28.1" cy="251.4" r="1.74" fill="#F06E8C" opacity="0.28" style="animation-duration:5.22s;animation-delay:-4.01s"/>
+      <circle class="star" cx="1115.1" cy="764.3" r="2.36" fill="#FFFFFF" opacity="0.36" style="animation-duration:5.88s;animation-delay:-3.51s"/>
+      <circle class="star" cx="762.1" cy="377.1" r="1.37" fill="#FFFFFF" opacity="0.44" style="animation-duration:3.14s;animation-delay:-3.01s"/>
+      <circle class="star" cx="409.2" cy="890.0" r="1.98" fill="#FFFFFF" opacity="0.52" style="animation-duration:3.79s;animation-delay:-2.51s"/>
+      <circle class="star" cx="56.2" cy="502.8" r="0.99" fill="#FFFFFF" opacity="0.3" style="animation-duration:4.45s;animation-delay:-2.02s"/>
+      <circle class="star" cx="1143.2" cy="115.7" r="1.6" fill="#FFFFFF" opacity="0.38" style="animation-duration:5.11s;animation-delay:-1.52s"/>
+      <circle class="star" cx="790.2" cy="628.6" r="2.21" fill="#FFFFFF" opacity="0.46" style="animation-duration:5.76s;animation-delay:-1.02s"/>
+      <circle class="star" cx="437.3" cy="241.4" r="1.22" fill="#FFFFFF" opacity="0.54" style="animation-duration:3.02s;animation-delay:-0.52s"/>
+      <circle class="star" cx="84.3" cy="754.3" r="1.83" fill="#FFFFFF" opacity="0.33" style="animation-duration:3.67s;animation-delay:-0.02s"/>
+      <circle class="star" cx="1171.3" cy="367.1" r="2.44" fill="#FFD700" opacity="0.41" style="animation-duration:4.33s;animation-delay:-5.53s"/>
+      <circle class="star" cx="818.3" cy="880.0" r="1.46" fill="#FFFFFF" opacity="0.49" style="animation-duration:4.99s;animation-delay:-5.03s"/>
+      <circle class="star" cx="465.4" cy="492.8" r="2.07" fill="#F06E8C" opacity="0.27" style="animation-duration:5.64s;animation-delay:-4.53s"/>
+      <circle class="star" cx="112.4" cy="105.7" r="1.08" fill="#FFFFFF" opacity="0.35" style="animation-duration:2.9s;animation-delay:-4.03s"/>
+      <circle class="star" cx="1199.4" cy="618.6" r="1.69" fill="#FFFFFF" opacity="0.43" style="animation-duration:3.56s;animation-delay:-3.53s"/>
+      <circle class="star" cx="846.4" cy="231.4" r="2.3" fill="#FFFFFF" opacity="0.51" style="animation-duration:4.21s;animation-delay:-3.04s"/>
+      <circle class="star" cx="493.5" cy="744.3" r="1.31" fill="#FFFFFF" opacity="0.29" style="animation-duration:4.87s;animation-delay:-2.54s"/>
+      <circle class="star" cx="140.5" cy="357.1" r="1.92" fill="#FFFFFF" opacity="0.38" style="animation-duration:5.52s;animation-delay:-2.04s"/>
+      <circle class="star" cx="1227.5" cy="870.0" r="0.93" fill="#FFFFFF" opacity="0.46" style="animation-duration:2.78s;animation-delay:-1.54s"/>
+      <circle class="star" cx="874.5" cy="482.8" r="1.55" fill="#FFFFFF" opacity="0.54" style="animation-duration:3.44s;animation-delay:-1.04s"/>
+      <circle class="star" cx="521.6" cy="95.7" r="2.16" fill="#FFFFFF" opacity="0.32" style="animation-duration:4.09s;animation-delay:-0.55s"/>
+      <circle class="star" cx="168.6" cy="608.5" r="1.17" fill="#FFD700" opacity="0.4" style="animation-duration:4.75s;animation-delay:-0.05s"/>
+      <circle class="star" cx="1255.6" cy="221.4" r="1.78" fill="#FFFFFF" opacity="0.48" style="animation-duration:5.41s;animation-delay:-5.55s"/>
+      <circle class="star" cx="902.6" cy="734.3" r="2.39" fill="#F06E8C" opacity="0.26" style="animation-duration:2.66s;animation-delay:-5.05s"/>
+      <circle class="star" cx="549.7" cy="347.1" r="1.4" fill="#FFFFFF" opacity="0.35" style="animation-duration:3.32s;animation-delay:-4.55s"/>
+      <circle class="star" cx="196.7" cy="860.0" r="2.01" fill="#FFFFFF" opacity="0.43" style="animation-duration:3.97s;animation-delay:-4.06s"/>
+      <circle class="star" cx="1283.7" cy="472.8" r="1.02" fill="#FFFFFF" opacity="0.51" style="animation-duration:4.63s;animation-delay:-3.56s"/>
+      <circle class="star" cx="930.7" cy="85.7" r="1.63" fill="#FFFFFF" opacity="0.29" style="animation-duration:5.29s;animation-delay:-3.06s"/>
+      <circle class="star" cx="577.8" cy="598.5" r="2.25" fill="#FFFFFF" opacity="0.37" style="animation-duration:5.94s;animation-delay:-2.56s"/>
+      <circle class="star" cx="224.8" cy="211.4" r="1.26" fill="#FFFFFF" opacity="0.45" style="animation-duration:3.2s;animation-delay:-2.06s"/>
+      <circle class="star" cx="1311.8" cy="724.2" r="1.87" fill="#FFFFFF" opacity="0.53" style="animation-duration:3.85s;animation-delay:-1.57s"/>
+      <circle class="star" cx="958.8" cy="337.1" r="2.48" fill="#FFFFFF" opacity="0.31" style="animation-duration:4.51s;animation-delay:-1.07s"/>
+      <circle class="star" cx="605.9" cy="850.0" r="1.49" fill="#FFD700" opacity="0.4" style="animation-duration:5.17s;animation-delay:-0.57s"/>
+      <circle class="star" cx="252.9" cy="462.8" r="2.1" fill="#FFFFFF" opacity="0.48" style="animation-duration:5.82s;animation-delay:-0.07s"/>
+      <circle class="star" cx="1339.9" cy="75.7" r="1.11" fill="#FFD700" opacity="0.26" style="animation-duration:3.08s;animation-delay:-5.57s"/>
+      <circle class="star" cx="986.9" cy="588.5" r="1.72" fill="#FFFFFF" opacity="0.34" style="animation-duration:3.74s;animation-delay:-5.08s"/>
+      <circle class="star" cx="633.9" cy="201.4" r="2.33" fill="#F06E8C" opacity="0.42" style="animation-duration:4.39s;animation-delay:-4.58s"/>
+      <circle class="star" cx="281.0" cy="714.2" r="1.35" fill="#FFFFFF" opacity="0.5" style="animation-duration:5.05s;animation-delay:-4.08s"/>
+      <circle class="star" cx="1368.0" cy="327.1" r="1.96" fill="#FFFFFF" opacity="0.28" style="animation-duration:5.7s;animation-delay:-3.58s"/>
+      <circle class="star" cx="1015.0" cy="840.0" r="0.97" fill="#FFFFFF" opacity="0.36" style="animation-duration:2.96s;animation-delay:-3.08s"/>
+      <circle class="star" cx="662.0" cy="452.8" r="1.58" fill="#FFFFFF" opacity="0.45" style="animation-duration:3.62s;animation-delay:-2.59s"/>
+      <circle class="star" cx="309.1" cy="65.7" r="2.19" fill="#FFFFFF" opacity="0.53" style="animation-duration:4.27s;animation-delay:-2.09s"/>
+      <circle class="star" cx="1396.1" cy="578.5" r="1.2" fill="#FFFFFF" opacity="0.31" style="animation-duration:4.93s;animation-delay:-1.59s"/>
+      <circle class="star" cx="1043.1" cy="191.4" r="1.81" fill="#FFFFFF" opacity="0.39" style="animation-duration:5.59s;animation-delay:-1.09s"/>
+      <circle class="star" cx="690.1" cy="704.2" r="2.42" fill="#FFFFFF" opacity="0.47" style="animation-duration:2.84s;animation-delay:-0.59s"/>
+      <circle class="star" cx="337.2" cy="317.1" r="1.43" fill="#FFD700" opacity="0.25" style="animation-duration:3.5s;animation-delay:-0.1s"/>
+      <circle class="star" cx="1424.2" cy="829.9" r="2.05" fill="#FFFFFF" opacity="0.33" style="animation-duration:4.15s;animation-delay:-5.6s"/>
+      <circle class="star" cx="1071.2" cy="442.8" r="1.06" fill="#F06E8C" opacity="0.42" style="animation-duration:4.81s;animation-delay:-5.1s"/>
+      <circle class="star" cx="718.2" cy="55.7" r="1.67" fill="#FFFFFF" opacity="0.5" style="animation-duration:5.47s;animation-delay:-4.6s"/>
+      <circle class="star" cx="365.3" cy="568.5" r="2.28" fill="#FFFFFF" opacity="0.28" style="animation-duration:2.72s;animation-delay:-4.1s"/>
+      <circle class="star" cx="12.3" cy="181.4" r="1.29" fill="#FFFFFF" opacity="0.36" style="animation-duration:3.38s;animation-delay:-3.61s"/>
+      <circle class="star" cx="1099.3" cy="694.2" r="1.9" fill="#FFFFFF" opacity="0.44" style="animation-duration:4.03s;animation-delay:-3.11s"/>
+      <circle class="star" cx="746.3" cy="307.1" r="0.91" fill="#FFFFFF" opacity="0.52" style="animation-duration:4.69s;animation-delay:-2.61s"/>
+      <circle class="star" cx="393.4" cy="819.9" r="1.52" fill="#FFFFFF" opacity="0.3" style="animation-duration:5.35s;animation-delay:-2.11s"/>
+      <circle class="star" cx="40.4" cy="432.8" r="2.14" fill="#FFFFFF" opacity="0.38" style="animation-duration:2.6s;animation-delay:-1.61s"/>
+      <circle class="star" cx="1127.4" cy="45.6" r="1.15" fill="#FFFFFF" opacity="0.47" style="animation-duration:3.26s;animation-delay:-1.12s"/>
+      <circle class="star" cx="774.4" cy="558.5" r="1.76" fill="#FFD700" opacity="0.55" style="animation-duration:3.92s;animation-delay:-0.62s"/>
+      <circle class="star" cx="421.5" cy="171.4" r="2.37" fill="#FFFFFF" opacity="0.33" style="animation-duration:4.57s;animation-delay:-0.12s"/>
+      <circle class="star" cx="68.5" cy="684.2" r="1.38" fill="#F06E8C" opacity="0.41" style="animation-duration:5.23s;animation-delay:-5.62s"/>
+      <circle class="star" cx="1155.5" cy="297.1" r="1.99" fill="#FFFFFF" opacity="0.49" style="animation-duration:5.88s;animation-delay:-5.12s"/>
+      <circle class="star" cx="802.5" cy="809.9" r="1.0" fill="#FFFFFF" opacity="0.27" style="animation-duration:3.14s;animation-delay:-4.63s"/>
+      <circle class="star" cx="449.6" cy="422.8" r="1.61" fill="#FFFFFF" opacity="0.35" style="animation-duration:3.8s;animation-delay:-4.13s"/>
+      <circle class="star" cx="96.6" cy="35.6" r="2.22" fill="#FFFFFF" opacity="0.43" style="animation-duration:4.45s;animation-delay:-3.63s"/>
+      <circle class="star" cx="1183.6" cy="548.5" r="1.24" fill="#FFFFFF" opacity="0.52" style="animation-duration:5.11s;animation-delay:-3.13s"/>
+      <circle class="star" cx="830.6" cy="161.4" r="1.85" fill="#FFFFFF" opacity="0.3" style="animation-duration:5.77s;animation-delay:-2.63s"/>
+      <circle class="star" cx="477.7" cy="674.2" r="2.46" fill="#FFFFFF" opacity="0.38" style="animation-duration:3.02s;animation-delay:-2.14s"/>
+      <circle class="star" cx="124.7" cy="287.1" r="1.47" fill="#FFFFFF" opacity="0.46" style="animation-duration:3.68s;animation-delay:-1.64s"/>
+      <circle class="star" cx="1211.7" cy="799.9" r="2.08" fill="#FFD700" opacity="0.54" style="animation-duration:4.33s;animation-delay:-1.14s"/>
+      <circle class="star" cx="858.7" cy="412.8" r="1.09" fill="#FFFFFF" opacity="0.32" style="animation-duration:4.99s;animation-delay:-0.64s"/>
+      <circle class="star" cx="505.8" cy="25.6" r="1.7" fill="#FFD700" opacity="0.4" style="animation-duration:5.65s;animation-delay:-0.14s"/>
+      <circle class="star" cx="152.8" cy="538.5" r="2.31" fill="#FFFFFF" opacity="0.48" style="animation-duration:2.9s;animation-delay:-5.65s"/>
+      <circle class="star" cx="1239.8" cy="151.3" r="1.32" fill="#FFFFFF" opacity="0.27" style="animation-duration:3.56s;animation-delay:-5.15s"/>
+      <circle class="star" cx="886.8" cy="664.2" r="1.94" fill="#FFFFFF" opacity="0.35" style="animation-duration:4.21s;animation-delay:-4.65s"/>
+      <circle class="star" cx="533.8" cy="277.1" r="0.95" fill="#FFFFFF" opacity="0.43" style="animation-duration:4.87s;animation-delay:-4.15s"/>
+      <circle class="star" cx="180.9" cy="789.9" r="1.56" fill="#FFFFFF" opacity="0.51" style="animation-duration:5.53s;animation-delay:-3.65s"/>
+      <circle class="star" cx="1267.9" cy="402.8" r="2.17" fill="#FFFFFF" opacity="0.29" style="animation-duration:2.78s;animation-delay:-3.16s"/>
+      <circle class="star" cx="914.9" cy="15.6" r="1.18" fill="#FFFFFF" opacity="0.37" style="animation-duration:3.44s;animation-delay:-2.66s"/>
+      <circle class="star" cx="561.9" cy="528.5" r="1.79" fill="#FFFFFF" opacity="0.45" style="animation-duration:4.1s;animation-delay:-2.16s"/>
+      <circle class="star" cx="209.0" cy="141.3" r="2.4" fill="#FFFFFF" opacity="0.54" style="animation-duration:4.75s;animation-delay:-1.66s"/>
+      <circle class="star" cx="1296.0" cy="654.2" r="1.41" fill="#FFFFFF" opacity="0.32" style="animation-duration:5.41s;animation-delay:-1.16s"/>
+      <circle class="star" cx="943.0" cy="267.0" r="2.03" fill="#FFD700" opacity="0.4" style="animation-duration:2.66s;animation-delay:-0.67s"/>
+      <circle class="star" cx="590.0" cy="779.9" r="1.04" fill="#FFFFFF" opacity="0.48" style="animation-duration:3.32s;animation-delay:-0.17s"/>
+    </g>
+    <g class="glyphs">
+      <use href="#g-burst" transform="translate(230.4 90.0) rotate(11.5) scale(61.2)"/>
+      <use href="#g-ringedPlanet" transform="translate(1209.6 126.0) rotate(-17.2) scale(54.0)"/>
+      <use href="#g-sparkle" transform="translate(792.0 63.0) rotate(28.6) scale(32.4)"/>
+      <use href="#g-comet" transform="translate(316.8 234.0) rotate(8.6) scale(46.8)"/>
+      <use href="#g-constellation" transform="translate(1123.2 288.0) rotate(5.7) scale(54.0)"/>
+      <use href="#g-crescent" transform="translate(144.0 378.0) rotate(-22.9) scale(39.6)"/>
+      <use href="#g-spiral" transform="translate(1267.2 432.0) rotate(0.0) scale(36.0)"/>
+      <use href="#g-sparkle" transform="translate(460.8 324.0) rotate(-34.4) scale(21.6)"/>
+      <use href="#g-astronaut" transform="translate(259.2 648.0) rotate(-20.1) scale(54.0)"/>
+      <use href="#g-constellation" transform="translate(432.0 540.0) rotate(-11.5) scale(43.2)"/>
+      <use href="#g-burst" transform="translate(1008.0 594.0) rotate(22.9) scale(39.6)"/>
+      <use href="#g-spiral" transform="translate(172.8 792.0) rotate(17.2) scale(32.4)"/>
+      <use href="#g-comet" transform="translate(1152.0 720.0) rotate(-149.0) scale(50.4)"/>
+      <use href="#g-sparkle" transform="translate(892.8 810.0) rotate(11.5) scale(25.2)"/>
+      <use href="#g-ringedPlanet" transform="translate(576.0 738.0) rotate(14.3) scale(36.0)"/>
+      <use href="#g-sparkle" transform="translate(1296.0 846.0) rotate(-17.2) scale(21.6)"/>
+      <use href="#g-sparkle" transform="translate(1036.8 189.0) rotate(22.9) scale(23.4)"/>
+      <use href="#g-constellation" transform="translate(230.4 522.0) rotate(17.2) scale(39.6)"/>
+      <use href="#g-sparkle" transform="translate(633.6 594.0) rotate(-28.6) scale(19.8)"/>
+      <use href="#g-constellation" transform="translate(547.2 144.0) rotate(-8.6) scale(46.8)"/>
+      <use href="#g-ringedPlanet" transform="translate(979.2 540.0) rotate(20.1) scale(30.6)"/>
+      <use href="#g-burst" transform="translate(1296.0 612.0) rotate(5.7) scale(34.2)"/>
+      <use href="#g-crescent" transform="translate(792.0 675.0) rotate(28.6) scale(27.0)"/>
+      <use href="#g-constellation" transform="translate(100.8 288.0) rotate(25.8) scale(36.0)"/>
+      <use href="#g-sparkle" transform="translate(144.0 414.0) rotate(11.5) scale(21.6)"/>
+      <use href="#g-sparkle" transform="translate(1281.6 396.0) rotate(-17.2) scale(19.8)"/>
+      <use href="#g-burst" transform="translate(460.8 351.0) rotate(8.6) scale(25.2)"/>
+      <use href="#g-sparkle" transform="translate(820.8 553.5) rotate(22.9) scale(18.0)"/>
+    </g>
+  </svg>
+
+  <div class="hero-inner">
+    <h1>AuraVelo</h1>
+    <p class="tagline">A free, private bike-ride tracker for iPhone.</p>
+    <p class="nofuss">No accounts &nbsp;·&nbsp; No analytics &nbsp;·&nbsp; No ads &nbsp;·&nbsp; No tracking</p>
+    <p class="heart">with <span>♥</span> from openPeak</p>
+  </div>
+</header>
+
+<main>
+
+  <section id="essentials">
+    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>The essentials</h2>
+
+    <div class="essentials-grid">
+      <div class="feature">
+        <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-comet"/></svg></div>
+        <h3>Live ride tracking</h3>
+        <p>Speed, distance, climb and your route, drawn live on the map. Big, rounded numbers you can read at a glance from the handlebars.</p>
+      </div>
+
+      <div class="feature">
+        <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-constellation"/></svg></div>
+        <h3>Routes, planned properly</h3>
+        <p>Build cycling routes with Apple Maps directions, see the elevation before you commit to it, and keep your favourite places a tap away.</p>
+      </div>
+
+      <div class="feature">
+        <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-crescent"/></svg></div>
+        <h3>Private by design</h3>
+        <p>No accounts, no ads, no analytics, and no server to send anything to. Your rides live on your phone, and your own iCloud if you choose.</p>
+      </div>
+
+      <div class="feature">
+        <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-burst"/></svg></div>
+        <h3>Free, forever</h3>
+        <p>No subscription, no paywall, no unlockables. There's an optional tip jar, and that is the entire business model.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pannier">
+    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-spiral"/></svg>…and the rest of the pannier</h2>
+    <ul class="kit">
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Bluetooth sensors</strong>: heart rate, cadence, speed and power.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Elevation everywhere</strong>: terrain-accurate hill profiles for rides and plans.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>History &amp; compare</strong>: line up two rides side by side.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Ride cropping</strong>: trim the faffing off either end.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>GPX in, GPX out</strong>: import from any app's share sheet; your data leaves whenever you do.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Gear tracking</strong>: every bike keeps its own mileage.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Apple Health</strong>: save rides as workouts, calories estimated.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Weather on record</strong>: conditions noted for every ride.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Rain lock</strong>: a touch-proof screen for wet weather; hold the droplet to unlock.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Self-dimming screen</strong>: saves battery on quiet stretches, wakes at a touch.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Saved places</strong>: keep the good bakery one tap away.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>iCloud sync</strong>: optional, and only ever <em>your</em> iCloud.</p></li>
+      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Seven languages</strong>: English, French, German, Italian, Portuguese, Spanish and Swedish.</p></li>
+    </ul>
+  </section>
+
+  <section id="privacy">
+    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-crescent"/></svg>Privacy &amp; Support</h2>
+    <div class="privacy-note">
+      <p>AuraVelo is a free bike-ride tracker from openPeak. No accounts, no analytics, no ads, no tracking. Provided as-is.</p>
+
+      <p>Your rides, routes, and profile are stored <strong>only on your device</strong> (and your own iCloud, if you turn it on). AuraVelo has no server of its own and never collects your data.</p>
+
+      <p>To make certain features work, the app sends limited data to third parties, used <strong>only</strong> to provide that feature:</p>
+      <ul>
+        <li><strong>Apple</strong> — Maps (show the map, search places, plan cycling routes), Weather (conditions for a ride), Health (save the rides you choose to, as workouts), and the App Store (process an optional tip). Governed by Apple's privacy policy.</li>
+        <li><strong>Amazon Web Services</strong> — approximate location, to look up terrain elevation for hills. Governed by AWS's privacy policy.</li>
+      </ul>
+
+      <p>This data is never sold, never used for advertising, and never linked to you for tracking. Deleting a ride, or the app, removes its data from your device; anything saved to Apple Health is managed in the Health app.</p>
+
+      <p>AuraVelo is offered free, as-is, with no dedicated support.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>AuraVelo · with <span>♥</span> from openPeak · Privacy policy last updated 15 July 2026.</p>
+</footer>
+
 </body>
 </html>
