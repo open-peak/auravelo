@@ -92,6 +92,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
+  -webkit-tap-highlight-color: transparent;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font);
@@ -131,7 +132,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ============================================================
    Layout primitives
    ============================================================ */
-.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
+.wrap {
+  width: 100%; max-width: var(--wrap); margin: 0 auto;
+  padding-left: max(22px, env(safe-area-inset-left));
+  padding-right: max(22px, env(safe-area-inset-right));
+}
 
 section { position: relative; }
 /* One rhythm for the whole page: every section owns the gap below it and
@@ -191,11 +196,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   box-shadow: 0 12px 32px -12px rgba(240, 110, 140, 0.85),
               inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px -14px rgba(240, 110, 140, 0.95),
-              inset 0 1px 0 rgba(255, 255, 255, 0.34);
-}
 .btn-primary .apple { width: 18px; height: 18px; fill: #22060E; flex: none; }
 .btn-primary .stack { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.12; }
 .btn-primary .stack small { font-size: 0.68rem; font-weight: 600; opacity: 0.72; letter-spacing: 0.02em; }
@@ -206,7 +206,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   border: 1px solid var(--line);
   backdrop-filter: blur(8px);
 }
-.btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
 
 .btn-sm { padding: 9px 17px; font-size: 0.9rem; }
 
@@ -239,7 +238,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   padding: 8px 13px; border-radius: 999px;
   transition: color 0.16s ease, background 0.16s ease;
 }
-.nav-links a:hover { color: #fff; background: var(--card); text-decoration: none; }
 .nav-links a[aria-current="true"] { color: #fff; background: var(--card-hi); }
 
 .nav .btn { margin-left: auto; }
@@ -406,7 +404,7 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   border: 1px solid var(--line); background: var(--card);
   padding: 4px 11px; border-radius: 999px; font-size: 0.74rem; font-weight: 650; color: var(--muted);
 }
-.mini-btn:hover { color: #fff; border-color: var(--line-hi); }
+@media (pointer: coarse) { .mini-btn { padding: 9px 15px; font-size: 0.8rem; } }
 
 /* ============================================================
    Pillars
@@ -425,12 +423,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   background: radial-gradient(closest-side, rgba(240, 110, 140, 0.24), transparent 72%);
   opacity: 0; transition: opacity 0.6s ease; pointer-events: none;
 }
-.pillar:hover {
-  transform: translateY(-4px); border-color: var(--line-hi); background: var(--card-hi);
-  box-shadow: 0 22px 46px -30px rgba(240, 110, 140, 0.7);
-}
-.pillar:hover::after { opacity: 1; }
-.pillar:hover .roundel svg { transform: scale(1.12) rotate(5deg); }
 
 .roundel {
   width: 52px; height: 52px; border-radius: 15px;
@@ -466,7 +458,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   padding: 10px 16px; font-size: 0.88rem; font-weight: 650;
   transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
-.chip:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); background: var(--card-hi); }
 .chip[aria-pressed="true"], .chip.on {
   background: var(--grad-pill); color: #22060E; font-weight: 750;
   box-shadow: 0 8px 20px -10px rgba(240, 110, 140, 0.9);
@@ -495,7 +486,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   background: rgba(255, 255, 255, 0.028); padding: 15px 16px;
   transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
-.vibe:hover { background: var(--card-hi); box-shadow: inset 0 0 0 1px var(--line-hi); transform: translateY(-2px); }
 .vibe[aria-pressed="true"] {
   background: var(--grad-card); color: #22060E;
   box-shadow: 0 12px 26px -14px rgba(240, 110, 140, 1);
@@ -507,19 +497,27 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
 .vibe .vi { width: 19px; height: 19px; color: var(--brand); margin-bottom: 3px; }
 .vibe[aria-pressed="true"] .vi { color: #22060E; }
 
+/* The visible bar is 6px, but a 6px hit area is unusable with a thumb.
+   The input keeps a finger-sized height and the bar lives on the track. */
 input[type="range"] {
   -webkit-appearance: none; appearance: none;
-  width: 100%; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
-  outline-offset: 6px;
+  width: 100%; height: 36px; background: transparent;
+  outline-offset: 2px; touch-action: pan-y;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
+}
+input[type="range"]::-moz-range-track {
+  height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
-  width: 24px; height: 24px; border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%; margin-top: -10px;
   background: var(--grad-brand); border: 2px solid #1A0D14;
   box-shadow: 0 4px 14px -4px rgba(240, 110, 140, 1); cursor: grab;
 }
 input[type="range"]::-moz-range-thumb {
-  width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1A0D14;
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid #1A0D14;
   background: #F06E8C; box-shadow: 0 4px 14px -4px rgba(240, 110, 140, 1); cursor: grab;
 }
 
@@ -559,7 +557,6 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.9rem; font-weight: 650;
   transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
-.tab-btn:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); }
 .tab-btn[aria-selected="true"] {
   background: var(--grad-pill); color: #22060E; font-weight: 750;
   box-shadow: 0 10px 24px -12px rgba(240, 110, 140, 0.95);
@@ -572,7 +569,6 @@ input[type="range"]::-moz-range-thumb {
   background: rgba(255, 255, 255, 0.022);
   transition: background 0.18s ease;
 }
-.kit li:hover { background: var(--card-hi); }
 .kit svg { flex: none; width: 19px; height: 19px; margin-top: 3px; color: var(--brand); overflow: visible; }
 .kit li:nth-child(5n) svg { color: var(--gold); }
 .kit strong { color: #fff; font-weight: 700; display: block; font-size: 0.97rem; }
@@ -628,7 +624,6 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.89rem; color: var(--muted);
 }
 .third-row b { color: #fff; font-weight: 700; }
-.third-row:hover { background: var(--card-hi); }
 @media (max-width: 620px) { .third-row { grid-template-columns: 1fr; gap: 4px; } }
 
 /* ============================================================
@@ -659,13 +654,42 @@ input[type="range"]::-moz-range-thumb {
 /* ============================================================
    Footer
    ============================================================ */
-footer { border-top: 1px solid var(--line); padding: 42px 0 56px; }
+footer { border-top: 1px solid var(--line); padding: 42px 0 calc(56px + env(safe-area-inset-bottom)); }
 .foot-grid { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; }
 .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
-.foot-links a { color: var(--muted); font-size: 0.9rem; font-weight: 600; }
-.foot-links a:hover { color: #fff; }
+.foot-links a {
+  color: var(--muted); font-size: 0.9rem; font-weight: 600;
+  display: inline-block; padding: 6px 0;
+}
 .foot-note { color: var(--dim); font-size: 0.83rem; margin-top: 22px; max-width: 70ch; }
 .foot-note .heart { color: var(--brand); }
+
+/* ============================================================
+   Hover, for pointers that actually hover. On a touch screen a
+   :hover rule latches after a tap and the card stays lit.
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -14px rgba(240, 110, 140, 0.95),
+                inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  }
+  .btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
+  .nav-links a:hover { color: #fff; background: var(--card); text-decoration: none; }
+  .mini-btn:hover { color: #fff; border-color: var(--line-hi); }
+  .pillar:hover {
+    transform: translateY(-4px); border-color: var(--line-hi); background: var(--card-hi);
+    box-shadow: 0 22px 46px -30px rgba(240, 110, 140, 0.7);
+  }
+  .pillar:hover::after { opacity: 1; }
+  .pillar:hover .roundel svg { transform: scale(1.12) rotate(5deg); }
+  .chip:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); background: var(--card-hi); }
+  .vibe:hover { background: var(--card-hi); box-shadow: inset 0 0 0 1px var(--line-hi); transform: translateY(-2px); }
+  .tab-btn:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); }
+  .kit li:hover { background: var(--card-hi); }
+  .third-row:hover { background: var(--card-hi); }
+  .foot-links a:hover { color: #fff; }
+}
 
 /* ============================================================
    Reveal on scroll

@@ -56,6 +56,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
+  -webkit-tap-highlight-color: transparent;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font);
@@ -95,7 +96,9 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
   border-bottom: 1px solid var(--line);
 }
 .nav .bar {
-  width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 22px;
+  width: 100%; max-width: 1240px; margin: 0 auto;
+  padding-left: max(22px, env(safe-area-inset-left));
+  padding-right: max(22px, env(safe-area-inset-right));
   display: flex; align-items: center; gap: 14px;
 }
 .brand-lockup { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
@@ -105,7 +108,6 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
 .brand-lockup .sub { color: var(--muted); font-weight: 700; }
 .nav .spacer { margin-left: auto; }
 .nav .home { color: var(--muted); font-size: 0.92rem; font-weight: 650; padding: 8px 13px; border-radius: 999px; }
-.nav .home:hover { color: #fff; background: var(--card); text-decoration: none; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -119,11 +121,9 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
   background: var(--grad-cta); color: #22060E;
   box-shadow: 0 12px 30px -14px rgba(240, 110, 140, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
-.btn-primary:hover { transform: translateY(-2px); }
 .btn-primary .apple { width: 17px; height: 17px; fill: #22060E; flex: none; }
 .btn-sm { padding: 9px 16px; font-size: 0.9rem; }
 .btn-ghost { background: var(--card); border: 1px solid var(--line); color: var(--paper); }
-.btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
 
 @media (max-width: 640px) { .nav .home { display: none; } }
 
@@ -131,7 +131,11 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
    Masthead
    ============================================================ */
 .masthead { padding: clamp(36px, 5vw, 60px) 0 clamp(20px, 3vw, 34px); }
-.shell { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 22px; }
+.shell {
+  width: 100%; max-width: 1240px; margin: 0 auto;
+  padding-left: max(22px, env(safe-area-inset-left));
+  padding-right: max(22px, env(safe-area-inset-right));
+}
 
 .masthead h1 { font-size: clamp(2.1rem, 5vw, 3.1rem); letter-spacing: -0.035em; }
 .masthead .glow {
@@ -159,7 +163,6 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
   width: 32px; height: 32px; border-radius: 50%; display: none; place-items: center; color: var(--dim);
 }
 #searchClear.on { display: grid; }
-#searchClear:hover { color: #fff; background: var(--card-hi); }
 #searchClear svg { position: static; transform: none; stroke: currentColor; width: 14px; height: 14px; }
 .search-count { margin-top: 12px; font-size: 0.86rem; color: var(--dim); min-height: 1.4em; }
 .search-count b { color: var(--brand); }
@@ -183,14 +186,13 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
   color: var(--muted); font-size: 0.91rem; font-weight: 600;
   border-left: 2px solid transparent;
 }
-.toc a:hover { color: #fff; background: var(--card); text-decoration: none; }
 .toc a[aria-current="true"] { color: #fff; background: var(--card-hi); border-left-color: var(--brand); }
 
 @media (max-width: 980px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   .toc { position: static; max-height: none; margin-bottom: 8px; }
   .toc ol { display: flex; flex-wrap: wrap; gap: 7px; }
-  .toc a { border-left: 0; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 0.86rem; }
+  .toc a { border-left: 0; border: 1px solid var(--line); border-radius: 999px; padding: 10px 15px; font-size: 0.87rem; }
   .toc a[aria-current="true"] { border-color: transparent; background: var(--grad-pill); color: #22060E; }
 }
 
@@ -216,7 +218,6 @@ h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-w
   color: var(--dim); font-weight: 600; opacity: 0; transition: opacity 0.16s ease;
   font-size: 0.85em; text-decoration: none;
 }
-.entry:hover h3 .anchor, .entry h3 .anchor:focus-visible { opacity: 1; }
 .entry p { color: var(--muted); margin-top: 11px; max-width: 72ch; }
 .entry p:first-of-type { margin-top: 13px; }
 .entry strong, .entry b { color: var(--paper); font-weight: 700; }
@@ -285,6 +286,30 @@ td { color: var(--muted); }
 .v-mixed { color: #F2CE84; }
 .v-poor { color: #F98FA6; }
 
+/* Narrow screens get one card per row instead. A sideways-scrolling table
+   hides the column that answers the question, and nothing signals that it
+   scrolls at all. */
+@media (max-width: 720px) {
+  .table-wrap { border: 0; overflow: visible; margin-top: 16px; }
+  table { min-width: 0; width: 100%; }
+  thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  tbody tr {
+    display: block; padding: 15px 17px;
+    border: 1px solid var(--line); border-radius: 14px;
+    background: rgba(255, 255, 255, 0.022);
+  }
+  tbody tr + tr { margin-top: 8px; }
+  td { display: block; border: 0; padding: 0; }
+  td:first-child { font-size: 1.04rem; white-space: normal; }
+  td + td { margin-top: 9px; }
+  td[data-label]::before {
+    content: attr(data-label) "\A";
+    white-space: pre;
+    font-size: 0.68rem; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--dim); font-weight: 750;
+  }
+}
+
 /* Chips listing supported profiles */
 .profiles { list-style: none !important; display: flex; flex-wrap: wrap; gap: 8px; padding-left: 0 !important; margin-top: 16px !important; }
 .profiles li {
@@ -319,13 +344,33 @@ mark { background: rgba(255, 215, 0, 0.26); color: #fff; border-radius: 3px; pad
 .help-box p { color: var(--muted); max-width: 56ch; margin: 14px auto 0; }
 .help-box .row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
 
-footer { border-top: 1px solid var(--line); padding: 36px 0 52px; }
+footer { border-top: 1px solid var(--line); padding: 36px 0 calc(52px + env(safe-area-inset-bottom)); }
 .foot-grid { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: space-between; }
 .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
-.foot-links a { color: var(--muted); font-size: 0.9rem; font-weight: 600; }
-.foot-links a:hover { color: #fff; }
+.foot-links a {
+  color: var(--muted); font-size: 0.9rem; font-weight: 600;
+  display: inline-block; padding: 6px 0;
+}
 .foot-note { color: var(--dim); font-size: 0.83rem; margin-top: 20px; max-width: 74ch; }
 .foot-note .heart { color: var(--brand); }
+
+
+/* ============================================================
+   Hover, for pointers that actually hover. The anchor links are a
+   desktop affordance and stay out of the way on touch.
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .nav .home:hover { color: #fff; background: var(--card); text-decoration: none; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
+  #searchClear:hover { color: #fff; background: var(--card-hi); }
+  .toc a:hover { color: #fff; background: var(--card); text-decoration: none; }
+  .entry:hover h3 .anchor, .entry h3 .anchor:focus-visible { opacity: 1; }
+  .foot-links a:hover { color: #fff; }
+}
+@media not all and (hover: hover) {
+  .entry h3 .anchor { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -530,10 +575,10 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 52px; }
             <table>
               <thead><tr><th>Brand</th><th>Where to look on the device</th></tr></thead>
               <tbody>
-                <tr><td>Garmin</td><td>Usually <b>Broadcast Heart Rate</b> in the controls menu or under sensors. On several models the <b>Virtual Run</b> activity also broadcasts over Bluetooth rather than ANT+ only.</td></tr>
-                <tr><td>Huawei</td><td><b>Settings › HR Data Broadcasts</b>. Huawei's own support pages note the option is simply absent on models that cannot do it, so one look on the wrist settles it.</td></tr>
-                <tr><td>Polar</td><td>Broadcast or gym-equipment mode, depending on model.</td></tr>
-                <tr><td>Wahoo, Coros, Amazfit, Suunto</td><td>Similar: a broadcast, gym or workout-sharing mode. Naming varies by model and firmware.</td></tr>
+                <tr><td>Garmin</td><td data-label="Where to look">Usually <b>Broadcast Heart Rate</b> in the controls menu or under sensors. On several models the <b>Virtual Run</b> activity also broadcasts over Bluetooth rather than ANT+ only.</td></tr>
+                <tr><td>Huawei</td><td data-label="Where to look"><b>Settings › HR Data Broadcasts</b>. Huawei's own support pages note the option is simply absent on models that cannot do it, so one look on the wrist settles it.</td></tr>
+                <tr><td>Polar</td><td data-label="Where to look">Broadcast or gym-equipment mode, depending on model.</td></tr>
+                <tr><td>Wahoo, Coros, Amazfit, Suunto</td><td data-label="Where to look">Similar: a broadcast, gym or workout-sharing mode. Naming varies by model and firmware.</td></tr>
               </tbody>
             </table>
           </div>
@@ -561,11 +606,11 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 52px; }
             <table>
               <thead><tr><th>Brand</th><th>Apple&nbsp;Health</th><th>In practice</th></tr></thead>
               <tbody>
-                <tr><td>Garmin</td><td class="verdict v-good">Yes</td><td>Opt in per data type inside Garmin Connect. Workouts, heart rate, resting heart rate and sleep all come through.</td></tr>
-                <tr><td>Polar</td><td class="verdict v-good">Yes</td><td>Via Polar Flow.</td></tr>
-                <tr><td>Whoop, Oura</td><td class="verdict v-good">Yes</td><td>The strongest recovery-data sources on this list.</td></tr>
-                <tr><td>Huawei</td><td class="verdict v-mixed">Partly</td><td>Steps and weight sync. Sleep arrives as a nightly total with no stages, and heart rate frequently does not arrive at all. This is Huawei's export policy, not something an iPhone app can work around, so readiness may simply stay empty.</td></tr>
-                <tr><td>Fitbit</td><td class="verdict v-poor">No</td><td>No native write to Apple Health.</td></tr>
+                <tr><td>Garmin</td><td class="verdict v-good" data-label="Apple Health">Yes</td><td data-label="In practice">Opt in per data type inside Garmin Connect. Workouts, heart rate, resting heart rate and sleep all come through.</td></tr>
+                <tr><td>Polar</td><td class="verdict v-good" data-label="Apple Health">Yes</td><td data-label="In practice">Via Polar Flow.</td></tr>
+                <tr><td>Whoop, Oura</td><td class="verdict v-good" data-label="Apple Health">Yes</td><td data-label="In practice">The strongest recovery-data sources on this list.</td></tr>
+                <tr><td>Huawei</td><td class="verdict v-mixed" data-label="Apple Health">Partly</td><td data-label="In practice">Steps and weight sync. Sleep arrives as a nightly total with no stages, and heart rate frequently does not arrive at all. This is Huawei's export policy, not something an iPhone app can work around, so readiness may simply stay empty.</td></tr>
+                <tr><td>Fitbit</td><td class="verdict v-poor" data-label="Apple Health">No</td><td data-label="In practice">No native write to Apple Health.</td></tr>
               </tbody>
             </table>
           </div>
