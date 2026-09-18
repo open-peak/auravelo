@@ -23,7 +23,6 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237A2E67'/%3E%3Cstop offset='.55' stop-color='%23F06E8C'/%3E%3Cstop offset='1' stop-color='%23FFAFA0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='%231C0D10'/%3E%3Cpath d='M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/256x256bb.png">
-<link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>
 
 <script type="application/ld+json">
 {
@@ -170,11 +169,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
 .head.center { text-align: center; }
 .head.center .lede { margin-left: auto; margin-right: auto; }
 
-.rule {
-  height: 1px; border: 0;
-  background: linear-gradient(90deg, transparent, var(--line-hi), transparent);
-  margin: 0;
-}
 
 /* ============================================================
    Buttons
@@ -196,9 +190,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   box-shadow: 0 12px 32px -12px rgba(240, 110, 140, 0.85),
               inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
-.btn-primary .apple { width: 18px; height: 18px; fill: #22060E; flex: none; }
-.btn-primary .stack { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.12; }
-.btn-primary .stack small { font-size: 0.68rem; font-weight: 600; opacity: 0.72; letter-spacing: 0.02em; }
 
 .btn-ghost {
   background: var(--card);
@@ -207,7 +198,6 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
   backdrop-filter: blur(8px);
 }
 
-.btn-sm { padding: 9px 17px; font-size: 0.9rem; }
 
 /* ============================================================
    Nav
@@ -240,10 +230,16 @@ h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
 }
 .nav-links a[aria-current="true"] { color: #fff; background: var(--card-hi); }
 
-.nav .btn { margin-left: auto; }
-.nav-links + .btn { margin-left: 8px; }
-
-@media (max-width: 880px) { .nav-links { display: none; } }
+@media (max-width: 880px) {
+  /* The section anchors go, but the Guide is a separate page and would
+     otherwise only be reachable from the very bottom of this one. */
+  .nav-links a:not(.nav-guide) { display: none; }
+  .nav-guide {
+    color: var(--paper);
+    padding: 10px 17px;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+}
 
 /* ============================================================
    Hero
@@ -792,7 +788,7 @@ footer { border-top: 1px solid var(--line); padding: 42px 0 calc(56px + env(safe
       <a href="#routes">Aura Routes</a>
       <a href="#privacy">Privacy</a>
       <a href="#faq">FAQ</a>
-      <a href="guide/index.html">Guide</a>
+      <a class="nav-guide" href="guide/index.html">Guide</a>
     </nav>
   </div>
 </header>
@@ -827,8 +823,8 @@ footer { border-top: 1px solid var(--line); padding: 42px 0 calc(56px + env(safe
 
         <p class="lede reveal">
           Speed, power, heart rate and your route on one screen, a loop built for whatever mood
-          you're in, and the sky your ride happened under waiting at the end of it. Free, on your
-          iPhone, with no account to make.
+          you're in, and all the statistics you could want waiting at the end of it. Free, locally
+          on your iPhone, with no accounts or tracking.
         </p>
 
         <div class="cta-row reveal">
