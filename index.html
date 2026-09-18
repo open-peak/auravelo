@@ -2,224 +2,703 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#47202D">
-<title>AuraVelo — a free, private bike-ride tracker for iPhone</title>
-<meta name="description" content="AuraVelo is a free bike-ride tracker from openPeak. No accounts, no analytics, no ads. Your rides stay on your device.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#120A10">
+<title>AuraVelo: a free, private bike computer for iPhone</title>
+<meta name="description" content="AuraVelo is a free cycling computer for iPhone and Apple Watch. Live metrics, routes built for the mood you're in, gear tracking and a night-sky summary. No account, no ads, no analytics.">
+<link rel="canonical" href="https://open-peak.github.io/auravelo/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AuraVelo">
+<meta property="og:title" content="AuraVelo: a free, private bike computer for iPhone">
+<meta property="og:description" content="Live metrics, routes built for the mood you're in, and a night-sky summary at the end. No account, no ads, no analytics.">
+<meta property="og:url" content="https://open-peak.github.io/auravelo/">
+<meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/1024x1024bb.png">
+<meta property="og:image:alt" content="The AuraVelo app icon: a pink four-point star on a deep plum gradient.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AuraVelo: a free, private bike computer for iPhone">
+<meta name="twitter:description" content="Live metrics, routes built for the mood you're in, and a night-sky summary at the end. No account, no ads, no analytics.">
+<meta name="twitter:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/1024x1024bb.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237A2E67'/%3E%3Cstop offset='.55' stop-color='%23F06E8C'/%3E%3Cstop offset='1' stop-color='%23FFAFA0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='%231C0D10'/%3E%3Cpath d='M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/256x256bb.png">
+<link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AuraVelo",
+  "alternateName": "AuraVelo: Bike Computer",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "iOS 18.0 or later",
+  "softwareVersion": "1.4",
+  "datePublished": "2026-08-24",
+  "url": "https://open-peak.github.io/auravelo/",
+  "downloadUrl": "https://apps.apple.com/app/id6794049781",
+  "inLanguage": ["en", "fr", "de", "it", "pt", "es", "sv"],
+  "image": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.png",
+  "description": "A free, privacy-first cycling computer for iPhone and Apple Watch. Live metrics, generated local routes, gear and component tracking, training trends, and a night-sky ride summary. No account, no ads, no analytics.",
+  "author": { "@type": "Organization", "name": "openPeak" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
 <style>
-  :root {
-    --plum-black: #150A13;
-    --wine: #833A55;
-    --rose: #E97578;
-    --pink: #F06E8C;
-    --gold: #FFD700;
-    --panel: #2B151F;
-    --panel-hover: #351A26;
-    --paper: #F7EDF0;
-    --muted: #C9A9B5;
-    --hairline: rgba(233, 117, 120, 0.16);
-    --border: rgba(233, 117, 120, 0.25);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--plum-black);
-    color: var(--paper);
-    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.5;
-  }
-  ::selection { background: var(--pink); color: var(--plum-black); }
-  a { color: var(--rose); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+/* ============================================================
+   Tokens, taken from the app's own palette in Theme.swift.
+   ============================================================ */
+:root {
+  --ink:        #0E0509;
+  --ink-2:      #150A13;
+  --plum:       #7A2E67;
+  --plum-deep:  #1C0D10;
+  --brand:      #F06E8C;
+  --rose:       #E97578;
+  --blush:      #FFAFA0;
+  --gold:       #FFD700;
+  --paper:      #F7EDF0;
+  --muted:      #C9A9B5;
+  --dim:        #9C8090;
 
-  /* ---------- Hero ---------- */
-  .hero {
-    position: relative;
-    height: 90vh;
-    height: 90svh;
-    min-height: 500px;
-    background: linear-gradient(135deg, #150A13 0%, #833A55 58%, #E97578 100%);
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    text-align: center;
-  }
-  .backdrop {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .glyphs { color: rgba(0, 0, 0, 0.38); }
-  .star { animation: twinkle 3s ease-in-out infinite; }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.15; }
-    50%      { opacity: 0.7; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .star { animation: none; }
-  }
-  .hero-inner {
-    position: relative;
-    padding: 24px;
-    z-index: 2;
-  }
-  h1 {
-    font-size: clamp(2.5rem, 7vw, 4.2rem);
-    font-weight: 800;
-    letter-spacing: -0.015em;
-    color: #fff;
-    margin-bottom: 0.1em;
-  }
-  .tagline {
-    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 1.2em;
-  }
-  .nofuss {
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    letter-spacing: 0.01em;
-  }
-  .heart {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 32px;
-  }
-  .heart span { color: var(--pink); }
+  --card:       rgba(255, 255, 255, 0.038);
+  --card-hi:    rgba(255, 255, 255, 0.062);
+  --line:       rgba(240, 110, 140, 0.16);
+  --line-hi:    rgba(240, 110, 140, 0.34);
 
-  /* ---------- Content ---------- */
-  main { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-  section { padding: 56px 0 16px; }
-  h2 {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: clamp(1.4rem, 4vw, 1.8rem);
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    margin-bottom: 32px;
-    color: #fff;
-  }
-  h2 .spark { flex: none; width: 20px; height: 20px; color: var(--pink); }
+  /* The full three-stop ramp needs room. On a short pill the plum end lands
+     entirely in the rounded cap and reads as a dirty edge, so small fills take
+     the top of the ramp only, exactly as the app's auraRoseCompact does. */
+  --grad-brand: linear-gradient(135deg, #7A2E67 0%, #F06E8C 55%, #FFAFA0 100%);
+  --grad-cta:   linear-gradient(104deg, #E2628C 0%, #F06E8C 40%, #FFAFA0 100%);
+  --grad-pill:  linear-gradient(104deg, #F06E8C 0%, #FFAFA0 100%);
+  --grad-card:  linear-gradient(135deg, #F06E8C 0%, #FFAFA0 100%);
+  --shadow-lg:  0 30px 70px -30px rgba(0, 0, 0, 0.9);
 
-  /* The essentials: a 2x2 spread with compact cards */
-  .essentials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  .feature {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-  .feature:hover {
-    background: var(--panel-hover);
-    transform: translateY(-2px);
-  }
-  .feature:hover .roundel svg {
-    transform: scale(1.15) rotate(4deg);
-  }
-  .roundel {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #3A1B28 0%, #833A55 58%, #E97578 100%);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(21, 10, 19, 0.4);
-    display: grid;
-    place-items: center;
-    color: #fff;
-    margin-bottom: 18px;
-  }
-  .roundel svg { 
-    width: 28px; 
-    height: 28px; 
-    overflow: visible; 
-    filter: drop-shadow(0 2px 4px rgba(21, 10, 19, 0.6));
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  .feature h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
-  .feature p { color: var(--muted); font-size: 0.95rem; }
+  --nav-h:      64px;
+  --wrap:       1140px;
+  --gap:        clamp(66px, 7vw, 104px);
+  --r-sm:       12px;
+  --r-md:       18px;
+  --r-lg:       26px;
 
-  /* The pannier: the extensive list. */
-  .kit {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px 32px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-  }
-  .kit li {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-  .kit svg {
-    flex: none;
-    width: 20px;
-    height: 20px;
-    margin-top: 2px;
-    color: var(--pink);
-    overflow: visible;
-  }
-  .kit li:nth-child(5n) svg { color: var(--gold); }
-  .kit strong { color: var(--paper); font-weight: 650; }
+  --font: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
 
-  /* Privacy & Support */
-  .info-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    margin-bottom: 24px;
-  }
-  .info-card h3 {
-    font-size: 1.3rem;
-    color: #fff;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--hairline);
-  }
-  .info-card p, .info-card ul { margin-bottom: 12px; color: var(--muted); font-size: 0.95rem; }
-  .info-card p:last-child { margin-bottom: 0; }
-  .info-card ul { padding-left: 20px; }
-  .info-card li { margin-bottom: 8px; }
-  .info-card strong { color: var(--paper); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
-  footer {
-    margin-top: 56px;
-    border-top: 1px solid var(--border);
-    padding: 32px 24px 48px;
-    color: var(--muted);
-    font-size: 0.85rem;
-    text-align: center;
-  }
-  footer span { color: var(--pink); }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  /* A pair of very soft brand glows so the page is never flat black. */
+  background-image:
+    radial-gradient(1100px 620px at 78% -8%,  rgba(240, 110, 140, 0.20), transparent 62%),
+    radial-gradient(900px 560px at 4% 26%,    rgba(122, 46, 103, 0.22),  transparent 60%),
+    radial-gradient(1000px 700px at 50% 108%, rgba(122, 46, 103, 0.16),  transparent 62%);
+  background-attachment: fixed;
+}
+
+::selection { background: var(--brand); color: var(--plum-deep); }
+
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+:focus-visible {
+  outline: 2px solid var(--blush);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+.skip {
+  position: absolute; left: 12px; top: -80px; z-index: 200;
+  background: var(--brand); color: var(--plum-deep);
+  padding: 10px 18px; border-radius: 10px; font-weight: 700;
+  transition: top 0.2s ease;
+}
+.skip:focus { top: 12px; text-decoration: none; }
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
+
+section { position: relative; }
+/* One rhythm for the whole page: every section owns the gap below it and
+   nothing adds a second one on top. */
+.band { padding: 0 0 var(--gap); }
+
+[id] { scroll-margin-top: calc(var(--nav-h) + 18px); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--brand);
+  margin-bottom: 16px;
+}
+.eyebrow svg { width: 14px; height: 14px; flex: none; }
+
+h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.08; font-weight: 800; }
+
+h2 { font-size: clamp(1.9rem, 4.4vw, 3rem); }
+@media (max-width: 700px) { br.wide { display: none; } }
+h3 { font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1.25; }
+
+.lede {
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+  max-width: 62ch;
+  margin-top: 18px;
+}
+
+.head { margin-bottom: clamp(28px, 3.4vw, 44px); }
+.head.center { text-align: center; }
+.head.center .lede { margin-left: auto; margin-right: auto; }
+
+.rule {
+  height: 1px; border: 0;
+  background: linear-gradient(90deg, transparent, var(--line-hi), transparent);
+  margin: 0;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+  padding: 14px 24px; border-radius: 999px;
+  font-weight: 700; font-size: 1rem; letter-spacing: -0.01em;
+  text-decoration: none !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+              background 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+
+.btn-primary {
+  background: var(--grad-cta);
+  color: #22060E;
+  box-shadow: 0 12px 32px -12px rgba(240, 110, 140, 0.85),
+              inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -14px rgba(240, 110, 140, 0.95),
+              inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.btn-primary .apple { width: 18px; height: 18px; fill: #22060E; flex: none; }
+.btn-primary .stack { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.12; }
+.btn-primary .stack small { font-size: 0.68rem; font-weight: 600; opacity: 0.72; letter-spacing: 0.02em; }
+
+.btn-ghost {
+  background: var(--card);
+  color: var(--paper);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
+
+.btn-sm { padding: 9px 17px; font-size: 0.9rem; }
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center;
+  border-bottom: 1px solid transparent;
+  transition: background 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+.nav.stuck {
+  background: rgba(14, 5, 9, 0.78);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-bottom-color: var(--line);
+}
+.nav .wrap { display: flex; align-items: center; gap: 20px; }
+
+.brand-lockup { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+.brand-lockup:hover { text-decoration: none; }
+.brand-lockup .mark { width: 30px; height: 30px; border-radius: 8px; flex: none; }
+.brand-lockup span { font-size: 1.08rem; }
+
+.nav-links { display: flex; gap: 4px; margin-left: auto; }
+.nav-links a {
+  color: var(--muted); font-size: 0.93rem; font-weight: 600;
+  padding: 8px 13px; border-radius: 999px;
+  transition: color 0.16s ease, background 0.16s ease;
+}
+.nav-links a:hover { color: #fff; background: var(--card); text-decoration: none; }
+.nav-links a[aria-current="true"] { color: #fff; background: var(--card-hi); }
+
+.nav .btn { margin-left: auto; }
+.nav-links + .btn { margin-left: 8px; }
+
+@media (max-width: 880px) { .nav-links { display: none; } }
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero { position: relative; padding: clamp(34px, 5vw, 62px) 0 var(--gap); overflow: hidden; }
+
+.starfield {
+  position: absolute; inset: -10% 0 0; width: 100%; height: 120%;
+  z-index: 0; pointer-events: none;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+}
+.starfield .glyphs { color: rgba(240, 110, 140, 0.11); }
+.star { animation: twinkle 4s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.72; } }
+
+.hero .wrap { position: relative; z-index: 1; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  gap: clamp(30px, 5vw, 64px);
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 4.6vw, 3.5rem);
+  font-weight: 850;
+  letter-spacing: -0.035em;
+}
+.hero h1 .glow {
+  background: linear-gradient(100deg, #FFAFA0 0%, #F06E8C 48%, #E97578 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .lede { font-size: clamp(1.05rem, 1.6vw, 1.22rem); max-width: 50ch; }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 30px; }
+
+.trust { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 26px; list-style: none; }
+.trust li {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.83rem; font-weight: 600; color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  padding: 6px 13px; border-radius: 999px;
+}
+.trust svg { width: 13px; height: 13px; color: var(--brand); flex: none; }
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding-bottom: var(--gap); }
+  .hero .lede { max-width: none; }
+  .trust li { font-size: 0.79rem; padding: 5px 11px; }
+}
+@media (max-width: 420px) {
+  .cta-row .btn { flex: 1 1 100%; }
+}
+
+/* ============================================================
+   Phone mockup, shared by the hero and the cockpit builder
+   ============================================================ */
+.phone-stage { display: grid; place-items: center; position: relative; }
+.phone-stage::before {
+  content: ""; position: absolute; width: 78%; height: 62%;
+  background: radial-gradient(closest-side, rgba(240, 110, 140, 0.34), transparent 72%);
+  filter: blur(42px); z-index: 0;
+}
+
+.phone {
+  position: relative; z-index: 1;
+  width: min(300px, 78vw);
+  aspect-ratio: 300 / 618;
+  background: linear-gradient(150deg, #3B2B33 0%, #171015 42%, #2A1F26 100%);
+  border-radius: 46px;
+  padding: 9px;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.09),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+.phone-screen {
+  position: relative; height: 100%; width: 100%;
+  background: #000; border-radius: 38px; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.island {
+  position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+  width: 84px; height: 24px; background: #000; border-radius: 999px; z-index: 6;
+}
+.statusbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 20px 7px; font-size: 0.72rem; font-weight: 700; color: #fff;
+  flex: none;
+}
+.statusbar .icons { display: flex; align-items: center; gap: 5px; }
+.statusbar svg { height: 11px; width: auto; fill: #fff; }
+
+/* Map panel */
+.map-panel { position: relative; flex: 1 1 auto; min-height: 0; }
+.map-panel svg { width: 100%; height: 100%; display: block; }
+.route-line {
+  fill: none; stroke: url(#routeGrad); stroke-width: 5;
+  stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(240, 110, 140, 0.75));
+}
+.route-ghost { fill: none; stroke: rgba(255, 255, 255, 0.13); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+
+.nav-chip {
+  position: absolute; left: 10px; right: 10px; top: 10px;
+  background: rgba(20, 12, 17, 0.82);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px; padding: 9px 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-chip .turn { width: 24px; height: 24px; flex: none; color: var(--brand); }
+.nav-chip .t { font-size: 0.78rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.nav-chip .s { font-size: 0.66rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Metric tiles */
+.metrics { display: grid; gap: 1px; background: rgba(255, 255, 255, 0.08); flex: none; }
+.metrics.cols-2 { grid-template-columns: 1fr 1fr; }
+.metric {
+  background: #08060A; padding: 11px 12px 13px; text-align: center; min-width: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.metric .m-label {
+  display: block; font-size: 0.6rem; font-weight: 600; color: var(--dim);
+  letter-spacing: 0.02em; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.metric .m-val {
+  display: block; font-size: 1.42rem; font-weight: 700; color: #fff;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1;
+}
+.metric .m-val em { font-style: normal; font-size: 0.56em; font-weight: 600; color: var(--dim); margin-left: 2px; }
+
+.bottombar {
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 9px 12px 20px; background: #08060A; flex: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.bottombar .tab { display: grid; justify-items: center; gap: 3px; font-size: 0.55rem; color: var(--dim); font-weight: 600; }
+.bottombar .tab svg { width: 15px; height: 15px; }
+.record {
+  width: 74px; height: 32px; border-radius: 999px;
+  background: var(--grad-pill); display: grid; place-items: center;
+  box-shadow: 0 6px 18px -6px rgba(240, 110, 140, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.record svg { width: 13px; height: 13px; fill: #22060E; }
+.record.live { animation: breathe 2.6s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { box-shadow: 0 6px 18px -6px rgba(240, 110, 140, 0.55); } 50% { box-shadow: 0 6px 26px -4px rgba(240, 110, 140, 1); } }
+
+.phone-caption {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 18px; font-size: 0.78rem; color: var(--dim);
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 0 rgba(240,110,140,0.6); animation: ping 2s ease-out infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(240,110,140,0.55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(240,110,140,0); } }
+.mini-btn {
+  border: 1px solid var(--line); background: var(--card);
+  padding: 4px 11px; border-radius: 999px; font-size: 0.74rem; font-weight: 650; color: var(--muted);
+}
+.mini-btn:hover { color: #fff; border-color: var(--line-hi); }
+
+/* ============================================================
+   Pillars
+   ============================================================ */
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 18px; }
+.pillar {
+  position: relative; overflow: hidden;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: 28px 26px 30px;
+  /* Slow and eased, so the tile warms up under the cursor rather than snapping. */
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.55s ease, background 0.55s ease, box-shadow 0.55s ease;
+}
+.pillar::after {
+  content: ""; position: absolute; inset: -55% 30% 45% -55%;
+  background: radial-gradient(closest-side, rgba(240, 110, 140, 0.24), transparent 72%);
+  opacity: 0; transition: opacity 0.6s ease; pointer-events: none;
+}
+.pillar:hover {
+  transform: translateY(-4px); border-color: var(--line-hi); background: var(--card-hi);
+  box-shadow: 0 22px 46px -30px rgba(240, 110, 140, 0.7);
+}
+.pillar:hover::after { opacity: 1; }
+.pillar:hover .roundel svg { transform: scale(1.12) rotate(5deg); }
+
+.roundel {
+  width: 52px; height: 52px; border-radius: 15px;
+  background: var(--grad-brand);
+  display: grid; place-items: center; color: #fff;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 20px -10px rgba(240, 110, 140, 0.9);
+}
+.roundel svg {
+  width: 27px; height: 27px; overflow: visible;
+  filter: drop-shadow(0 2px 4px rgba(21, 10, 19, 0.55));
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pillar p { color: var(--muted); font-size: 0.95rem; margin-top: 9px; }
+
+/* ============================================================
+   Panels (cockpit builder, route planner, cosmic)
+   ============================================================ */
+.panel {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  padding: clamp(24px, 3.6vw, 42px);
+}
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: clamp(28px, 4vw, 52px); align-items: center; }
+.split.wide { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); }
+
+.chipset { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 0; box-shadow: inset 0 0 0 1px var(--line);
+  background: rgba(255, 255, 255, 0.03); background-origin: border-box;
+  color: var(--muted); border-radius: 999px;
+  padding: 10px 16px; font-size: 0.88rem; font-weight: 650;
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.chip:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); background: var(--card-hi); }
+.chip[aria-pressed="true"], .chip.on {
+  background: var(--grad-pill); color: #22060E; font-weight: 750;
+  box-shadow: 0 8px 20px -10px rgba(240, 110, 140, 0.9);
+}
+.chip svg { width: 14px; height: 14px; flex: none; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.55; flex: none; }
+.chip[aria-pressed="true"] .dot { opacity: 1; }
+
+.hint { font-size: 0.83rem; color: var(--dim); margin-top: 16px; }
+.hint b { color: var(--brand); font-variant-numeric: tabular-nums; }
+
+/* Route planner */
+.field { margin-top: 24px; }
+.field > .label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 11px;
+}
+.field > .label output { color: var(--brand); font-size: 0.95rem; font-weight: 800; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+
+.vibes { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; }
+.vibe {
+  display: grid; gap: 4px; text-align: left;
+  border: 0; box-shadow: inset 0 0 0 1px var(--line);
+  border-radius: var(--r-md); background-origin: border-box;
+  background: rgba(255, 255, 255, 0.028); padding: 15px 16px;
+  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+.vibe:hover { background: var(--card-hi); box-shadow: inset 0 0 0 1px var(--line-hi); transform: translateY(-2px); }
+.vibe[aria-pressed="true"] {
+  background: var(--grad-card); color: #22060E;
+  box-shadow: 0 12px 26px -14px rgba(240, 110, 140, 1);
+}
+.vibe .vt { font-weight: 750; font-size: 0.96rem; color: #fff; }
+.vibe .vs { font-size: 0.76rem; color: var(--dim); line-height: 1.35; }
+.vibe[aria-pressed="true"] .vt { color: #22060E; }
+.vibe[aria-pressed="true"] .vs { color: rgba(34, 6, 14, 0.72); }
+.vibe .vi { width: 19px; height: 19px; color: var(--brand); margin-bottom: 3px; }
+.vibe[aria-pressed="true"] .vi { color: #22060E; }
+
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
+  outline-offset: 6px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--grad-brand); border: 2px solid #1A0D14;
+  box-shadow: 0 4px 14px -4px rgba(240, 110, 140, 1); cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1A0D14;
+  background: #F06E8C; box-shadow: 0 4px 14px -4px rgba(240, 110, 140, 1); cursor: grab;
+}
+
+.route-card {
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: #100A0E; overflow: hidden;
+}
+.route-map { position: relative; aspect-ratio: 16 / 10; background: #0E141B; }
+.route-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.route-title {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  padding: 16px 18px 0;
+}
+.route-title h4 { font-size: 1.12rem; color: #fff; font-weight: 750; letter-spacing: -0.02em; }
+.route-title .diff { font-size: 0.74rem; font-weight: 750; padding: 4px 11px; border-radius: 999px; white-space: nowrap; }
+.route-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); margin: 16px 0 0; }
+.route-stats div { background: #100A0E; padding: 13px 8px 15px; text-align: center; }
+.route-stats b { display: block; font-size: 0.98rem; color: #fff; font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; white-space: nowrap; }
+.route-stats span { font-size: 0.66rem; color: var(--dim); font-weight: 600; }
+.route-note { padding: 13px 18px 16px; font-size: 0.78rem; color: var(--dim); }
+.route-note strong { color: var(--muted); font-weight: 650; }
+@media (max-width: 520px) { .route-stats { grid-template-columns: repeat(2, 1fr); } }
+
+@media (max-width: 900px) {
+  .split, .split.wide { grid-template-columns: minmax(0, 1fr); }
+  .split .phone-stage { order: 2; margin-top: 8px; }
+}
+
+/* ============================================================
+   Feature explorer
+   ============================================================ */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.tab-btn {
+  border: 0; box-shadow: inset 0 0 0 1px var(--line);
+  background: rgba(255, 255, 255, 0.028); background-origin: border-box;
+  color: var(--muted); border-radius: 999px; padding: 11px 19px;
+  font-size: 0.9rem; font-weight: 650;
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.tab-btn:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--line-hi); }
+.tab-btn[aria-selected="true"] {
+  background: var(--grad-pill); color: #22060E; font-weight: 750;
+  box-shadow: 0 10px 24px -12px rgba(240, 110, 140, 0.95);
+}
+
+.kit { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(286px, 1fr)); gap: 3px; }
+.kit li {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 17px 18px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.022);
+  transition: background 0.18s ease;
+}
+.kit li:hover { background: var(--card-hi); }
+.kit svg { flex: none; width: 19px; height: 19px; margin-top: 3px; color: var(--brand); overflow: visible; }
+.kit li:nth-child(5n) svg { color: var(--gold); }
+.kit strong { color: #fff; font-weight: 700; display: block; font-size: 0.97rem; }
+.kit p { color: var(--muted); font-size: 0.88rem; line-height: 1.45; margin-top: 2px; }
+[role="tabpanel"][hidden] { display: none; }
+
+/* ============================================================
+   Cosmic
+   ============================================================ */
+.cosmic {
+  position: relative; overflow: hidden;
+  border-radius: var(--r-lg); border: 1px solid rgba(255, 255, 255, 0.1);
+  background: radial-gradient(120% 90% at 78% 12%, #1D1230 0%, #0A0610 55%, #050308 100%);
+  padding: clamp(28px, 4vw, 56px);
+}
+.cosmic .sky { position: absolute; inset: 0; z-index: 0; opacity: 0.95; }
+.cosmic .wrap-in { position: relative; z-index: 1; }
+.cosmic h2 { max-width: 16ch; }
+.constellation-line {
+  fill: none; stroke: rgba(255, 255, 255, 0.42); stroke-width: 1.2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.cosmic .reading {
+  margin-top: 26px; border-left: 2px solid var(--brand);
+  padding: 4px 0 4px 18px; max-width: 46ch;
+  font-size: 1.03rem; color: #E8D8DF; font-style: italic; line-height: 1.6;
+}
+.cosmic .reading + .by { margin-top: 12px; font-size: 0.78rem; color: var(--dim); }
+.cosmic-list { list-style: none; display: grid; gap: 12px; margin-top: 30px; }
+.cosmic-list li { display: flex; gap: 12px; align-items: flex-start; color: var(--muted); font-size: 0.93rem; }
+.cosmic-list svg { width: 17px; height: 17px; color: var(--gold); flex: none; margin-top: 3px; overflow: visible; }
+.cosmic-list b { color: #fff; font-weight: 700; }
+
+/* ============================================================
+   Privacy
+   ============================================================ */
+.privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.pcard { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 28px 26px; background: var(--card); }
+.pcard.keep { border-color: rgba(240, 110, 140, 0.34); background: linear-gradient(180deg, rgba(240, 110, 140, 0.07), rgba(255, 255, 255, 0.015)); }
+.pcard h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.pcard h3 svg { width: 19px; height: 19px; color: var(--brand); flex: none; }
+.plist { list-style: none; display: grid; gap: 11px; }
+.plist li { display: flex; gap: 11px; align-items: flex-start; font-size: 0.92rem; color: var(--muted); }
+.plist .tick, .plist .cross { flex: none; width: 17px; height: 17px; margin-top: 3px; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.plist .tick { stroke: var(--brand); }
+.plist .cross { stroke: var(--dim); }
+.plist b { color: var(--paper); font-weight: 700; }
+
+.third { margin-top: 18px; display: grid; gap: 2px; }
+.third-row {
+  display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px;
+  padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.022);
+  font-size: 0.89rem; color: var(--muted);
+}
+.third-row b { color: #fff; font-weight: 700; }
+.third-row:hover { background: var(--card-hi); }
+@media (max-width: 620px) { .third-row { grid-template-columns: 1fr; gap: 4px; } }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq { display: grid; gap: 3px; max-width: 800px; margin: 0 auto; }
+.faq details {
+  border-radius: 14px; background: rgba(255, 255, 255, 0.024);
+  border: 1px solid transparent; transition: background 0.2s ease, border-color 0.2s ease;
+}
+.faq details[open] { background: var(--card-hi); border-color: var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  padding: 19px 22px; font-weight: 700; color: #fff; font-size: 1rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  border-radius: 14px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: none; width: 11px; height: 11px;
+  border-right: 2.2px solid var(--brand); border-bottom: 2.2px solid var(--brand);
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.22s ease;
+}
+.faq details[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.faq .answer { padding: 0 22px 20px; color: var(--muted); font-size: 0.95rem; }
+.faq .answer p + p { margin-top: 10px; }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer { border-top: 1px solid var(--line); padding: 42px 0 56px; }
+.foot-grid { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
+.foot-links a { color: var(--muted); font-size: 0.9rem; font-weight: 600; }
+.foot-links a:hover { color: #fff; }
+.foot-note { color: var(--dim); font-size: 0.83rem; margin-top: 22px; max-width: 70ch; }
+.foot-note .heart { color: var(--brand); }
+
+/* ============================================================
+   Reveal on scroll
+   ============================================================ */
+.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .star, .record.live, .live-dot { animation: none !important; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
 </style>
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     Shared SVG symbols: the app's own sparkle / celestial motifs.
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
+    <linearGradient id="routeGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFAFA0"/><stop offset="0.55" stop-color="#F06E8C"/><stop offset="1" stop-color="#E97578"/>
+    </linearGradient>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7A2E67"/><stop offset="0.55" stop-color="#F06E8C"/><stop offset="1" stop-color="#FFAFA0"/>
+    </linearGradient>
     <mask id="moon-mask" maskUnits="userSpaceOnUse" x="-1.2" y="-1.2" width="2.4" height="2.4">
-      <circle cx="0" cy="0" r="0.55" fill="#fff"/>
-      <circle cx="0.25" cy="-0.15" r="0.55" fill="#000"/>
+      <circle cx="0" cy="0" r="0.55" fill="#fff"/><circle cx="0.25" cy="-0.15" r="0.55" fill="#000"/>
     </mask>
     <g id="g-sparkle">
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" vector-effect="non-scaling-stroke"
@@ -246,9 +725,7 @@
       <polyline fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
         points="0.06,0.0 0.092,0.05 0.08,0.126 0.012,0.194 -0.102,0.216 -0.23,0.167 -0.326,0.041 -0.347,-0.138 -0.267,-0.322 -0.087,-0.455 0.157,-0.483 0.403,-0.378 0.579,-0.149 0.622,0.16 0.501,0.47 0.226,0.696 -0.146,0.763 -0.524,0.633 -0.806,0.319 -0.904,-0.114 -0.773,-0.562"/>
     </g>
-    <g id="g-crescent">
-      <circle cx="0" cy="0" r="0.55" fill="currentColor" stroke="none" mask="url(#moon-mask)"/>
-    </g>
+    <g id="g-crescent"><circle cx="0" cy="0" r="0.55" fill="currentColor" stroke="none" mask="url(#moon-mask)"/></g>
     <g id="g-ringedPlanet">
       <circle cx="0" cy="0" r="0.42" fill="none" stroke="currentColor" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
       <ellipse cx="0" cy="0" rx="0.95" ry="0.28" transform="rotate(-20)" fill="none" stroke="currentColor" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
@@ -259,217 +736,1484 @@
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" vector-effect="non-scaling-stroke"
         d="M-.26 -.1L-.6 .2M.26 -.1L.62 -.35M-.12 .37L-.2 .8M.12 .37L.24 .78"/>
     </g>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5.2 5.2L20 7"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   </defs>
 </svg>
 
-<header class="hero">
-  <svg class="backdrop" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g class="stars">
-      <circle class="star" cx="1087.0" cy="512.9" r="1.51" fill="#FFFFFF" opacity="0.33" style="animation-duration:3.26s;animation-delay:-5.5s"/>
-      <circle class="star" cx="734.0" cy="125.7" r="2.12" fill="#FFD700" opacity="0.41" style="animation-duration:3.91s;animation-delay:-5.0s"/>
-      <circle class="star" cx="381.1" cy="638.6" r="1.13" fill="#FFFFFF" opacity="0.49" style="animation-duration:4.57s;animation-delay:-4.51s"/>
-      <circle class="star" cx="28.1" cy="251.4" r="1.74" fill="#F06E8C" opacity="0.28" style="animation-duration:5.22s;animation-delay:-4.01s"/>
-      <circle class="star" cx="1115.1" cy="764.3" r="2.36" fill="#FFFFFF" opacity="0.36" style="animation-duration:5.88s;animation-delay:-3.51s"/>
-      <circle class="star" cx="762.1" cy="377.1" r="1.37" fill="#FFFFFF" opacity="0.44" style="animation-duration:3.14s;animation-delay:-3.01s"/>
-      <circle class="star" cx="409.2" cy="890.0" r="1.98" fill="#FFFFFF" opacity="0.52" style="animation-duration:3.79s;animation-delay:-2.51s"/>
-      <circle class="star" cx="56.2" cy="502.8" r="0.99" fill="#FFFFFF" opacity="0.3" style="animation-duration:4.45s;animation-delay:-2.02s"/>
-      <circle class="star" cx="1143.2" cy="115.7" r="1.6" fill="#FFFFFF" opacity="0.38" style="animation-duration:5.11s;animation-delay:-1.52s"/>
-      <circle class="star" cx="790.2" cy="628.6" r="2.21" fill="#FFFFFF" opacity="0.46" style="animation-duration:5.76s;animation-delay:-1.02s"/>
-      <circle class="star" cx="437.3" cy="241.4" r="1.22" fill="#FFFFFF" opacity="0.54" style="animation-duration:3.02s;animation-delay:-0.52s"/>
-      <circle class="star" cx="84.3" cy="754.3" r="1.83" fill="#FFFFFF" opacity="0.33" style="animation-duration:3.67s;animation-delay:-0.02s"/>
-      <circle class="star" cx="1171.3" cy="367.1" r="2.44" fill="#FFD700" opacity="0.41" style="animation-duration:4.33s;animation-delay:-5.53s"/>
-      <circle class="star" cx="818.3" cy="880.0" r="1.46" fill="#FFFFFF" opacity="0.49" style="animation-duration:4.99s;animation-delay:-5.03s"/>
-      <circle class="star" cx="465.4" cy="492.8" r="2.07" fill="#F06E8C" opacity="0.27" style="animation-duration:5.64s;animation-delay:-4.53s"/>
-      <circle class="star" cx="112.4" cy="105.7" r="1.08" fill="#FFFFFF" opacity="0.35" style="animation-duration:2.9s;animation-delay:-4.03s"/>
-      <circle class="star" cx="1199.4" cy="618.6" r="1.69" fill="#FFFFFF" opacity="0.43" style="animation-duration:3.56s;animation-delay:-3.53s"/>
-      <circle class="star" cx="846.4" cy="231.4" r="2.3" fill="#FFFFFF" opacity="0.51" style="animation-duration:4.21s;animation-delay:-3.04s"/>
-      <circle class="star" cx="493.5" cy="744.3" r="1.31" fill="#FFFFFF" opacity="0.29" style="animation-duration:4.87s;animation-delay:-2.54s"/>
-      <circle class="star" cx="140.5" cy="357.1" r="1.92" fill="#FFFFFF" opacity="0.38" style="animation-duration:5.52s;animation-delay:-2.04s"/>
-      <circle class="star" cx="1227.5" cy="870.0" r="0.93" fill="#FFFFFF" opacity="0.46" style="animation-duration:2.78s;animation-delay:-1.54s"/>
-      <circle class="star" cx="874.5" cy="482.8" r="1.55" fill="#FFFFFF" opacity="0.54" style="animation-duration:3.44s;animation-delay:-1.04s"/>
-      <circle class="star" cx="521.6" cy="95.7" r="2.16" fill="#FFFFFF" opacity="0.32" style="animation-duration:4.09s;animation-delay:-0.55s"/>
-      <circle class="star" cx="168.6" cy="608.5" r="1.17" fill="#FFD700" opacity="0.4" style="animation-duration:4.75s;animation-delay:-0.05s"/>
-      <circle class="star" cx="1255.6" cy="221.4" r="1.78" fill="#FFFFFF" opacity="0.48" style="animation-duration:5.41s;animation-delay:-5.55s"/>
-      <circle class="star" cx="902.6" cy="734.3" r="2.39" fill="#F06E8C" opacity="0.26" style="animation-duration:2.66s;animation-delay:-5.05s"/>
-      <circle class="star" cx="549.7" cy="347.1" r="1.4" fill="#FFFFFF" opacity="0.35" style="animation-duration:3.32s;animation-delay:-4.55s"/>
-      <circle class="star" cx="196.7" cy="860.0" r="2.01" fill="#FFFFFF" opacity="0.43" style="animation-duration:3.97s;animation-delay:-4.06s"/>
-      <circle class="star" cx="1283.7" cy="472.8" r="1.02" fill="#FFFFFF" opacity="0.51" style="animation-duration:4.63s;animation-delay:-3.56s"/>
-      <circle class="star" cx="930.7" cy="85.7" r="1.63" fill="#FFFFFF" opacity="0.29" style="animation-duration:5.29s;animation-delay:-3.06s"/>
-      <circle class="star" cx="577.8" cy="598.5" r="2.25" fill="#FFFFFF" opacity="0.37" style="animation-duration:5.94s;animation-delay:-2.56s"/>
-      <circle class="star" cx="224.8" cy="211.4" r="1.26" fill="#FFFFFF" opacity="0.45" style="animation-duration:3.2s;animation-delay:-2.06s"/>
-      <circle class="star" cx="1311.8" cy="724.2" r="1.87" fill="#FFFFFF" opacity="0.53" style="animation-duration:3.85s;animation-delay:-1.57s"/>
-      <circle class="star" cx="958.8" cy="337.1" r="2.48" fill="#FFFFFF" opacity="0.31" style="animation-duration:4.51s;animation-delay:-1.07s"/>
-      <circle class="star" cx="605.9" cy="850.0" r="1.49" fill="#FFD700" opacity="0.4" style="animation-duration:5.17s;animation-delay:-0.57s"/>
-      <circle class="star" cx="252.9" cy="462.8" r="2.1" fill="#FFFFFF" opacity="0.48" style="animation-duration:5.82s;animation-delay:-0.07s"/>
-      <circle class="star" cx="1339.9" cy="75.7" r="1.11" fill="#FFD700" opacity="0.26" style="animation-duration:3.08s;animation-delay:-5.57s"/>
-      <circle class="star" cx="986.9" cy="588.5" r="1.72" fill="#FFFFFF" opacity="0.34" style="animation-duration:3.74s;animation-delay:-5.08s"/>
-      <circle class="star" cx="633.9" cy="201.4" r="2.33" fill="#F06E8C" opacity="0.42" style="animation-duration:4.39s;animation-delay:-4.58s"/>
-      <circle class="star" cx="281.0" cy="714.2" r="1.35" fill="#FFFFFF" opacity="0.5" style="animation-duration:5.05s;animation-delay:-4.08s"/>
-      <circle class="star" cx="1368.0" cy="327.1" r="1.96" fill="#FFFFFF" opacity="0.28" style="animation-duration:5.7s;animation-delay:-3.58s"/>
-      <circle class="star" cx="1015.0" cy="840.0" r="0.97" fill="#FFFFFF" opacity="0.36" style="animation-duration:2.96s;animation-delay:-3.08s"/>
-      <circle class="star" cx="662.0" cy="452.8" r="1.58" fill="#FFFFFF" opacity="0.45" style="animation-duration:3.62s;animation-delay:-2.59s"/>
-      <circle class="star" cx="309.1" cy="65.7" r="2.19" fill="#FFFFFF" opacity="0.53" style="animation-duration:4.27s;animation-delay:-2.09s"/>
-      <circle class="star" cx="1396.1" cy="578.5" r="1.2" fill="#FFFFFF" opacity="0.31" style="animation-duration:4.93s;animation-delay:-1.59s"/>
-      <circle class="star" cx="1043.1" cy="191.4" r="1.81" fill="#FFFFFF" opacity="0.39" style="animation-duration:5.59s;animation-delay:-1.09s"/>
-      <circle class="star" cx="690.1" cy="704.2" r="2.42" fill="#FFFFFF" opacity="0.47" style="animation-duration:2.84s;animation-delay:-0.59s"/>
-      <circle class="star" cx="337.2" cy="317.1" r="1.43" fill="#FFD700" opacity="0.25" style="animation-duration:3.5s;animation-delay:-0.1s"/>
-      <circle class="star" cx="1424.2" cy="829.9" r="2.05" fill="#FFFFFF" opacity="0.33" style="animation-duration:4.15s;animation-delay:-5.6s"/>
-      <circle class="star" cx="1071.2" cy="442.8" r="1.06" fill="#F06E8C" opacity="0.42" style="animation-duration:4.81s;animation-delay:-5.1s"/>
-      <circle class="star" cx="718.2" cy="55.7" r="1.67" fill="#FFFFFF" opacity="0.5" style="animation-duration:5.47s;animation-delay:-4.6s"/>
-      <circle class="star" cx="365.3" cy="568.5" r="2.28" fill="#FFFFFF" opacity="0.28" style="animation-duration:2.72s;animation-delay:-4.1s"/>
-      <circle class="star" cx="12.3" cy="181.4" r="1.29" fill="#FFFFFF" opacity="0.36" style="animation-duration:3.38s;animation-delay:-3.61s"/>
-      <circle class="star" cx="1099.3" cy="694.2" r="1.9" fill="#FFFFFF" opacity="0.44" style="animation-duration:4.03s;animation-delay:-3.11s"/>
-      <circle class="star" cx="746.3" cy="307.1" r="0.91" fill="#FFFFFF" opacity="0.52" style="animation-duration:4.69s;animation-delay:-2.61s"/>
-      <circle class="star" cx="393.4" cy="819.9" r="1.52" fill="#FFFFFF" opacity="0.3" style="animation-duration:5.35s;animation-delay:-2.11s"/>
-      <circle class="star" cx="40.4" cy="432.8" r="2.14" fill="#FFFFFF" opacity="0.38" style="animation-duration:2.6s;animation-delay:-1.61s"/>
-      <circle class="star" cx="1127.4" cy="45.6" r="1.15" fill="#FFFFFF" opacity="0.47" style="animation-duration:3.26s;animation-delay:-1.12s"/>
-      <circle class="star" cx="774.4" cy="558.5" r="1.76" fill="#FFD700" opacity="0.55" style="animation-duration:3.92s;animation-delay:-0.62s"/>
-      <circle class="star" cx="421.5" cy="171.4" r="2.37" fill="#FFFFFF" opacity="0.33" style="animation-duration:4.57s;animation-delay:-0.12s"/>
-      <circle class="star" cx="68.5" cy="684.2" r="1.38" fill="#F06E8C" opacity="0.41" style="animation-duration:5.23s;animation-delay:-5.62s"/>
-      <circle class="star" cx="1155.5" cy="297.1" r="1.99" fill="#FFFFFF" opacity="0.49" style="animation-duration:5.88s;animation-delay:-5.12s"/>
-      <circle class="star" cx="802.5" cy="809.9" r="1.0" fill="#FFFFFF" opacity="0.27" style="animation-duration:3.14s;animation-delay:-4.63s"/>
-      <circle class="star" cx="449.6" cy="422.8" r="1.61" fill="#FFFFFF" opacity="0.35" style="animation-duration:3.8s;animation-delay:-4.13s"/>
-      <circle class="star" cx="96.6" cy="35.6" r="2.22" fill="#FFFFFF" opacity="0.43" style="animation-duration:4.45s;animation-delay:-3.63s"/>
-      <circle class="star" cx="1183.6" cy="548.5" r="1.24" fill="#FFFFFF" opacity="0.52" style="animation-duration:5.11s;animation-delay:-3.13s"/>
-      <circle class="star" cx="830.6" cy="161.4" r="1.85" fill="#FFFFFF" opacity="0.3" style="animation-duration:5.77s;animation-delay:-2.63s"/>
-      <circle class="star" cx="477.7" cy="674.2" r="2.46" fill="#FFFFFF" opacity="0.38" style="animation-duration:3.02s;animation-delay:-2.14s"/>
-      <circle class="star" cx="124.7" cy="287.1" r="1.47" fill="#FFFFFF" opacity="0.46" style="animation-duration:3.68s;animation-delay:-1.64s"/>
-      <circle class="star" cx="1211.7" cy="799.9" r="2.08" fill="#FFD700" opacity="0.54" style="animation-duration:4.33s;animation-delay:-1.14s"/>
-      <circle class="star" cx="858.7" cy="412.8" r="1.09" fill="#FFFFFF" opacity="0.32" style="animation-duration:4.99s;animation-delay:-0.64s"/>
-      <circle class="star" cx="505.8" cy="25.6" r="1.7" fill="#FFD700" opacity="0.4" style="animation-duration:5.65s;animation-delay:-0.14s"/>
-      <circle class="star" cx="152.8" cy="538.5" r="2.31" fill="#FFFFFF" opacity="0.48" style="animation-duration:2.9s;animation-delay:-5.65s"/>
-      <circle class="star" cx="1239.8" cy="151.3" r="1.32" fill="#FFFFFF" opacity="0.27" style="animation-duration:3.56s;animation-delay:-5.15s"/>
-      <circle class="star" cx="886.8" cy="664.2" r="1.94" fill="#FFFFFF" opacity="0.35" style="animation-duration:4.21s;animation-delay:-4.65s"/>
-      <circle class="star" cx="533.8" cy="277.1" r="0.95" fill="#FFFFFF" opacity="0.43" style="animation-duration:4.87s;animation-delay:-4.15s"/>
-      <circle class="star" cx="180.9" cy="789.9" r="1.56" fill="#FFFFFF" opacity="0.51" style="animation-duration:5.53s;animation-delay:-3.65s"/>
-      <circle class="star" cx="1267.9" cy="402.8" r="2.17" fill="#FFFFFF" opacity="0.29" style="animation-duration:2.78s;animation-delay:-3.16s"/>
-      <circle class="star" cx="914.9" cy="15.6" r="1.18" fill="#FFFFFF" opacity="0.37" style="animation-duration:3.44s;animation-delay:-2.66s"/>
-      <circle class="star" cx="561.9" cy="528.5" r="1.79" fill="#FFFFFF" opacity="0.45" style="animation-duration:4.1s;animation-delay:-2.16s"/>
-      <circle class="star" cx="209.0" cy="141.3" r="2.4" fill="#FFFFFF" opacity="0.54" style="animation-duration:4.75s;animation-delay:-1.66s"/>
-      <circle class="star" cx="1296.0" cy="654.2" r="1.41" fill="#FFFFFF" opacity="0.32" style="animation-duration:5.41s;animation-delay:-1.16s"/>
-      <circle class="star" cx="943.0" cy="267.0" r="2.03" fill="#FFD700" opacity="0.4" style="animation-duration:2.66s;animation-delay:-0.67s"/>
-      <circle class="star" cx="590.0" cy="779.9" r="1.04" fill="#FFFFFF" opacity="0.48" style="animation-duration:3.32s;animation-delay:-0.17s"/>
-    </g>
-    <g class="glyphs">
-      <use href="#g-burst" transform="translate(230.4 90.0) rotate(11.5) scale(61.2)"/>
-      <use href="#g-ringedPlanet" transform="translate(1209.6 126.0) rotate(-17.2) scale(54.0)"/>
-      <use href="#g-sparkle" transform="translate(792.0 63.0) rotate(28.6) scale(32.4)"/>
-      <use href="#g-comet" transform="translate(316.8 234.0) rotate(8.6) scale(46.8)"/>
-      <use href="#g-constellation" transform="translate(1123.2 288.0) rotate(5.7) scale(54.0)"/>
-      <use href="#g-crescent" transform="translate(144.0 378.0) rotate(-22.9) scale(39.6)"/>
-      <use href="#g-spiral" transform="translate(1267.2 432.0) rotate(0.0) scale(36.0)"/>
-      <use href="#g-sparkle" transform="translate(460.8 324.0) rotate(-34.4) scale(21.6)"/>
-      <use href="#g-astronaut" transform="translate(259.2 648.0) rotate(-20.1) scale(54.0)"/>
-      <use href="#g-constellation" transform="translate(432.0 540.0) rotate(-11.5) scale(43.2)"/>
-      <use href="#g-burst" transform="translate(1008.0 594.0) rotate(22.9) scale(39.6)"/>
-      <use href="#g-spiral" transform="translate(172.8 792.0) rotate(17.2) scale(32.4)"/>
-      <use href="#g-comet" transform="translate(1152.0 720.0) rotate(-149.0) scale(50.4)"/>
-      <use href="#g-sparkle" transform="translate(892.8 810.0) rotate(11.5) scale(25.2)"/>
-      <use href="#g-ringedPlanet" transform="translate(576.0 738.0) rotate(14.3) scale(36.0)"/>
-      <use href="#g-sparkle" transform="translate(1296.0 846.0) rotate(-17.2) scale(21.6)"/>
-      <use href="#g-sparkle" transform="translate(1036.8 189.0) rotate(22.9) scale(23.4)"/>
-      <use href="#g-constellation" transform="translate(230.4 522.0) rotate(17.2) scale(39.6)"/>
-      <use href="#g-sparkle" transform="translate(633.6 594.0) rotate(-28.6) scale(19.8)"/>
-      <use href="#g-constellation" transform="translate(547.2 144.0) rotate(-8.6) scale(46.8)"/>
-      <use href="#g-ringedPlanet" transform="translate(979.2 540.0) rotate(20.1) scale(30.6)"/>
-      <use href="#g-burst" transform="translate(1296.0 612.0) rotate(5.7) scale(34.2)"/>
-      <use href="#g-crescent" transform="translate(792.0 675.0) rotate(28.6) scale(27.0)"/>
-      <use href="#g-constellation" transform="translate(100.8 288.0) rotate(25.8) scale(36.0)"/>
-      <use href="#g-sparkle" transform="translate(144.0 414.0) rotate(11.5) scale(21.6)"/>
-      <use href="#g-sparkle" transform="translate(1281.6 396.0) rotate(-17.2) scale(19.8)"/>
-      <use href="#g-burst" transform="translate(460.8 351.0) rotate(8.6) scale(25.2)"/>
-      <use href="#g-sparkle" transform="translate(820.8 553.5) rotate(22.9) scale(18.0)"/>
-    </g>
-  </svg>
-
-  <div class="hero-inner">
-    <h1>AuraVelo</h1>
-    <p class="tagline">A free, private bike-ride tracker for iPhone.</p>
-    <div class="nofuss">No accounts &nbsp;·&nbsp; No analytics &nbsp;·&nbsp; No ads &nbsp;·&nbsp; No tracking</div>
-    <p class="heart">with <span>♥</span> from openPeak</p>
+<!-- ============================================================
+     Nav
+     ============================================================ -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand-lockup" href="#top" aria-label="AuraVelo, back to top">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="15" fill="#1C0D10"/>
+        <path d="M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z" fill="url(#markGrad)"/>
+      </svg>
+      <span>AuraVelo</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#features">Features</a>
+      <a href="#cockpit">Cockpit</a>
+      <a href="#routes">Aura Routes</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#faq">FAQ</a>
+      <a href="guide/index.html">Guide</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="https://apps.apple.com/app/id6794049781" rel="noopener">
+      <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      Get it free
+    </a>
   </div>
 </header>
 
-<main>
+<main id="main">
+<span id="top"></span>
 
-  <section id="essentials">
-    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>The essentials</h2>
+<!-- ============================================================
+     Hero
+     ============================================================ -->
+<section class="hero">
+  <svg class="starfield" id="starfield" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="stars" id="stars"></g>
+    <g class="glyphs">
+      <use href="#g-ringedPlanet" transform="translate(1240 130) rotate(-17) scale(52)"/>
+      <use href="#g-constellation" transform="translate(1120 330) rotate(6) scale(50)"/>
+      <use href="#g-crescent" transform="translate(150 200) rotate(-23) scale(38)"/>
+      <use href="#g-comet" transform="translate(330 120) rotate(9) scale(44)"/>
+      <use href="#g-spiral" transform="translate(1310 470) scale(34)"/>
+      <use href="#g-sparkle" transform="translate(780 70) rotate(28) scale(28)"/>
+      <use href="#g-sparkle" transform="translate(470 330) rotate(-34) scale(20)"/>
+      <use href="#g-burst" transform="translate(200 470) rotate(12) scale(40)"/>
+      <use href="#g-sparkle" transform="translate(1020 190) rotate(23) scale(22)"/>
+      <use href="#g-constellation" transform="translate(560 150) rotate(-9) scale(42)"/>
+    </g>
+  </svg>
 
-    <div class="essentials-grid">
-      <div class="feature">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1 class="reveal">A bike computer<br><span class="glow">that finds the roads.</span></h1>
+
+        <p class="lede reveal">
+          Speed, power, heart rate and your route on one screen, a loop built for whatever mood
+          you're in, and the sky your ride happened under waiting at the end of it. Free, on your
+          iPhone, with no account to make.
+        </p>
+
+        <div class="cta-row reveal">
+          <a class="btn btn-primary" href="https://apps.apple.com/app/id6794049781" rel="noopener">
+            <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            <span class="stack"><small>Download on the</small>App&nbsp;Store</span>
+          </a>
+          <a class="btn btn-ghost" href="#routes">Try the route planner</a>
+        </div>
+
+        <ul class="trust reveal">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>No account</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>No ads or analytics</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>No subscription</li>
+        </ul>
+      </div>
+
+      <!-- The live demo phone -->
+      <div class="phone-stage reveal">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="island" aria-hidden="true"></div>
+            <div class="statusbar" aria-hidden="true">
+              <span id="heroClock">9:41</span>
+              <span class="icons">
+                <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+                <svg viewBox="0 0 16 12"><path d="M8 11.2 5.7 8.7a3.3 3.3 0 0 1 4.6 0zM8 6.6c-1.6 0-3 .6-4.1 1.7L2.5 7A7.8 7.8 0 0 1 8 4.7c2.1 0 4 .9 5.5 2.3l-1.4 1.3A5.8 5.8 0 0 0 8 6.6M8 2.1c-2.8 0-5.4 1.1-7.3 3L0 3.9A11.9 11.9 0 0 1 8 .6c3.1 0 5.9 1.2 8 3.3l-.7 1.2A10.3 10.3 0 0 0 8 2.1"/></svg>
+                <svg viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3.4" fill="none" stroke="#fff" stroke-opacity="0.45"/><rect x="2.4" y="2.4" width="17" height="7.2" rx="2"/><path d="M23.5 4.2v3.6a2.4 2.4 0 0 0 0-3.6" fill-opacity="0.45"/></svg>
+              </span>
+            </div>
+
+            <!-- Map -->
+            <div class="map-panel">
+              <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="300" height="420" fill="#101017"/>
+                <g transform="rotate(-5 150 210)">
+                  <path d="M214 352 L400 346 L400 520 L208 520 Z" fill="#12293F"/>
+                  <path d="M214 352 L400 346" fill="none" stroke="#1C4360" stroke-width="1.6"/>
+                  <path d="M46 68 L90 66 L92 124 L44 126 Z" fill="#16261B"/>
+                  <path d="M222 206 L264 204 L266 264 L220 266 Z" fill="#16261B"/>
+                  <path d="M104 344 L154 342 L156 398 L102 400 Z" fill="#16261B"/>
+                  <g stroke="#1F1D26" stroke-width="3.2">
+                    <path d="M128 -80 L128 500"/><path d="M240 -80 L240 500"/>
+                    <path d="M-80 95 L380 95"/><path d="M-80 165 L380 165"/>
+                    <path d="M-80 235 L380 235"/><path d="M-80 305 L380 305"/>
+                    <path d="M-80 375 L380 375"/>
+                  </g>
+                  <g stroke="#2C2834" stroke-width="7">
+                    <path d="M40 -80 L40 500"/><path d="M96 -80 L96 500"/><path d="M160 -80 L160 500"/>
+                    <path d="M216 -80 L216 500"/><path d="M268 -80 L268 500"/>
+                    <path d="M-80 60 L380 60"/><path d="M-80 130 L380 130"/><path d="M-80 200 L380 200"/>
+                    <path d="M-80 270 L380 270"/><path d="M-80 340 L380 340"/>
+                  </g>
+                  <path class="route-ghost" id="heroGhost" d="M40 404 L40 354 Q40 340 54 340 L82 340 Q96 340 96 326 L96 284 Q96 270 110 270 L146 270 Q160 270 160 256 L160 214 Q160 200 174 200 L202 200 Q216 200 216 186 L216 144 Q216 130 230 130 L254 130 Q268 130 268 116 L268 46"/>
+                  <path class="route-line" id="heroRoute" d="M40 404 L40 354 Q40 340 54 340 L82 340 Q96 340 96 326 L96 284 Q96 270 110 270 L146 270 Q160 270 160 256 L160 214 Q160 200 174 200 L202 200 Q216 200 216 186 L216 144 Q216 130 230 130 L254 130 Q268 130 268 116 L268 46"/>
+                  <circle cx="40" cy="404" r="5" fill="#0E0509" stroke="#FFAFA0" stroke-width="2.6"/>
+                  <g id="heroRider">
+                    <circle r="9.5" fill="rgba(240,110,140,0.24)"/>
+                    <circle r="5.2" fill="#fff" stroke="#F06E8C" stroke-width="2.6"/>
+                  </g>
+                </g>
+              </svg>
+
+              <div class="nav-chip" aria-hidden="true">
+                <svg class="turn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 20V11a4 4 0 0 1 4-4h7"/><path d="M14 4l3.5 3-3.5 3"/>
+                </svg>
+                <div>
+                  <div class="t">Right onto Strömgatan</div>
+                  <div class="s">Drottningholm Palace · <span id="heroEta">ETA 10:47</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="metrics cols-2" id="heroMetrics"></div>
+
+            <div class="bottombar" aria-hidden="true">
+              <span class="tab">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                Rides
+              </span>
+              <span class="record live"><svg viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg></span>
+              <span class="tab">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 3l9 9-9 9-9-9z"/><path d="M15 9l-4.5 1.5L9 15l4.5-1.5z" fill="currentColor"/></svg>
+                Directions
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <p class="phone-caption">
+          <span class="live-dot" aria-hidden="true"></span>
+          A simulated ride
+          <button class="mini-btn" id="heroToggle" aria-pressed="false">Pause</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Pillars
+     ============================================================ -->
+<section class="band" id="features">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>The essentials</p>
+      <h2>Everything a bike computer should be.</h2>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar reveal">
         <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-comet"/></svg></div>
         <h3>Live ride tracking</h3>
-        <p>Speed, distance, climb and your route, drawn live on the map. Big, rounded numbers you can read at a glance from the handlebars.</p>
-      </div>
+        <p>
+          Speed, power, heart rate, climb and your route on one screen. Big rounded numerals
+          you can read from the handlebars at 30&nbsp;km/h, with auto-pause, a rain lock and a
+          self-dimming screen for the awkward bits.
+        </p>
+      </article>
 
-      <div class="feature">
+      <article class="pillar reveal">
         <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-constellation"/></svg></div>
-        <h3>Routes, planned properly</h3>
-        <p>Build cycling routes with Apple Maps directions, see the elevation before you commit to it, and keep your favourite places a tap away.</p>
-      </div>
+        <h3>Aura Routes</h3>
+        <p>
+          Not a recycled community heatmap. Pick a mood, a surface and a distance, and AuraVelo
+          scouts the actual roads around you to build a loop for it, then talks you round it,
+          turn by turn.
+        </p>
+      </article>
 
-      <div class="feature">
+      <article class="pillar reveal">
         <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-crescent"/></svg></div>
         <h3>Private by design</h3>
-        <p>No accounts, no ads, no analytics, and no server to send anything to. Your rides live on your phone, and your own iCloud if you choose.</p>
-      </div>
+        <p>
+          No account, no analytics SDK, no advertising identifier, and no server belonging to us
+          for anything to land on. Your rides live on your phone, and your own iCloud if you want
+          them to.
+        </p>
+      </article>
 
-      <div class="feature">
+      <article class="pillar reveal">
         <div class="roundel"><svg viewBox="-1.25 -1.25 2.5 2.5"><use href="#g-burst"/></svg></div>
         <h3>Free, forever</h3>
-        <p>No subscription, no paywall, no unlockables. There's an optional tip jar, and that is the entire business model.</p>
+        <p>
+          No subscription, no paywall, no unlockable anything: every feature on this page is in
+          the free app. There's an optional tip jar, and that is the entire business model.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Cockpit builder
+     ============================================================ -->
+<section class="band" id="cockpit">
+  <div class="wrap">
+    <div class="panel reveal">
+      <div class="split wide">
+        <div class="phone-stage">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="island" aria-hidden="true"></div>
+              <div class="statusbar" aria-hidden="true">
+                <span id="cockClock">9:41</span>
+                <span class="icons">
+                  <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+                  <svg viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3.4" fill="none" stroke="#fff" stroke-opacity="0.45"/><rect x="2.4" y="2.4" width="17" height="7.2" rx="2"/><path d="M23.5 4.2v3.6a2.4 2.4 0 0 0 0-3.6" fill-opacity="0.45"/></svg>
+                </span>
+              </div>
+              <div class="metrics cols-2" id="cockpitMetrics" style="flex:1 1 auto; align-content:stretch"></div>
+              <div class="bottombar" aria-hidden="true">
+                <span class="tab">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                  Rides
+                </span>
+                <span class="record"><svg viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg></span>
+                <span class="tab">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 3l9 9-9 9-9-9z"/><path d="M15 9l-4.5 1.5L9 15l4.5-1.5z" fill="currentColor"/></svg>
+                  Directions
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-burst"/></svg>Your metrics, your way</p>
+          <h2>Build the cockpit you actually look at.</h2>
+          <p class="lede">
+            Ten metrics on the data screen, six over the map, in whatever order suits the ride.
+            Tap a few below and watch the phone rearrange itself. These are the real ones.
+          </p>
+
+          <div class="chipset" id="metricChips" role="group" aria-label="Choose up to ten metrics"></div>
+
+          <p class="hint">
+            <b id="metricCount">8</b> of 10 chosen · tap a lit one to swap it out
+            · <button class="mini-btn" id="metricReset">Reset</button>
+            · <button class="mini-btn" id="unitToggle" aria-pressed="false">Switch to imperial</button>
+          </p>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="pannier">
-    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-spiral"/></svg>…and the rest of the pannier</h2>
-    <ul class="kit">
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Bluetooth sensors</strong>: heart rate, cadence, speed and power.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Elevation everywhere</strong>: terrain-accurate hill profiles for rides and plans.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>History &amp; compare</strong>: line up two rides side by side.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Ride cropping</strong>: trim the faffing off either end.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>GPX in, GPX out</strong>: import from any app's share sheet; your data leaves whenever you do.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Gear tracking</strong>: every bike keeps its own mileage.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Apple Health</strong>: save rides as workouts, calories estimated.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Weather on record</strong>: conditions noted for every ride.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Rain lock</strong>: a touch-proof screen for wet weather; hold the droplet to unlock.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Self-dimming screen</strong>: saves battery on quiet stretches, wakes at a touch.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Saved places</strong>: keep the good bakery one tap away.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>iCloud sync</strong>: optional, and only ever <em>your</em> iCloud.</p></li>
-      <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><p><strong>Seven languages</strong>: English, French, German, Italian, Portuguese, Spanish and Swedish.</p></li>
-    </ul>
-  </section>
-
-  <section id="privacy">
-    <h2><svg class="spark" viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>Privacy &amp; Support</h2>
-
-    <div class="info-card">
-      <h3>Privacy</h3>
-      <p>Your rides, routes, and profile are stored <strong>only on your device</strong> (and your own iCloud, if you turn it on). AuraVelo has no server of its own and never collects your data.</p>
-
-      <p>To make certain features work, the app sends limited data to third parties, used <strong>only</strong> to provide that feature:</p>
-      <ul>
-        <li><strong>Apple</strong> — Maps (show the map, search places, plan cycling routes), WeatherKit (conditions for a ride), Health (save the rides you choose to, as workouts), and the App Store (process an optional tip). Governed by Apple's privacy policy.</li>
-        <li><strong>Amazon Web Services</strong> — approximate location, to look up terrain elevation for hills via AWS Terrain Tiles. Governed by AWS's privacy policy.</li>
-        <li><strong>OpenStreetMap</strong> — utilized for Overpass API access to assist in routing and map data.</li>
-      </ul>
-
-      <p>This data is never sold, never used for advertising, and never linked to you for tracking. Deleting a ride, or the app, removes its data from your device; anything saved to Apple Health is managed in the Health app.</p>
+<!-- ============================================================
+     Aura Routes
+     ============================================================ -->
+<section class="band" id="routes">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-constellation"/></svg>Aura Routes</p>
+      <h2>Tell it the ride you want.<br class="wide">It goes and finds the roads.</h2>
+      <p class="lede">
+        Most apps hand you whatever everyone else already rode. AuraVelo asks what kind of afternoon
+        you're having, then builds a loop out of the roads that answer it, weighted for surface,
+        quiet lanes, water, coffee or climbing, depending on what you asked for.
+      </p>
     </div>
 
-    <div class="info-card">
-      <h3>Support</h3>
-      <p>Users can submit issue reports through the app under <strong>Settings &rarr; Report a Problem</strong>.</p>
-      <p>AuraVelo is offered free, as-is, with no dedicated support.</p>
+    <div class="panel reveal">
+      <div class="split">
+        <div>
+          <div class="field">
+            <div class="label"><span>1 · What are you in the mood for?</span></div>
+            <div class="vibes" id="vibes" role="group" aria-label="Route mood"></div>
+          </div>
+
+          <div class="field">
+            <div class="label"><span>2 · Surface</span></div>
+            <div class="chipset" id="surfaces" style="margin-top:0" role="group" aria-label="Surface"></div>
+          </div>
+
+          <div class="field">
+            <div class="label">
+              <span>3 · How far?</span>
+              <output id="distOut" for="distRange">40 km</output>
+            </div>
+            <input type="range" id="distRange" min="10" max="120" step="5" value="40"
+                   aria-label="Route distance in kilometres">
+          </div>
+
+          <div class="cta-row" style="margin-top:28px">
+            <button class="btn btn-primary" id="findRoutes" type="button">
+              <svg viewBox="-1.2 -1.2 2.4 2.4" style="width:17px;height:17px;overflow:visible"><use href="#g-sparkle"/></svg>
+              Find a route
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="route-card">
+            <div class="route-map">
+              <svg id="routeSvg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+            </div>
+            <div class="route-title">
+              <h4 id="routeName">Country lanes</h4>
+              <span class="diff" id="routeDiff">Rolling</span>
+            </div>
+            <div class="route-stats">
+              <div><b id="rsDist">40.0 km</b><span>Distance</span></div>
+              <div><b id="rsClimb">480 m</b><span>Climb</span></div>
+              <div><b id="rsTime">1 h 52</b><span>Est. time</span></div>
+              <div><b id="rsSurf">Road</b><span>Surface</span></div>
+            </div>
+            <svg id="elevSvg" viewBox="0 0 320 62" preserveAspectRatio="none" style="width:100%;height:62px;display:block;border-top:1px solid rgba(240,110,140,0.16)" aria-hidden="true"></svg>
+            <p class="route-note">
+              <strong>A simplified preview.</strong> In the app this runs on real road, surface and
+              terrain data for wherever you happen to be standing, and hands the result to
+              turn-by-turn voice navigation.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- ============================================================
+     Feature explorer
+     ============================================================ -->
+<section class="band" id="everything">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-spiral"/></svg>…and the rest of the pannier</p>
+      <h2>The long list.</h2>
+      <p class="lede">
+        All of it free, all of it on-device.
+      </p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Feature categories" id="featureTabs"></div>
+    <div id="featurePanels"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Cosmic Cadence
+     ============================================================ -->
+<section class="band" id="sky">
+  <div class="wrap">
+    <div class="cosmic reveal">
+      <svg class="sky" id="cosmicSky" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <div class="wrap-in">
+        <div class="split">
+          <div>
+            <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-crescent"/></svg>Cosmic Cadence</p>
+            <h2>Every ride ends with the sky it happened under.</h2>
+            <p class="lede">
+              Finish a ride and there's a crystal ball waiting at the bottom of the summary. Look into
+              it and the fog clears onto the night your ride actually happened in: the constellations
+              that were overhead, how much the moon was helping, where the planets were, and a short
+              reading that ties the numbers to the sky.
+            </p>
+
+            <p class="reading">
+              “Forty-two minutes under a waxing gibbous, with Lyra almost directly overhead.
+              You climbed 148&nbsp;m into a sky that was doing most of the lighting for you.”
+            </p>
+          </div>
+
+          <ul class="cosmic-list">
+            <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-constellation"/></svg><span><b>Zenith constellations</b>: the line art for whatever was directly above you.</span></li>
+            <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-crescent"/></svg><span><b>Lunar-assist dial</b>: how much light the moon was lending the road.</span></li>
+            <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-ringedPlanet"/></svg><span><b>Planetary astrolabe</b>: the planets, placed for your time and location.</span></li>
+            <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg><span><b>Achievements as constellations</b>: records light up star by star, tier by tier.</span></li>
+            <li><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-burst"/></svg><span><b>AuraVelo Wrapped</b>: a swipeable year in review, shareable as one long poster.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Privacy
+     ============================================================ -->
+<section class="band" id="privacy">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>Privacy</p>
+      <h2>No servers. No SDKs.<br class="wide">No sneaky tracking.<br class="wide">That's the whole policy.</h2>
+      <p class="lede">
+        Your rides, routes and profile are stored only on device and iCloud. Nowhere to go,
+        because we never built a way out.
+      </p>
+    </div>
+
+    <div class="privacy-grid">
+      <div class="pcard keep reveal">
+        <h3><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-crescent"/></svg>Stays on your phone</h3>
+        <ul class="plist">
+          <li><svg class="tick" viewBox="0 0 24 24"><use href="#i-check"/></svg><span>Every <b>ride, route and saved place</b> you record</span></li>
+          <li><svg class="tick" viewBox="0 0 24 24"><use href="#i-check"/></svg><span>Your <b>profile, bikes and component mileage</b></span></li>
+          <li><svg class="tick" viewBox="0 0 24 24"><use href="#i-check"/></svg><span><b>Training load, goals, segments</b> and personal records</span></li>
+          <li><svg class="tick" viewBox="0 0 24 24"><use href="#i-check"/></svg><span>The <b>Cosmic Cadence reading</b>, generated on device</span></li>
+          <li><svg class="tick" viewBox="0 0 24 24"><use href="#i-check"/></svg><span><b>iCloud sync is optional</b>, and only ever <em>your</em> iCloud</span></li>
+        </ul>
+      </div>
+
+      <div class="pcard reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-cross"/></svg>Never happens</h3>
+        <ul class="plist">
+          <li><svg class="cross" viewBox="0 0 24 24"><use href="#i-cross"/></svg><span>No <b>account, login or email address</b></span></li>
+          <li><svg class="cross" viewBox="0 0 24 24"><use href="#i-cross"/></svg><span>No <b>analytics or crash-reporting SDKs</b></span></li>
+          <li><svg class="cross" viewBox="0 0 24 24"><use href="#i-cross"/></svg><span>No <b>advertising identifier</b>, and no ads at all</span></li>
+          <li><svg class="cross" viewBox="0 0 24 24"><use href="#i-cross"/></svg><span>Your data is <b>never sold</b> or used for advertising</span></li>
+          <li><svg class="cross" viewBox="0 0 24 24"><use href="#i-cross"/></svg><span>Nothing is <b>linked to you across apps or sites</b></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pcard reveal" style="margin-top:18px">
+      <h3><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-comet"/></svg>What does leave the phone, and why</h3>
+      <div class="third">
+        <div class="third-row"><b>Apple</b><span>Maps and Weather, Apple Health for the workouts you choose to save, and the App&nbsp;Store for an optional tip. Governed by Apple's privacy policy.</span></div>
+        <div class="third-row"><b>AWS Terrain Tiles</b><span>Approximate location, to look up terrain elevation for hill profiles. From the Registry of Open Data on AWS.</span></div>
+        <div class="third-row"><b>OpenFreeMap</b><span>Coastlines, roads and landscape, © OpenMapTiles, from OpenStreetMap contributors, licensed under the ODbL.</span></div>
+        <div class="third-row"><b>OpenStreetMap</b><span>Road surface and scenery, queried via public Overpass API mirrors. Data licensed under the ODbL.</span></div>
+        <div class="third-row"><b>Wikimedia</b><span>Place photos and notability from Wikimedia Commons and Wikipedia, under Creative Commons BY-SA.</span></div>
+      </div>
+      <p style="color:var(--dim);font-size:0.85rem;margin-top:18px">
+        Deleting a ride, or the app, removes its data from your device. Anything you saved to Apple
+        Health is managed in the Health app.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="eyebrow"><svg viewBox="-1.2 -1.2 2.4 2.4"><use href="#g-sparkle"/></svg>Questions</p>
+      <h2>The short answers.</h2>
+    </div>
+
+    <div class="faq reveal">
+      <details>
+        <summary>Is it actually free, or free-to-start?</summary>
+        <div class="answer">
+          <p>Actually free. There is no subscription, no paid tier and nothing locked behind a
+          purchase. Every feature described on this page is in the app you download.</p>
+          <p>There is a one-time tip jar in Settings for anyone who wants to chip in. Ignoring it
+          changes nothing about the app.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Do I need to make an account?</summary>
+        <div class="answer">
+          <p>No. There's no sign-up, no email address and no login screen. Install it and press record.</p>
+          <p>If you want your rides on more than one device, you can switch on iCloud sync, which
+          uses your own iCloud account. AuraVelo never sees it.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Can I get my rides into Strava, Komoot or anything else?</summary>
+        <div class="answer">
+          <p>Yes. Every ride exports as GPX, TCX or FIT from the share sheet, and routes come back in
+          the same way: send a GPX to AuraVelo from any other app and it lands in the import inbox.</p>
+          <p>There's also a full library archive if you want to move everything at once, and rides can
+          be written to Apple Health as workouts.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Does it work with my Apple Watch and my sensors?</summary>
+        <div class="answer">
+          <p>The Apple Watch app streams your heart rate to the phone with no setup beyond installing it.</p>
+          <p>Bluetooth heart-rate straps, power meters, and speed and cadence pods pair directly, and
+          the app remembers them between rides. Power drives training load, zones and W′ balance.</p>
+          <p>A Garmin, Huawei or Polar watch works too, as long as it can broadcast its heart rate:
+          AuraVelo speaks the standard Bluetooth profile, so a broadcasting watch pairs like a strap.
+          The <a href="guide/index.html#bands">guide has the setting to look for on each brand</a>.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>What happens when I lose signal?</summary>
+        <div class="answer">
+          <p>Ride recording doesn't need a cell connection, only GPS. For maps, AuraVelo keeps
+          recently-used tiles automatically, and you can download durable offline areas either
+          around a saved route or as a radius around a point.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>What about battery, and riding in the rain?</summary>
+        <div class="answer">
+          <p>The screen dims itself after a spell without touches and wakes at a tap.</p>
+          <p>Rain lock arms a touch-proof screen so raindrops can't press anything; hold the droplet
+          to unlock it again.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Which languages are supported?</summary>
+        <div class="answer">
+          <p>Seven: English, French, German, Italian, Portuguese, Spanish and Swedish. That covers
+          the spoken ride callouts and the turn-by-turn prompts, which use the system voice for
+          your device's language.</p>
+        </div>
+      </details>
+
+      <details id="report-a-problem">
+        <summary>How do I report a problem?</summary>
+        <div class="answer">
+          <p>You can report an issue from within the app, under <strong>Settings → Feedback</strong>.</p>
+          <p>The <a href="guide/index.html">guide</a> covers what goes wrong most often. AuraVelo is
+          offered free and as-is, with no dedicated support desk, but reports are read.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
 
 </main>
 
 <footer>
-  <p>AuraVelo · with <span>♥</span> from openPeak · Privacy policy last updated 15 July 2026.</p>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="brand-lockup" href="#top" aria-label="AuraVelo, back to top">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="15" fill="#1C0D10"/>
+          <path d="M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z" fill="url(#markGrad)"/>
+        </svg>
+        <span>AuraVelo</span>
+      </a>
+      <ul class="foot-links">
+        <li><a href="https://apps.apple.com/app/id6794049781" rel="noopener">App Store</a></li>
+        <li><a href="guide/index.html">Guide</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#report-a-problem">Report a problem</a></li>
+      </ul>
+    </div>
+    <p class="foot-note">
+      AuraVelo · with <span class="heart">♥</span> from openPeak · Privacy policy last updated 15 July 2026.<br>
+      Map data © OpenStreetMap contributors and OpenMapTiles, licensed under the ODbL. Terrain from
+      AWS Terrain Tiles. Place photos from Wikimedia Commons, CC&nbsp;BY-SA. Apple, the Apple logo,
+      iPhone, Apple Watch, Apple Health and App Store are trademarks of Apple&nbsp;Inc.
+    </p>
+  </div>
 </footer>
 
+<script>
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $  = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  /* A tiny seeded PRNG, so "find a route" gives a different loop each press
+     while any single seed stays reproducible. */
+  function rng(seed) {
+    var s = seed >>> 0;
+    return function () {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      return s / 4294967296;
+    };
+  }
+  function el(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  /* ==========================================================
+     Units
+     ========================================================== */
+  var units = "km";
+  var unitListeners = [];
+  function onUnits(fn) { unitListeners.push(fn); fn(); }
+  function setUnits(u) { units = u; unitListeners.forEach(function (f) { f(); }); }
+
+  var KM_MI = 0.621371, M_FT = 3.28084;
+  function dist(km)  { return units === "km" ? km : km * KM_MI; }
+  function elev(m)   { return units === "km" ? m : m * M_FT; }
+  function uDist()   { return units === "km" ? "km" : "mi"; }
+  function uElev()   { return units === "km" ? "m" : "ft"; }
+  function uSpeed()  { return units === "km" ? "km/h" : "mph"; }
+
+  /* ==========================================================
+     Starfields
+     ========================================================== */
+  function sprinkle(target, count, w, h, seed) {
+    if (!target) return;
+    var r = rng(seed), i, c, colours = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFD700", "#F06E8C"];
+    var frag = document.createDocumentFragment();
+    for (i = 0; i < count; i++) {
+      c = el("circle", {
+        class: "star",
+        cx: (r() * w).toFixed(1),
+        cy: (r() * h).toFixed(1),
+        r: (0.9 + r() * 1.6).toFixed(2),
+        fill: colours[(r() * colours.length) | 0],
+        opacity: (0.22 + r() * 0.34).toFixed(2)
+      });
+      c.style.animationDuration = (2.6 + r() * 3.4).toFixed(2) + "s";
+      c.style.animationDelay = (-r() * 6).toFixed(2) + "s";
+      frag.appendChild(c);
+    }
+    target.appendChild(frag);
+  }
+  sprinkle($("#stars"), 110, 1440, 900, 9021);
+
+  /* The cosmic panel gets its own sky, plus a couple of constellations. */
+  (function cosmicSky() {
+    var sky = $("#cosmicSky");
+    if (!sky) return;
+    var g = el("g", {});
+    sky.appendChild(g);
+    sprinkle(g, 150, 1200, 600, 4417);
+
+    var shapes = [
+      [[880, 110], [960, 160], [1040, 130], [1090, 200], [1030, 260]],
+      [[120, 420], [200, 380], [268, 430], [330, 390]],
+      [[640, 460], [700, 500], [780, 470], [820, 520]]
+    ];
+    shapes.forEach(function (pts) {
+      var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0] + " " + p[1]; }).join("");
+      sky.appendChild(el("path", { d: d, class: "constellation-line" }));
+      pts.forEach(function (p) {
+        sky.appendChild(el("circle", { cx: p[0], cy: p[1], r: 3.2, fill: "#fff", opacity: "0.85" }));
+      });
+    });
+  }());
+
+  /* ==========================================================
+     Reveal on scroll
+     ========================================================== */
+  (function reveals() {
+    var items = $$(".reveal");
+    if (reduced || !("IntersectionObserver" in window)) {
+      items.forEach(function (n) { n.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    items.forEach(function (n, i) {
+      n.style.transitionDelay = (Math.min(i % 4, 3) * 70) + "ms";
+      io.observe(n);
+    });
+
+    // Belt and braces: if the observer never fires for some reason, the page
+    // must not be left blank.
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        items.forEach(function (n) { n.classList.add("in"); });
+      }, 1600);
+    });
+  }());
+
+  /* ==========================================================
+     Nav: stuck state + scroll spy
+     ========================================================== */
+  (function navBits() {
+    var nav = $("#nav");
+    // Only in-page anchors. A link to another page has no section to spy on,
+    // and passing its href to querySelector throws.
+    var links = $$('.nav-links a[href^="#"]');
+    var sections = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    }).filter(Boolean);
+
+    function onScroll() { nav.classList.toggle("stuck", window.scrollY > 12); }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    if (!("IntersectionObserver" in window) || !sections.length) return;
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) {
+          a.setAttribute("aria-current", a.getAttribute("href") === "#" + e.target.id ? "true" : "false");
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function (s) { spy.observe(s); });
+  }());
+
+  /* ==========================================================
+     Ride metrics, exactly the list the app's data screen offers
+     ========================================================== */
+  var METRICS = {
+    distance:   { label: "Distance",   v: function (t) { return fmt1(dist(18.6 + t * 0.18)); },       u: uDist },
+    time:       { label: "Time",       v: function (t) { return clock(2530 + t * 30); },              u: null },
+    totalTime:  { label: "Total Time", v: function (t) { return clock(2645 + t * 30); },              u: null },
+    speed:      { label: "Speed",      v: function (t) { return fmt1(dist(28.4 + Math.sin(t * 2.1) * 4.2)); }, u: uSpeed },
+    avgSpeed:   { label: "Avg Speed",  v: function ()  { return fmt1(dist(26.5)); },                  u: uSpeed },
+    maxSpeed:   { label: "Max Speed",  v: function ()  { return fmt1(dist(45.0)); },                  u: uSpeed },
+    pace:       { label: "Pace",       v: function ()  { return units === "km" ? "2:33" : "4:07"; },  u: function () { return "/" + uDist(); } },
+    elevGain:   { label: "Elev Gain",  v: function (t) { return String(Math.round(elev(148 + t * 0.8))); }, u: uElev },
+    nextClimb:  { label: "Next Climb", v: function ()  { return fmt1(dist(1.2)); },                   u: uDist },
+    power:      { label: "Power",      v: function (t) { return String(Math.round(214 + Math.sin(t * 3.3) * 46)); }, u: function () { return "W"; } },
+    cadence:    { label: "Cadence",    v: function (t) { return String(Math.round(79 + Math.sin(t * 1.7) * 6)); },  u: function () { return "rpm"; } },
+    heartRate:  { label: "Heart Rate", v: function (t) { return String(Math.round(146 + Math.sin(t * 0.9) * 9)); }, u: function () { return "bpm"; } },
+    wBalance:   { label: "W′ Balance", v: function (t) { return String(Math.round(74 + Math.sin(t * 0.6) * 14)); }, u: function () { return "%"; } },
+    clock:      { label: "Clock",      v: function ()  { return timeNow(); },                          u: null }
+  };
+
+  function fmt1(n) { return n.toFixed(1); }
+  function clock(sec) {
+    var s = Math.floor(sec), m = Math.floor(s / 60);
+    return m + ":" + String(s % 60).padStart(2, "0");
+  }
+  function timeNow() {
+    var d = new Date();
+    return d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0");
+  }
+
+  function renderTiles(container, keys) {
+    container.innerHTML = "";
+    keys.forEach(function (k) {
+      var m = METRICS[k];
+      if (!m) return;
+      var tile = document.createElement("div");
+      tile.className = "metric";
+      tile.dataset.metric = k;
+      tile.innerHTML =
+        '<span class="m-label">' + m.label + '</span>' +
+        '<span class="m-val"><span class="v">–</span>' + (m.u ? '<em class="u"></em>' : '') + '</span>';
+      container.appendChild(tile);
+    });
+  }
+
+  function paintTiles(container, t) {
+    $$(".metric", container).forEach(function (tile) {
+      var m = METRICS[tile.dataset.metric];
+      if (!m) return;
+      var v = $(".v", tile), u = $(".u", tile);
+      var next = m.v(t);
+      if (v.textContent !== next) v.textContent = next;
+      if (u && m.u) {
+        var nu = m.u();
+        if (u.textContent !== nu) u.textContent = nu;
+      }
+    });
+  }
+
+  /* ==========================================================
+     Hero: a simulated ride
+     ========================================================== */
+  (function heroRide() {
+    var metrics = $("#heroMetrics");
+    var route = $("#heroRoute");
+    var rider = $("#heroRider");
+    var toggle = $("#heroToggle");
+    var clockEl = $("#heroClock");
+    if (!metrics || !route) return;
+
+    renderTiles(metrics, ["distance", "time", "speed", "heartRate"]);
+    onUnits(function () { paintTiles(metrics, 0); });
+
+    var len = route.getTotalLength();
+    route.style.strokeDasharray = len;
+
+    var t = 0, running = !reduced, visible = true, raf = null, last = 0;
+
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      if (!running || !visible) { last = now; return; }
+      var dt = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      t += dt;
+
+      var p = (t % 22) / 22;                 // 22-second lap
+      route.style.strokeDashoffset = len * (1 - p);
+      var pt = route.getPointAtLength(len * p);
+      rider.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+      paintTiles(metrics, p * 46);
+    }
+
+    function seed() {
+      route.style.strokeDashoffset = len;
+      var pt = route.getPointAtLength(0);
+      rider.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+      paintTiles(metrics, 0);
+    }
+    seed();
+
+    if (clockEl) {
+      clockEl.textContent = timeNow();
+      setInterval(function () { clockEl.textContent = timeNow(); }, 30000);
+    }
+
+    if (reduced) {
+      // Show the finished route and a static set of numbers instead of animating.
+      route.style.strokeDashoffset = 0;
+      var end = route.getPointAtLength(len);
+      rider.setAttribute("transform", "translate(" + end.x + " " + end.y + ")");
+      paintTiles(metrics, 8);
+      toggle.hidden = true;
+      $(".live-dot").hidden = true;
+      return;
+    }
+
+    toggle.addEventListener("click", function () {
+      running = !running;
+      toggle.textContent = running ? "Pause" : "Play";
+      toggle.setAttribute("aria-pressed", String(!running));
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.12 })
+        .observe(metrics.closest(".phone"));
+    }
+    raf = requestAnimationFrame(function (now) { last = now; frame(now); });
+  }());
+
+  /* ==========================================================
+     Cockpit builder
+     ========================================================== */
+  (function cockpit() {
+    var chips = $("#metricChips");
+    var screen = $("#cockpitMetrics");
+    var countEl = $("#metricCount");
+    var resetBtn = $("#metricReset");
+    var unitBtn = $("#unitToggle");
+    var cockClock = $("#cockClock");
+    if (!chips || !screen) return;
+
+    var DEFAULT = ["distance", "time", "speed", "pace",
+                   "avgSpeed", "elevGain", "power", "heartRate"];
+    var chosen = DEFAULT.slice();
+    var MAX = 10;
+
+    Object.keys(METRICS).forEach(function (k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.dataset.metric = k;
+      b.innerHTML = '<span class="dot"></span>' + METRICS[k].label;
+      chips.appendChild(b);
+    });
+
+    function sync() {
+      $$(".chip", chips).forEach(function (b) {
+        var on = chosen.indexOf(b.dataset.metric) > -1;
+        b.setAttribute("aria-pressed", String(on));
+      });
+      countEl.textContent = String(chosen.length);
+      renderTiles(screen, chosen);
+      paintTiles(screen, tick);
+    }
+
+    chips.addEventListener("click", function (e) {
+      var b = e.target.closest(".chip");
+      if (!b) return;
+      var k = b.dataset.metric, i = chosen.indexOf(k);
+      if (i > -1) {
+        if (chosen.length > 1) chosen.splice(i, 1);
+      } else {
+        if (chosen.length >= MAX) chosen.shift();   // oldest out, newest in
+        chosen.push(k);
+      }
+      sync();
+    });
+
+    resetBtn.addEventListener("click", function () { chosen = DEFAULT.slice(); sync(); });
+
+    unitBtn.addEventListener("click", function () {
+      var next = units === "km" ? "mi" : "km";
+      setUnits(next);
+      unitBtn.textContent = next === "km" ? "Switch to imperial" : "Switch to metric";
+      unitBtn.setAttribute("aria-pressed", String(next === "mi"));
+    });
+
+    var tick = 0, visible = false;
+    onUnits(sync);
+
+    if (cockClock) {
+      cockClock.textContent = timeNow();
+      setInterval(function () { cockClock.textContent = timeNow(); }, 30000);
+    }
+
+    if (reduced) { paintTiles(screen, 6); return; }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.2 })
+        .observe(screen.closest(".phone"));
+    } else { visible = true; }
+
+    setInterval(function () {
+      if (!visible) return;
+      tick = (tick + 0.28) % 46;
+      paintTiles(screen, tick);
+    }, 280);
+  }());
+
+  /* ==========================================================
+     Aura Routes preview.
+
+     The roads are built first and the route is derived from them,
+     rather than an abstract loop being drawn over a texture. A
+     jittered grid gives an irregular street network; the route is
+     the outline of a patch of blocks, so every segment of it lies
+     on a real street and every corner is a real junction. That is
+     what makes it read as a route rather than as a shape.
+
+     The climb-per-kilometre figures are the app's own targets for
+     each vibe, so the numbers behave the way the real generator does.
+     ========================================================== */
+  (function routes() {
+    var VIBES = [
+      { id: "country", name: "Country lanes", blurb: "Quiet roads and open country", climb: 12, icon: "#g-constellation" },
+      { id: "coastal", name: "Coastal cruise", blurb: "Stay near the water",         climb: 8,  icon: "#g-spiral" },
+      { id: "cafe",    name: "Café spin",      blurb: "Into town for a coffee stop", climb: 4,  icon: "#g-crescent" },
+      { id: "hills",   name: "Hill hunt",      blurb: "Go looking for the climbs",   climb: 22, icon: "#g-burst" }
+    ];
+    var SURFACES = [
+      { id: "mixed", name: "All" },
+      { id: "road", name: "Road" },
+      { id: "gravel", name: "Gravel" }
+    ];
+
+    /* How the street network is laid out for each mood. A town is dense
+       and nearly square; lanes are sparse and wander. */
+    var SHAPE = {
+      country: { cols: 8,  rows: 6, jitter: 20, ox: -22, green: 0.42, salt: 11 },
+      coastal: { cols: 7,  rows: 6, jitter: 15, ox:  86, green: 0.20, salt: 307 },
+      cafe:    { cols: 11, rows: 8, jitter: 5,  ox: -18, green: 0.06, salt: 977 },
+      hills:   { cols: 8,  rows: 6, jitter: 17, ox: -20, green: 0.24, salt: 613 }
+    };
+
+    /* The patch is kept one block clear of the grid edge, so the route it
+       outlines can never run off the frame, and capped below the space it
+       has, so it always has a dent or two rather than squaring off into a
+       plain rectangle. */
+    var MARGIN = 1;
+
+    var W = 320, H = 200;
+
+    var vibesEl = $("#vibes"), surfEl = $("#surfaces"), range = $("#distRange"),
+        out = $("#distOut"), go = $("#findRoutes"), map = $("#routeSvg"), elevSvg = $("#elevSvg");
+    if (!vibesEl || !map) return;
+
+    var state = { vibe: "country", surface: "road", km: 40, seed: 7 };
+
+    VIBES.forEach(function (v) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "vibe";
+      b.dataset.vibe = v.id;
+      b.innerHTML =
+        '<svg class="vi" viewBox="-1.2 -1.2 2.4 2.4" aria-hidden="true"><use href="' + v.icon + '"/></svg>' +
+        '<span class="vt">' + v.name + '</span>' +
+        '<span class="vs">' + v.blurb + '</span>';
+      vibesEl.appendChild(b);
+    });
+    SURFACES.forEach(function (s) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.dataset.surface = s.id;
+      b.textContent = s.name;
+      surfEl.appendChild(b);
+    });
+
+    function vibe() { return VIBES.filter(function (v) { return v.id === state.vibe; })[0]; }
+
+    function syncControls() {
+      $$(".vibe", vibesEl).forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.vibe === state.vibe));
+      });
+      $$(".chip", surfEl).forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.surface === state.surface));
+      });
+      out.textContent = Math.round(dist(state.km)) + " " + uDist();
+    }
+
+    vibesEl.addEventListener("click", function (e) {
+      var b = e.target.closest(".vibe");
+      if (!b) return;
+      state.vibe = b.dataset.vibe; state.seed++;
+      syncControls(); draw();
+    });
+    surfEl.addEventListener("click", function (e) {
+      var b = e.target.closest(".chip");
+      if (!b) return;
+      state.surface = b.dataset.surface;
+      syncControls(); draw();
+    });
+    range.addEventListener("input", function () {
+      state.km = Number(range.value);
+      syncControls(); draw();
+    });
+    go.addEventListener("click", function () { state.seed += 3; draw(true); });
+
+    /* ---------- the street network ---------- */
+
+    function makeNodes(sh, r) {
+      var x0 = sh.ox, x1 = W + 18, y0 = -18, y1 = H + 18;
+      var cw = (x1 - x0) / sh.cols, ch = (y1 - y0) / sh.rows;
+      var nodes = [], i, j;
+      for (j = 0; j <= sh.rows; j++) {
+        nodes[j] = [];
+        for (i = 0; i <= sh.cols; i++) {
+          nodes[j][i] = {
+            x: x0 + i * cw + (r() - 0.5) * sh.jitter,
+            y: y0 + j * ch + (r() - 0.5) * sh.jitter
+          };
+        }
+      }
+      return nodes;
+    }
+
+    /* A patch of blocks, grown so that it stays fat. Compactness is not
+       cosmetic: a patch with a one-block isthmus has an outline that
+       touches itself at the pinch, and the walk below would cut the
+       corner and leave a figure of eight. Weighting candidates by how
+       many neighbours they already have fills dents in before it sprawls. */
+    function growPatch(sh, cells, r) {
+      var key = function (i, j) { return i + "," + j; };
+      var set = {};
+      set[key(Math.floor(sh.cols / 2), Math.floor(sh.rows / 2))] = true;
+      var count = 1, guard = 0, i, j;
+      while (count < cells && guard++ < 600) {
+        var pool = [];
+        for (j = MARGIN; j < sh.rows - MARGIN; j++) {
+          for (i = MARGIN; i < sh.cols - MARGIN; i++) {
+            if (set[key(i, j)]) continue;
+            var n = (set[key(i - 1, j)] ? 1 : 0) + (set[key(i + 1, j)] ? 1 : 0) +
+                    (set[key(i, j - 1)] ? 1 : 0) + (set[key(i, j + 1)] ? 1 : 0);
+            for (var t = 0; t < n * n; t++) pool.push(key(i, j));
+          }
+        }
+        if (!pool.length) break;
+        set[pool[Math.floor(r() * pool.length)]] = true;
+        count++;
+      }
+      return set;
+    }
+
+    /* The outline of the patch, as grid nodes. Every edge of it is one
+       street segment, so the route inherits the network for free. */
+    function outline(set, sh) {
+      var key = function (i, j) { return i + "," + j; };
+      var has = function (i, j) { return !!set[key(i, j)]; };
+      var adj = {}, i, j;
+      function edge(a, b) {
+        var ka = a.join(","), kb = b.join(",");
+        (adj[ka] = adj[ka] || []).push(kb);
+        (adj[kb] = adj[kb] || []).push(ka);
+      }
+      for (j = 0; j < sh.rows; j++) {
+        for (i = 0; i < sh.cols; i++) {
+          if (!has(i, j)) continue;
+          if (!has(i, j - 1)) edge([i, j], [i + 1, j]);
+          if (!has(i, j + 1)) edge([i, j + 1], [i + 1, j + 1]);
+          if (!has(i - 1, j)) edge([i, j], [i, j + 1]);
+          if (!has(i + 1, j)) edge([i + 1, j], [i + 1, j + 1]);
+        }
+      }
+      var keys = Object.keys(adj);
+      if (!keys.length) return [];
+      var start = keys[0], loop = [start], prev = null, cur = start, guard = 0;
+      while (guard++ < 400) {
+        var options = adj[cur] || [], next = null, t;
+        for (t = 0; t < options.length; t++) {
+          if (options[t] !== prev) { next = options[t]; break; }
+        }
+        if (!next || next === start) break;
+        loop.push(next); prev = cur; cur = next;
+      }
+      // A clean outline visits every node it collected. Anything less means
+      // the walk hit a pinch, and the caller should try another patch.
+      return loop.length === keys.length ? loop : [];
+    }
+
+    function routePath(loopKeys, nodes, radius) {
+      var pts = loopKeys.map(function (k) {
+        var c = k.split(",");
+        return nodes[+c[1]][+c[0]];
+      });
+      var n = pts.length, d = "", i;
+      if (n < 4) return "";
+      for (i = 0; i < n; i++) {
+        var p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n];
+        var d1 = Math.sqrt(Math.pow(p1.x - p0.x, 2) + Math.pow(p1.y - p0.y, 2)) || 1;
+        var d2 = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)) || 1;
+        var rr = Math.min(radius, d1 / 2.2, d2 / 2.2);
+        var a = { x: p1.x + (p0.x - p1.x) / d1 * rr, y: p1.y + (p0.y - p1.y) / d1 * rr };
+        var b = { x: p1.x + (p2.x - p1.x) / d2 * rr, y: p1.y + (p2.y - p1.y) / d2 * rr };
+        d += (i === 0 ? "M" : "L") + a.x.toFixed(1) + " " + a.y.toFixed(1);
+        d += "Q" + p1.x.toFixed(1) + " " + p1.y.toFixed(1) + " " + b.x.toFixed(1) + " " + b.y.toFixed(1);
+      }
+      return d + "Z";
+    }
+
+    function quad(a, b, c, d) {
+      return "M" + a.x.toFixed(1) + " " + a.y.toFixed(1) +
+             "L" + b.x.toFixed(1) + " " + b.y.toFixed(1) +
+             "L" + c.x.toFixed(1) + " " + c.y.toFixed(1) +
+             "L" + d.x.toFixed(1) + " " + d.y.toFixed(1) + "Z";
+    }
+
+    function drawScene(nodes, sh, r) {
+      var i, j, a, b, c, d;
+
+      map.appendChild(el("rect", { width: W, height: H, fill: "#0C1118" }));
+
+      if (state.vibe === "coastal") {
+        map.appendChild(el("path", {
+          d: "M-10 -10 L92 -10 C 74 34 88 68 70 100 C 54 130 74 164 56 210 L-10 210 Z",
+          fill: "#10304A"
+        }));
+        map.appendChild(el("path", {
+          d: "M92 -10 C 74 34 88 68 70 100 C 54 130 74 164 56 210",
+          fill: "none", stroke: "#1E4E70", "stroke-width": "1.6"
+        }));
+      }
+
+      // The land between the streets. This is what stops the map reading
+      // as lines on a void.
+      var blocks = el("g", {});
+      for (j = 0; j < sh.rows; j++) {
+        for (i = 0; i < sh.cols; i++) {
+          a = nodes[j][i]; b = nodes[j][i + 1]; c = nodes[j + 1][i + 1]; d = nodes[j + 1][i];
+          var roll = r();
+          blocks.appendChild(el("path", {
+            d: quad(a, b, c, d),
+            fill: roll < sh.green ? "#16261B" : roll < sh.green + 0.22 ? "#131A23" : "#10151D"
+          }));
+        }
+      }
+      map.appendChild(blocks);
+
+      if (state.vibe === "hills") {
+        var cont = el("g", { fill: "none", stroke: "#222A38", "stroke-width": "1.1" });
+        [[70, 150, 15, 9, 5], [252, 48, 13, 8, 4], [176, 176, 11, 7, 3]].forEach(function (h) {
+          for (i = h[4]; i > 0; i--) {
+            var pts = [], t;
+            for (t = 0; t < 14; t++) {
+              var ang = (t / 14) * Math.PI * 2, k = 1 + (r() - 0.5) * 0.18;
+              pts.push((h[0] + Math.cos(ang) * h[2] * i * k).toFixed(1) + " " +
+                       (h[1] + Math.sin(ang) * h[3] * i * k).toFixed(1));
+            }
+            cont.appendChild(el("path", { d: "M" + pts.join("L") + "Z" }));
+          }
+        });
+        map.appendChild(cont);
+      }
+
+      if (state.vibe === "cafe") {
+        var built = el("g", { fill: "#171D27" });
+        for (j = 0; j < sh.rows; j++) {
+          for (i = 0; i < sh.cols; i++) {
+            a = nodes[j][i]; c = nodes[j + 1][i + 1];
+            var bw = (c.x - a.x), bh = (c.y - a.y);
+            for (var n = 0; n < 2; n++) {
+              built.appendChild(el("rect", {
+                x: (a.x + bw * (0.18 + r() * 0.3)).toFixed(1),
+                y: (a.y + bh * (0.18 + r() * 0.3)).toFixed(1),
+                width: (bw * (0.2 + r() * 0.22)).toFixed(1),
+                height: (bh * (0.2 + r() * 0.22)).toFixed(1),
+                rx: 1.5
+              }));
+            }
+          }
+        }
+        map.appendChild(built);
+      }
+
+      // Every street, minor then major, so junctions look right.
+      var minor = el("g", { stroke: "#1F2530", "stroke-width": "3.2", "stroke-linecap": "round", fill: "none" });
+      var major = el("g", { stroke: "#2B313D", "stroke-width": "6", "stroke-linecap": "round", fill: "none" });
+      function seg(p, q, g) {
+        g.appendChild(el("path", {
+          d: "M" + p.x.toFixed(1) + " " + p.y.toFixed(1) + "L" + q.x.toFixed(1) + " " + q.y.toFixed(1)
+        }));
+      }
+      for (j = 0; j <= sh.rows; j++) {
+        for (i = 0; i <= sh.cols; i++) {
+          if (i < sh.cols) seg(nodes[j][i], nodes[j][i + 1], j % 3 === 1 ? major : minor);
+          if (j < sh.rows) seg(nodes[j][i], nodes[j + 1][i], i % 3 === 1 ? major : minor);
+        }
+      }
+      map.appendChild(minor);
+      map.appendChild(major);
+    }
+
+    function difficulty(perKm) {
+      if (perKm < 6)  return ["Flat", "rgba(120,200,140,0.18)", "#8FE0AC"];
+      if (perKm < 10) return ["Gently rolling", "rgba(240,200,120,0.16)", "#F2CE84"];
+      if (perKm < 16) return ["Rolling", "rgba(240,160,120,0.18)", "#F5B089"];
+      return ["Tough", "rgba(240,110,140,0.20)", "#F98FA6"];
+    }
+
+    function draw(animate) {
+      var v = vibe(), sh = SHAPE[state.vibe];
+      var room = (sh.cols - 2 * MARGIN) * (sh.rows - 2 * MARGIN);
+      var cells = Math.max(4, Math.min(
+        Math.round(4 + (state.km / 120) * room * 0.75),
+        Math.floor(room * 0.8)
+      ));
+
+      // Grow until we get a patch whose outline walks cleanly.
+      var attempt = 0, r, nodes, loop;
+      do {
+        r = rng(state.seed * 7919 + state.km + sh.salt * 53 + attempt * 131);
+        nodes = makeNodes(sh, r);
+        loop = outline(growPatch(sh, cells, r), sh);
+        attempt++;
+      } while (loop.length < 6 && attempt < 6);
+
+      map.innerHTML = "";
+      drawScene(nodes, sh, r);
+
+      var d = routePath(loop, nodes, 9);
+      map.appendChild(el("path", { d: d, fill: "rgba(240,110,140,0.08)", stroke: "none" }));
+      var line = el("path", {
+        d: d, fill: "none", stroke: "url(#routeGrad)", "stroke-width": "4.2",
+        "stroke-linecap": "round", "stroke-linejoin": "round"
+      });
+      line.style.filter = "drop-shadow(0 0 5px rgba(240,110,140,0.65))";
+      map.appendChild(line);
+
+      var L = line.getTotalLength();
+      var start = line.getPointAtLength(0);
+      map.appendChild(el("circle", { cx: start.x, cy: start.y, r: 4.4, fill: "#0E0509", stroke: "#FFAFA0", "stroke-width": "2.2" }));
+
+      // The stop this mood would actually go looking for.
+      var poi = line.getPointAtLength(L * (0.3 + r() * 0.4));
+      var pin = el("g", { transform: "translate(" + poi.x.toFixed(1) + " " + poi.y.toFixed(1) + ")" });
+      pin.appendChild(el("circle", { r: 8, fill: "rgba(255,215,0,0.16)" }));
+      pin.appendChild(el("circle", { r: 3.4, fill: "#FFD700" }));
+      map.appendChild(pin);
+
+      if (animate && !reduced) {
+        line.style.strokeDasharray = L;
+        line.style.strokeDashoffset = L;
+        line.style.transition = "stroke-dashoffset 1.1s cubic-bezier(0.22,1,0.36,1)";
+        requestAnimationFrame(function () { line.style.strokeDashoffset = 0; });
+      }
+
+      // Stats, from the app's own climb-per-km target for this vibe.
+      var jitter = 0.85 + r() * 0.3;
+      var climbM = Math.round(state.km * v.climb * jitter);
+      var perKm = climbM / state.km;
+      var speed = 24 - perKm * 0.28 - (state.surface === "gravel" ? 3.2 : state.surface === "mixed" ? 1.4 : 0);
+      var hours = state.km / Math.max(speed, 12);
+
+      var dd = difficulty(perKm);
+      var diffEl = $("#routeDiff");
+      diffEl.textContent = dd[0];
+      diffEl.style.background = dd[1];
+      diffEl.style.color = dd[2];
+
+      $("#routeName").textContent = v.name;
+      $("#rsDist").textContent = dist(state.km).toFixed(1) + " " + uDist();
+      $("#rsClimb").textContent = Math.round(elev(climbM)) + " " + uElev();
+      $("#rsTime").textContent = Math.floor(hours) + " h " + String(Math.round((hours % 1) * 60)).padStart(2, "0");
+      $("#rsSurf").textContent = SURFACES.filter(function (s) { return s.id === state.surface; })[0].name;
+
+      drawElevation(rng(state.seed * 104729 + 11), perKm);
+    }
+
+    function drawElevation(r, perKm) {
+      elevSvg.innerHTML = "";
+      var EW = 320, EH = 62, n = 64, amp = Math.min(perKm / 24, 1) * (EH - 16);
+      var ph = [r() * 6.28, r() * 6.28, r() * 6.28];
+      var pts = [], i, x, y;
+      for (i = 0; i <= n; i++) {
+        x = (i / n) * EW;
+        y = EH - 6 - amp * (
+          0.5 + 0.30 * Math.sin((i / n) * 6.9 + ph[0])
+              + 0.16 * Math.sin((i / n) * 15.1 + ph[1])
+              + 0.09 * Math.sin((i / n) * 27.7 + ph[2])
+        );
+        pts.push([x, Math.max(6, Math.min(EH - 4, y))]);
+      }
+      var d = pts.map(function (p, i2) { return (i2 ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join("");
+
+      var grad = el("linearGradient", { id: "elevFill", x1: "0", y1: "0", x2: "0", y2: "1" });
+      grad.appendChild(el("stop", { offset: "0", "stop-color": "#F06E8C", "stop-opacity": "0.34" }));
+      grad.appendChild(el("stop", { offset: "1", "stop-color": "#F06E8C", "stop-opacity": "0" }));
+      var defs = el("defs", {});
+      defs.appendChild(grad);
+      elevSvg.appendChild(defs);
+
+      elevSvg.appendChild(el("path", { d: d + "L" + EW + " " + EH + "L0 " + EH + "Z", fill: "url(#elevFill)" }));
+      elevSvg.appendChild(el("path", { d: d, fill: "none", stroke: "#F06E8C", "stroke-width": "1.6", "stroke-linejoin": "round" }));
+    }
+
+    onUnits(function () { syncControls(); draw(); });
+  }());
+
+  /* ==========================================================
+     Feature explorer
+     ========================================================== */
+  (function explorer() {
+    var GROUPS = [
+      ["On the ride", [
+        ["Auto-pause", "Stops the clock at the lights and starts it again when you do."],
+        ["Rain lock", "A touch-proof screen for wet weather; hold the droplet to unlock."],
+        ["Self-dimming screen", "Dims on the quiet stretches to save battery, wakes at a touch."],
+        ["Spoken callouts", "Distance, pace and effort read out at your chosen interval, in your language."],
+        ["Turn-by-turn navigation", "Spoken prompts along a planned route, with the next turn on screen."],
+        ["Live Activity", "Distance and time on the Lock Screen and in the Dynamic Island."],
+        ["Crash detection", "Cycling-tuned, entirely on the device, with a countdown you can cancel."],
+        ["Fuelling reminders", "Nudges to eat and drink, worked out from your mass, the heat and the effort."],
+        ["W′ balance", "Matches remaining: how much is left above threshold, live."],
+        ["Workout targets", "Structured intervals with the target and the time left on the data screen."],
+        ["Apple Watch", "Heart rate straight from your wrist, with no pairing to think about."],
+        ["Offline capable", "Recording never needs a signal; the ride is written as you go."]
+      ]],
+      ["Routes & maps", [
+        ["Aura Routes", "Loops generated for a mood, a surface and a distance, from the real roads near you."],
+        ["Route builder", "Draw your own with Apple Maps cycling directions and see it before you commit."],
+        ["Elevation preview", "Terrain-accurate hill profiles for a plan, not just for a ride you already did."],
+        ["Surface data", "Paved, cobbles, gravel or unpaved, coloured along the route."],
+        ["Offline maps", "Download the area around a saved route, or a radius around a point."],
+        ["Saved places", "Keep the good bakery one tap away."],
+        ["Bike shops & amenities", "Shops, water and repair stands, pinned where they actually are."],
+        ["Share a route", "Send a planned route to someone else, or bring one in from a GPX."],
+        ["Basemap styles", "Choose the look of the map, including a night-friendly one."]
+      ]],
+      ["Training", [
+        ["Trends", "Fitness, fatigue and form, with the curve over the last quarter."],
+        ["Goals", "Set distance, time or climbing targets and watch them fill up."],
+        ["Segments", "Your own segments, matched automatically, with the effort history."],
+        ["Power curve", "Best power for every duration, built from your whole library."],
+        ["Structured workouts", "Build intervals by power, heart rate or cadence and ride them with prompts."],
+        ["Readiness", "Recovery signals read out of Apple Health before you set off."],
+        ["Achievements", "Personal records as constellations that light up star by star."],
+        ["Compare two rides", "Line up the same route on different days, metric by metric."],
+        ["AuraVelo Wrapped", "A swipeable year in review, shareable as one long poster."]
+      ]],
+      ["The garage", [
+        ["Every bike, its own odometer", "Distance, time and ride count per bike."],
+        ["Component wear", "Chain, tyres, brake pads, cassette and chain lube, each with its own interval."],
+        ["Service reminders", "A nudge before a part is due, not a week after it failed."],
+        ["Ride types", "Commute, training, gravel, whatever you actually do, named your way."],
+        ["Bluetooth sensors", "Heart rate, power, speed and cadence pods, remembered between rides."],
+        ["Battery levels", "Sensor battery shown where you'd look for it."]
+      ]],
+      ["The night sky", [
+        ["Cosmic Cadence", "A celestial readout of the ride, behind a crystal-ball portal."],
+        ["Zenith constellations", "Line art for whatever was directly overhead."],
+        ["Lunar-assist dial", "How much light the moon was lending the road."],
+        ["Planetary astrolabe", "Where the planets sat, for your time and place."],
+        ["Sky reading", "A short written summary tying the numbers to the sky. Generated on device."],
+        ["Ambient soundscape", "A generated drone with sparse bell tones, for the sky screen."]
+      ]],
+      ["Your data", [
+        ["GPX, TCX and FIT export", "Every ride leaves in an open format, whenever you do."],
+        ["GPX import", "Send a route to AuraVelo from any app's share sheet."],
+        ["Apple Health", "Rides saved as workouts, with calories estimated."],
+        ["iCloud sync", "Optional, and only ever your own iCloud."],
+        ["Library archive", "Move the whole lot at once, not one ride at a time."],
+        ["Ride cropping", "Trim the faffing off either end."],
+        ["Widgets", "Your last ride, or this week's distance, on the Home Screen."],
+        ["Siri Shortcuts", "Start or stop a ride, or ask for the details of one, by voice."],
+        ["Seven languages", "English, French, German, Italian, Portuguese, Spanish and Swedish."]
+      ]]
+    ];
+
+    var tabs = $("#featureTabs"), panels = $("#featurePanels");
+    if (!tabs || !panels) return;
+
+    GROUPS.forEach(function (g, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tab-btn";
+      b.id = "tab-" + i;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", String(i === 0));
+      b.setAttribute("aria-controls", "panel-" + i);
+      b.tabIndex = i === 0 ? 0 : -1;
+      b.textContent = g[0];
+      tabs.appendChild(b);
+
+      var p = document.createElement("div");
+      p.id = "panel-" + i;
+      p.setAttribute("role", "tabpanel");
+      p.setAttribute("aria-labelledby", "tab-" + i);
+      p.hidden = i !== 0;
+      var ul = document.createElement("ul");
+      ul.className = "kit";
+      g[1].forEach(function (item) {
+        var li = document.createElement("li");
+        li.innerHTML =
+          '<svg viewBox="-1.2 -1.2 2.4 2.4" aria-hidden="true"><use href="#g-sparkle"/></svg>' +
+          '<div><strong>' + item[0] + '</strong><p>' + item[1] + '</p></div>';
+        ul.appendChild(li);
+      });
+      p.appendChild(ul);
+      panels.appendChild(p);
+    });
+
+    function select(i) {
+      $$(".tab-btn", tabs).forEach(function (b, j) {
+        b.setAttribute("aria-selected", String(i === j));
+        b.tabIndex = i === j ? 0 : -1;
+        $("#panel-" + j).hidden = i !== j;
+      });
+    }
+
+    tabs.addEventListener("click", function (e) {
+      var b = e.target.closest(".tab-btn");
+      if (b) select($$(".tab-btn", tabs).indexOf(b));
+    });
+    tabs.addEventListener("keydown", function (e) {
+      var list = $$(".tab-btn", tabs);
+      var i = list.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1
+               : e.key === "Home" ? 0 : e.key === "End" ? list.length - 1 : -1;
+      if (next === -1) return;
+      e.preventDefault();
+      next = (next + list.length) % list.length;
+      select(next);
+      list[next].focus();
+    });
+  }());
+
+  /* ==========================================================
+     FAQ. One open at a time keeps the section readable
+     ========================================================== */
+  $$(".faq details").forEach(function (d) {
+    d.addEventListener("toggle", function () {
+      if (!d.open) return;
+      $$(".faq details").forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
+
+  /* A link straight to a question should land on its answer, not on a
+     shut summary the reader then has to notice and open. */
+  function openLinkedQuestion() {
+    if (!location.hash) return;
+    var target;
+    try { target = document.querySelector(location.hash); } catch (e) { return; }
+    if (!target || target.tagName !== "DETAILS") return;
+    target.open = true;
+    target.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
+  }
+  window.addEventListener("hashchange", openLinkedQuestion);
+  openLinkedQuestion();
+
+}());
+</script>
 </body>
 </html>

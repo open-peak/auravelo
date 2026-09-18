@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#120A10">
+<title>AuraVelo Guide: watches, sensors and troubleshooting</title>
+<meta name="description" content="How to connect an Apple Watch, a Garmin, a Huawei band or a Bluetooth sensor to AuraVelo, how to get your rides in and out, and what to try when something is not working.">
+<link rel="canonical" href="https://open-peak.github.io/auravelo/guide/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AuraVelo">
+<meta property="og:title" content="AuraVelo Guide: watches, sensors and troubleshooting">
+<meta property="og:description" content="Connect a watch or a sensor, move your rides around, and fix the things that go wrong.">
+<meta property="og:url" content="https://open-peak.github.io/auravelo/guide/">
+<meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f2/27/f4/f227f46f-fc5a-6adf-8f97-6b930864d4af/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/1024x1024bb.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237A2E67'/%3E%3Cstop offset='.55' stop-color='%23F06E8C'/%3E%3Cstop offset='1' stop-color='%23FFAFA0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='%231C0D10'/%3E%3Cpath d='M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z' fill='url(%23g)'/%3E%3C/svg%3E">
+
+<style>
+/* ============================================================
+   Tokens, taken from the app's own palette in Theme.swift.
+   ============================================================ */
+:root {
+  --ink:        #0E0509;
+  --plum:       #7A2E67;
+  --brand:      #F06E8C;
+  --blush:      #FFAFA0;
+  --gold:       #FFD700;
+  --paper:      #F7EDF0;
+  --muted:      #C9A9B5;
+  --dim:        #9C8090;
+
+  --card:       rgba(255, 255, 255, 0.038);
+  --card-hi:    rgba(255, 255, 255, 0.062);
+  --line:       rgba(240, 110, 140, 0.16);
+  --line-hi:    rgba(240, 110, 140, 0.34);
+
+  /* The full three-stop ramp needs room. Small pills take the top of it only,
+     exactly as the app's auraRoseCompact does. */
+  --grad-brand: linear-gradient(135deg, #7A2E67 0%, #F06E8C 55%, #FFAFA0 100%);
+  --grad-cta:   linear-gradient(104deg, #E2628C 0%, #F06E8C 40%, #FFAFA0 100%);
+  --grad-pill:  linear-gradient(104deg, #F06E8C 0%, #FFAFA0 100%);
+
+  --nav-h: 64px;
+  --r-md:  16px;
+  --r-lg:  24px;
+
+  --font: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(900px 520px at 88% -6%, rgba(240, 110, 140, 0.16), transparent 62%),
+    radial-gradient(800px 500px at 2% 18%, rgba(122, 46, 103, 0.18), transparent 60%);
+  background-attachment: fixed;
+}
+
+::selection { background: var(--brand); color: #1C0D10; }
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--blush); outline-offset: 3px; border-radius: 6px; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+.skip {
+  position: absolute; left: 12px; top: -80px; z-index: 200;
+  background: var(--brand); color: #1C0D10;
+  padding: 10px 18px; border-radius: 10px; font-weight: 700; transition: top 0.2s ease;
+}
+.skip:focus { top: 12px; text-decoration: none; }
+
+h1, h2, h3, h4 { color: #fff; letter-spacing: -0.02em; line-height: 1.16; font-weight: 800; }
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100; height: var(--nav-h);
+  display: flex; align-items: center;
+  background: rgba(14, 5, 9, 0.8);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .bar {
+  width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 22px;
+  display: flex; align-items: center; gap: 14px;
+}
+.brand-lockup { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+.brand-lockup:hover { text-decoration: none; }
+.brand-lockup .mark { width: 30px; height: 30px; border-radius: 8px; flex: none; }
+.brand-lockup .sep { color: var(--dim); font-weight: 500; }
+.brand-lockup .sub { color: var(--muted); font-weight: 700; }
+.nav .spacer { margin-left: auto; }
+.nav .home { color: var(--muted); font-size: 0.92rem; font-weight: 650; padding: 8px 13px; border-radius: 999px; }
+.nav .home:hover { color: #fff; background: var(--card); text-decoration: none; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 13px 22px; border-radius: 999px; font-weight: 700; font-size: 1rem;
+  text-decoration: none !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-primary {
+  background: var(--grad-cta); color: #22060E;
+  box-shadow: 0 12px 30px -14px rgba(240, 110, 140, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-primary .apple { width: 17px; height: 17px; fill: #22060E; flex: none; }
+.btn-sm { padding: 9px 16px; font-size: 0.9rem; }
+.btn-ghost { background: var(--card); border: 1px solid var(--line); color: var(--paper); }
+.btn-ghost:hover { background: var(--card-hi); border-color: var(--line-hi); }
+
+@media (max-width: 640px) { .nav .home { display: none; } }
+
+/* ============================================================
+   Masthead
+   ============================================================ */
+.masthead { padding: clamp(36px, 5vw, 60px) 0 clamp(20px, 3vw, 34px); }
+.shell { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 22px; }
+
+.masthead h1 { font-size: clamp(2.1rem, 5vw, 3.1rem); letter-spacing: -0.035em; }
+.masthead .glow {
+  background: linear-gradient(100deg, #FFAFA0 0%, #F06E8C 48%, #E97578 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.masthead p { color: var(--muted); max-width: 62ch; margin-top: 16px; font-size: 1.04rem; }
+
+.search-wrap { margin-top: 28px; max-width: 540px; position: relative; }
+.search-wrap svg {
+  position: absolute; left: 17px; top: 50%; transform: translateY(-50%);
+  width: 17px; height: 17px; stroke: var(--dim); fill: none; stroke-width: 2.2;
+  stroke-linecap: round; pointer-events: none;
+}
+#search {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--paper);
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; padding: 14px 48px 14px 46px;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+#search::placeholder { color: var(--dim); }
+#search:focus { outline: none; border-color: var(--line-hi); background: var(--card-hi); }
+#searchClear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 50%; display: none; place-items: center; color: var(--dim);
+}
+#searchClear.on { display: grid; }
+#searchClear:hover { color: #fff; background: var(--card-hi); }
+#searchClear svg { position: static; transform: none; stroke: currentColor; width: 14px; height: 14px; }
+.search-count { margin-top: 12px; font-size: 0.86rem; color: var(--dim); min-height: 1.4em; }
+.search-count b { color: var(--brand); }
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.layout {
+  display: grid; grid-template-columns: 236px minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  padding-bottom: clamp(56px, 8vw, 96px);
+}
+.toc { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; max-height: calc(100dvh - var(--nav-h) - 48px); overflow-y: auto; }
+.toc h2 {
+  font-size: 0.74rem; letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 12px; font-weight: 700;
+}
+.toc ol { list-style: none; display: grid; gap: 1px; }
+.toc a {
+  display: block; padding: 8px 13px; border-radius: 9px;
+  color: var(--muted); font-size: 0.91rem; font-weight: 600;
+  border-left: 2px solid transparent;
+}
+.toc a:hover { color: #fff; background: var(--card); text-decoration: none; }
+.toc a[aria-current="true"] { color: #fff; background: var(--card-hi); border-left-color: var(--brand); }
+
+@media (max-width: 980px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .toc { position: static; max-height: none; margin-bottom: 8px; }
+  .toc ol { display: flex; flex-wrap: wrap; gap: 7px; }
+  .toc a { border-left: 0; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 0.86rem; }
+  .toc a[aria-current="true"] { border-color: transparent; background: var(--grad-pill); color: #22060E; }
+}
+
+/* ============================================================
+   Content
+   ============================================================ */
+.chapter { padding-top: 10px; }
+.chapter + .chapter { margin-top: clamp(44px, 6vw, 72px); }
+.chapter > h2 {
+  font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+  padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 8px;
+}
+.chapter > .intro { color: var(--muted); margin: 16px 0 4px; max-width: 70ch; }
+
+[id] { scroll-margin-top: calc(var(--nav-h) + 20px); }
+
+.entry {
+  margin-top: 20px; padding: 24px 26px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg);
+}
+.entry h3 { font-size: 1.14rem; display: flex; align-items: baseline; gap: 9px; }
+.entry h3 .anchor {
+  color: var(--dim); font-weight: 600; opacity: 0; transition: opacity 0.16s ease;
+  font-size: 0.85em; text-decoration: none;
+}
+.entry:hover h3 .anchor, .entry h3 .anchor:focus-visible { opacity: 1; }
+.entry p { color: var(--muted); margin-top: 11px; max-width: 72ch; }
+.entry p:first-of-type { margin-top: 13px; }
+.entry strong, .entry b { color: var(--paper); font-weight: 700; }
+
+.entry ul, .entry ol { color: var(--muted); margin: 13px 0 0 2px; padding-left: 20px; max-width: 72ch; }
+.entry li { margin-top: 8px; }
+.entry li::marker { color: var(--brand); }
+
+/* Numbered walkthroughs */
+.steps { list-style: none; counter-reset: s; padding-left: 0 !important; margin-top: 16px !important; }
+.steps li {
+  counter-increment: s; position: relative; padding-left: 42px; margin-top: 14px; color: var(--muted);
+}
+.steps li::before {
+  content: counter(s); position: absolute; left: 0; top: -1px;
+  width: 27px; height: 27px; border-radius: 50%;
+  background: var(--grad-pill); color: #22060E;
+  font-size: 0.82rem; font-weight: 800;
+  display: grid; place-items: center;
+}
+
+/* The on-device path a rider follows, e.g. Settings › Sensors */
+.path {
+  display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  background: rgba(240, 110, 140, 0.11); border: 1px solid var(--line);
+  color: var(--paper); font-weight: 650; font-size: 0.93em;
+  padding: 2px 10px; border-radius: 7px; white-space: nowrap;
+}
+.path i { font-style: normal; color: var(--brand); }
+
+kbd {
+  font-family: inherit; font-size: 0.9em; font-weight: 650; color: var(--paper);
+  background: var(--card-hi); border: 1px solid var(--line);
+  border-radius: 6px; padding: 1px 7px;
+}
+
+/* Callouts */
+.note, .warn {
+  margin-top: 16px; padding: 15px 18px; border-radius: 13px;
+  font-size: 0.93rem; color: var(--muted);
+  border: 1px solid var(--line); background: rgba(255, 255, 255, 0.022);
+  border-left: 3px solid var(--brand);
+}
+.warn { border-left-color: var(--gold); }
+.note b, .warn b { color: #fff; }
+.note .tag, .warn .tag {
+  display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 750; margin-bottom: 5px; color: var(--brand);
+}
+.warn .tag { color: var(--gold); }
+
+/* Tables */
+.table-wrap { margin-top: 18px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); }
+table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 0.92rem; }
+th, td { text-align: left; padding: 12px 15px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th {
+  white-space: nowrap;
+  color: var(--dim); font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase;
+  font-weight: 750; background: rgba(255, 255, 255, 0.025);
+}
+tbody tr:last-child td { border-bottom: 0; }
+td:first-child { color: #fff; font-weight: 700; white-space: nowrap; }
+td { color: var(--muted); }
+.verdict { font-weight: 750; white-space: nowrap; }
+.v-good { color: #8FE0AC; }
+.v-mixed { color: #F2CE84; }
+.v-poor { color: #F98FA6; }
+
+/* Chips listing supported profiles */
+.profiles { list-style: none !important; display: flex; flex-wrap: wrap; gap: 8px; padding-left: 0 !important; margin-top: 16px !important; }
+.profiles li {
+  margin: 0 !important; display: inline-flex; align-items: baseline; gap: 8px;
+  border: 1px solid var(--line); background: rgba(255, 255, 255, 0.028);
+  border-radius: 999px; padding: 7px 14px; font-size: 0.88rem; color: var(--paper); font-weight: 650;
+}
+.profiles li::marker { content: none; }
+.profiles li code { color: var(--brand); font-size: 0.85em; font-weight: 700; font-family: inherit; }
+
+.no-results {
+  display: none; margin-top: 28px; padding: 30px; text-align: center;
+  border: 1px dashed var(--line-hi); border-radius: var(--r-lg); color: var(--muted);
+}
+.no-results.on { display: block; }
+.chapter[hidden], .entry[hidden] { display: none; }
+
+mark { background: rgba(255, 215, 0, 0.26); color: #fff; border-radius: 3px; padding: 0 2px; }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.help-box {
+  margin-top: clamp(44px, 6vw, 72px);
+  border: 1px solid var(--line-hi); border-radius: var(--r-lg);
+  background:
+    radial-gradient(90% 130% at 50% 0%, rgba(240, 110, 140, 0.16), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  padding: clamp(28px, 4vw, 44px); text-align: center;
+}
+.help-box h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.help-box p { color: var(--muted); max-width: 56ch; margin: 14px auto 0; }
+.help-box .row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
+
+footer { border-top: 1px solid var(--line); padding: 36px 0 52px; }
+.foot-grid { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: space-between; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
+.foot-links a { color: var(--muted); font-size: 0.9rem; font-weight: 600; }
+.foot-links a:hover { color: #fff; }
+.foot-note { color: var(--dim); font-size: 0.83rem; margin-top: 20px; max-width: 74ch; }
+.foot-note .heart { color: var(--brand); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#content">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7A2E67"/><stop offset="0.55" stop-color="#F06E8C"/><stop offset="1" stop-color="#FFAFA0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="bar">
+    <a class="brand-lockup" href="../index.html">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="15" fill="#1C0D10"/>
+        <path d="M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z" fill="url(#markGrad)"/>
+      </svg>
+      <span>AuraVelo</span>
+      <span class="sep">/</span>
+      <span class="sub">Guide</span>
+    </a>
+    <span class="spacer"></span>
+    <a class="home" href="../index.html">Back to AuraVelo</a>
+    <a class="btn btn-primary btn-sm" href="https://apps.apple.com/app/id6794049781" rel="noopener">
+      <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      Get it free
+    </a>
+  </div>
+</header>
+
+<section class="masthead">
+  <div class="shell">
+    <h1>Setting up and<br><span class="glow">troubleshooting AuraVelo.</span></h1>
+    <p>
+      How to get a watch or a sensor talking to AuraVelo, how to move your rides in and out,
+      and what to try when something is not behaving.
+    </p>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+      <input type="search" id="search" placeholder="Search the guide: Garmin, power meter, iCloud…"
+             autocomplete="off" aria-describedby="searchCount">
+      <button id="searchClear" type="button" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <p class="search-count" id="searchCount" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<div class="shell">
+  <div class="layout">
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol id="tocList">
+        <li><a href="#first">First ride</a></li>
+        <li><a href="#watch">Apple Watch</a></li>
+        <li><a href="#bands">Other watches &amp; bands</a></li>
+        <li><a href="#sensors">Bluetooth sensors</a></li>
+        <li><a href="#fix">Troubleshooting</a></li>
+        <li><a href="#data">Getting data in &amp; out</a></li>
+        <li><a href="#offline">Riding without signal</a></li>
+        <li><a href="#safety">Crash detection</a></li>
+      </ol>
+    </nav>
+
+    <main id="content">
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="first">
+        <h2>Before your first ride</h2>
+        <p class="intro">
+          AuraVelo works out of the box with just your iPhone. These are the few things worth
+          setting once.
+        </p>
+
+        <article class="entry" id="permissions" data-tags="permission location bluetooth motion health barometer background privacy access denied">
+          <h3>What it asks for, and why<a class="anchor" href="#permissions" aria-label="Link to this section">#</a></h3>
+          <p>
+            Each prompt appears the first time you use the feature that needs it, not all at launch.
+            Decline any of them and the rest of the app carries on working.
+          </p>
+          <ul>
+            <li><b>Location</b>, to record your route and draw it on the map. It is asked for in the
+              background too, so recording continues with the screen off and the phone in a pocket.</li>
+            <li><b>Bluetooth</b>, only when you first open the Sensors screen. Never asked for if you
+              never pair anything.</li>
+            <li><b>Motion</b>, to read the barometer. This is what makes elevation gain accurate
+              rather than guessed from GPS.</li>
+            <li><b>Apple Health</b>, in two halves: writing rides as cycling workouts, and reading
+              your weight, height and age for calorie estimates plus HRV, resting heart rate and
+              sleep for the readiness card.</li>
+          </ul>
+          <div class="note">
+            <span class="tag">If you said no</span>
+            Nothing is lost permanently. Every one of these can be turned back on later in the iOS
+            Settings app under AuraVelo, and the Sensors screen offers an <b>Open Settings</b>
+            button when Bluetooth access is the thing missing.
+          </div>
+        </article>
+
+        <article class="entry" id="profile" data-tags="profile weight height age ftp calories units miles kilometres imperial metric health prefill">
+          <h3>Rider profile and units<a class="anchor" href="#profile" aria-label="Link to this section">#</a></h3>
+          <p>
+            Your weight matters more than you would think: it drives the calorie estimate, the
+            fuelling reminders and the climbing maths. Set it in
+            <span class="path">Settings <i>›</i> Profile</span>, or tap
+            <b>Fill Profile from Apple Health</b>.
+          </p>
+          <p>
+            The same screen holds <b>Save Rides to Apple Health</b>, which is off by default. Kilometres or miles, and the temperature and elevation units that go with them,
+            live in <span class="path">Settings <i>›</i> Units</span>.
+          </p>
+          <div class="note">
+            <span class="tag">Worth knowing</span>
+            Units are locked while a ride is recording, so a stray tap cannot change them halfway
+            through.
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="watch">
+        <h2>Apple Watch</h2>
+        <p class="intro">
+          The Watch app exists to do one job well: put your wrist heart rate into the ride without
+          you having to think about it.
+        </p>
+
+        <article class="entry" id="watch-setup" data-tags="apple watch install heart rate wrist pairing setup watchos">
+          <h3>Getting it on your wrist<a class="anchor" href="#watch-setup" aria-label="Link to this section">#</a></h3>
+          <p>
+            There is no pairing step inside AuraVelo. The Watch app installs alongside the iPhone
+            app the way any Apple Watch companion does.
+          </p>
+          <ol class="steps">
+            <li>Install AuraVelo on your iPhone.</li>
+            <li>If the Watch app does not appear on its own, open the <b>Watch</b> app on your
+              iPhone, scroll to <b>Available Apps</b> and install AuraVelo from there.</li>
+            <li>Start a ride on the phone, then open AuraVelo on the watch. Heart rate starts
+              streaming across.</li>
+          </ol>
+          <p>
+            The first time it runs, watchOS asks for permission to read heart rate. That prompt
+            appears on the watch, not the phone, so it is easy to miss if the watch is on a charger
+            in another room.
+          </p>
+          <div class="note">
+            <span class="tag">If you missed the prompt</span>
+            Grant it on the watch itself, not in the iPhone Watch app: on the watch, open
+            <span class="path">Settings <i>›</i> Privacy &amp; Security <i>›</i> Health</span>,
+            choose AuraVelo and allow <b>Heart Rate</b>. The iPhone Watch app can install and
+            arrange apps, but it cannot grant a watch app's health permissions for you.
+          </div>
+        </article>
+
+        <article class="entry" id="watch-vs-strap" data-tags="priority precedence strap wins conflict two sensors heart rate which one duplicate">
+          <h3>What wins when you wear both<a class="anchor" href="#watch-vs-strap" aria-label="Link to this section">#</a></h3>
+          <p>
+            If a Bluetooth heart-rate strap is connected and delivering readings, it takes
+            precedence and the watch stays quiet. The watch fills in when there is no strap. A
+            chest strap is the more accurate of the two at high intensity, so this is deliberate
+            rather than arbitrary.
+          </p>
+          <p>
+            A smart trainer broadcasting heart rate sits below both: it is used only when nothing
+            dedicated is connected for that measurement.
+          </p>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="bands">
+        <h2>Garmin, Huawei and other smartwatch brands</h2>
+        <p class="intro">
+          The short version: if your watch or band can broadcast its heart rate over Bluetooth,
+          AuraVelo can already use it. There is no vendor integration to wait for, and no account
+          to connect.
+        </p>
+
+        <article class="entry" id="broadcast" data-tags="garmin huawei polar coros wahoo amazfit suunto band broadcast heart rate gatt 180D standard bluetooth third party non-apple watch">
+          <h3>How does it work?<a class="anchor" href="#broadcast" aria-label="Link to this section">#</a></h3>
+          <p>
+            AuraVelo speaks the standard Bluetooth <b>Heart Rate Service</b> protocol, the same
+            protocol that every chest strap uses. A watch in broadcast mode advertises that
+            identical protocol. It appears in the scan list under whatever name it advertises.
+          </p>
+          <p>
+            The setting has a different name on every brand. Look for wording along these lines:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Brand</th><th>Where to look on the device</th></tr></thead>
+              <tbody>
+                <tr><td>Garmin</td><td>Usually <b>Broadcast Heart Rate</b> in the controls menu or under sensors. On several models the <b>Virtual Run</b> activity also broadcasts over Bluetooth rather than ANT+ only.</td></tr>
+                <tr><td>Huawei</td><td><b>Settings › HR Data Broadcasts</b>. Huawei's own support pages note the option is simply absent on models that cannot do it, so one look on the wrist settles it.</td></tr>
+                <tr><td>Polar</td><td>Broadcast or gym-equipment mode, depending on model.</td></tr>
+                <tr><td>Wahoo, Coros, Amazfit, Suunto</td><td>Similar: a broadcast, gym or workout-sharing mode. Naming varies by model and firmware.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Once broadcasting, add it in <span class="path">Settings <i>›</i> Sensors</span> exactly
+            like any other heart-rate sensor.
+          </p>
+          <div class="warn">
+            <span class="tag">Warning</span>
+            <b>Broadcasting can cost the band its own connection.</b> Devices that support only one
+            Bluetooth link at a time will drop their companion app while broadcasting, so the band
+            records nothing for itself during your ride.
+          </div>
+        </article>
+
+        <article class="entry" id="overnight" data-tags="hrv sleep resting heart rate readiness recovery apple health garmin connect whoop oura fitbit polar flow huawei health overnight">
+          <h3>Sleep, HRV and the readiness card<a class="anchor" href="#overnight" aria-label="Link to this section">#</a></h3>
+          <p>
+            Readiness reads overnight recovery signals out of <b>Apple Health</b>. An Apple Watch, a Garmin, an Oura ring or a number you
+            typed in yourself all count the same. So the question is not whether AuraVelo supports
+            your brand, it is whether your brand writes to Apple Health.
+          </p>
+          <p>That part varies a great deal, and it is worth knowing before you go looking for a setting that does not exist:</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Brand</th><th>Apple&nbsp;Health</th><th>In practice</th></tr></thead>
+              <tbody>
+                <tr><td>Garmin</td><td class="verdict v-good">Yes</td><td>Opt in per data type inside Garmin Connect. Workouts, heart rate, resting heart rate and sleep all come through.</td></tr>
+                <tr><td>Polar</td><td class="verdict v-good">Yes</td><td>Via Polar Flow.</td></tr>
+                <tr><td>Whoop, Oura</td><td class="verdict v-good">Yes</td><td>The strongest recovery-data sources on this list.</td></tr>
+                <tr><td>Huawei</td><td class="verdict v-mixed">Partly</td><td>Steps and weight sync. Sleep arrives as a nightly total with no stages, and heart rate frequently does not arrive at all. This is Huawei's export policy, not something an iPhone app can work around, so readiness may simply stay empty.</td></tr>
+                <tr><td>Fitbit</td><td class="verdict v-poor">No</td><td>No native write to Apple Health.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Check what is actually arriving in the iOS <b>Health</b> app, under
+            <span class="path">Browse <i>›</i> Heart <i>›</i> Heart Rate Variability</span> and the
+            equivalent for sleep. If nothing is listed there, AuraVelo has nothing to read either.
+          </p>
+        </article>
+
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="sensors">
+        <h2>Bluetooth sensors</h2>
+        <p class="intro">
+          Straps, power meters, speed and cadence pods, and smart trainers. All standard profiles,
+          no vendor apps, no accounts.
+        </p>
+
+        <article class="entry" id="supported" data-tags="supported profiles heart rate power meter speed cadence trainer ftms battery gatt services compatibility what works">
+          <h3>What AuraVelo can talk to<a class="anchor" href="#supported" aria-label="Link to this section">#</a></h3>
+          <ul class="profiles">
+            <li>Heart rate <code>180D</code></li>
+            <li>Cycling power <code>1818</code></li>
+            <li>Speed &amp; cadence <code>1816</code></li>
+            <li>Smart trainers <code>FTMS</code></li>
+            <li>Battery level <code>180F</code></li>
+          </ul>
+          <p>
+            These are the standard Bluetooth cycling profiles, which is why the list is about
+            capabilities rather than brand names. If a sensor advertises one of them, it pairs.
+            Anything speaking only ANT+ will not, since iPhones have no ANT+ radio.
+          </p>
+          <p>
+            Battery level is read where the sensor publishes it and shown beside each saved sensor,
+            so a fading coin cell is visible before it strands you.
+          </p>
+        </article>
+
+        <article class="entry" id="pairing" data-tags="pair add sensor scan discover connect setup forget remove delete swipe new sensor">
+          <h3>Pairing something new<a class="anchor" href="#pairing" aria-label="Link to this section">#</a></h3>
+          <ol class="steps">
+            <li>Wake the sensor. Straps usually need skin contact and a little moisture; pods wake
+              when the wheel or crank moves.</li>
+            <li>Make sure it is not already connected to something else. A sensor held by a head
+              unit, a turbo app or another phone will not appear.</li>
+            <li>Open <span class="path">Settings <i>›</i> Sensors</span>. The first visit asks for
+              Bluetooth permission.</li>
+            <li>Wait for the scan list to populate, then tap your sensor to add it. It is remembered
+              and reconnects on its own from then on.</li>
+          </ol>
+          <p>
+            To remove one, swipe left on it in <b>My Sensors</b>. Scanning stops when you leave the
+            screen, so the app is not sitting there hunting for radios during a ride.
+          </p>
+        </article>
+
+        <article class="entry" id="wheel" data-tags="wheel circumference speed sensor pod inaccurate distance wrong tyre size calibration mm 2105">
+          <h3>Wheel size, for speed pods<a class="anchor" href="#wheel" aria-label="Link to this section">#</a></h3>
+          <p>
+            A wheel-mounted speed sensor counts revolutions. Turning that into speed and distance
+            needs your wheel circumference, set at the bottom of the Sensors screen in millimetres.
+            The default is <b>2105 mm</b>, which suits a typical 700 × 25c road wheel.
+          </p>
+          <p>
+            If your distances read consistently long or short while using a speed pod, this is
+            almost always the reason. Measure it properly if you want to be exact: mark the tyre,
+            roll the bike one full revolution with your weight on it, and measure between the marks.
+          </p>
+          <div class="note">
+            <span class="tag">Not needed for GPS</span>
+            This setting only affects a wheel sensor. Rides recorded on GPS alone ignore it entirely.
+          </div>
+        </article>
+
+        <article class="entry" id="trainers" data-tags="smart trainer ftms indoor turbo zwift wahoo kickr tacx indoor ride">
+          <h3>Smart trainers<a class="anchor" href="#trainers" aria-label="Link to this section">#</a></h3>
+          <p>
+            Trainers speaking the <b>Fitness Machine Service</b> pair like any other sensor and can
+            supply power, cadence, speed and distance.
+          </p>
+          <p>
+            Where a trainer overlaps with something dedicated, the dedicated sensor wins: a real
+            cadence pod is preferred over the trainer's estimate, and a chest strap over the
+            trainer's heart-rate passthrough. The trainer fills whatever is left.
+          </p>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="fix">
+        <h2>When something is not right</h2>
+        <p class="intro">
+          The usual suspects, in roughly the order they come up.
+        </p>
+
+        <article class="entry" id="no-sensor" data-tags="sensor not showing missing scan empty cannot find wont pair not appearing bluetooth off">
+          <h3>A sensor does not appear in the scan<a class="anchor" href="#no-sensor" aria-label="Link to this section">#</a></h3>
+          <ul>
+            <li><b>Something else is connected.</b> This is the most common cause by far. Bluetooth
+              sensors generally allow one connection at a time. Close the turbo app, put the head
+              unit away, and turn off Bluetooth on the other phone in your pocket.</li>
+            <li><b>It is asleep.</b> Pods wake on movement; straps wake on contact. Spin the crank
+              or touch the electrode.</li>
+            <li><b>Low battery.</b> A dying coin cell often advertises weakly rather than
+              not at all, so the sensor flickers in and out of the list.</li>
+            <li><b>Bluetooth is off or blocked.</b> The screen tells you which, and offers an
+              <b>Open Settings</b> button when it is a permission rather than the radio.</li>
+            <li><b>A watch is not broadcasting.</b> Broadcast mode usually has to be switched on for
+              each session, and many watches drop out of it when the activity ends.</li>
+          </ul>
+        </article>
+
+        <article class="entry" id="frozen" data-tags="readings freeze stuck frozen dropout reconnect stale number stops updating disconnect mid ride">
+          <h3>Readings freeze or drop out mid-ride<a class="anchor" href="#frozen" aria-label="Link to this section">#</a></h3>
+          <p>
+            Reconnection is automatic, so a brief dropout usually resolves itself within a few
+            seconds. If a number sticks:
+          </p>
+          <ul>
+            <li>Check the range. A phone in a rear jersey pocket with a chest strap on the far side
+              of your body is a surprisingly effective radio shield.</li>
+            <li>Check the battery level shown next to the sensor.</li>
+            <li>Forget the sensor and re-add it. This clears a connection that has got itself into
+              a bad state.</li>
+          </ul>
+        </article>
+
+        <article class="entry" id="no-watch-hr" data-tags="watch heart rate not working missing zero apple watch no bpm permission wrist">
+          <h3>No heart rate from the Apple Watch<a class="anchor" href="#no-watch-hr" aria-label="Link to this section">#</a></h3>
+          <ul>
+            <li>Open AuraVelo <b>on the watch</b> during the ride. The stream comes from the watch
+              app running, not from the watch merely being nearby.</li>
+            <li>Answer the heart-rate permission prompt, which appears on the watch face and is easy
+              to leave sitting there unnoticed.</li>
+            <li>Check the fit. A loose strap is the usual cause of a watch reading nothing at all.</li>
+            <li>Remember that a connected Bluetooth strap takes precedence. If you are wearing both,
+              the watch is meant to be silent.</li>
+          </ul>
+        </article>
+
+        <article class="entry" id="elevation" data-tags="elevation wrong climb metres gain barometer motion permission altitude inaccurate">
+          <h3>Elevation looks wrong<a class="anchor" href="#elevation" aria-label="Link to this section">#</a></h3>
+          <p>
+            Climbing is measured with the iPhone's barometer, which is far steadier than GPS
+            altitude but needs the <b>Motion</b> permission. If that was declined, elevation falls
+            back to weaker data. Turn it on in the iOS Settings app under <span class="path">Apps <i>›</i> AuraVelo</span>.
+          </p>
+          <p>
+            Planned routes and hill profiles use terrain data rather than your barometer, so a small
+            difference between the profile you looked at beforehand and the climb you recorded is
+            normal.
+          </p>
+        </article>
+
+        <article class="entry" id="battery" data-tags="battery drain power saving screen dim long ride phone dies charge">
+          <h3>The phone is running out of battery<a class="anchor" href="#battery" aria-label="Link to this section">#</a></h3>
+          <p>
+            The screen is the expensive part, not the GPS. AuraVelo dims the display after a spell
+            without touches and wakes it again at a tap, which is where most of the saving comes
+            from on a long day.
+          </p>
+          <p>
+            Recording carries on with the screen fully off, so for a long ride you can lock the
+            phone and put it away. The Live Activity keeps distance and time on the Lock Screen
+            without waking the full app.
+          </p>
+        </article>
+
+        <article class="entry" id="rain" data-tags="rain wet screen ghost touches phantom taps rain lock droplet unlock weather">
+          <h3>The screen misbehaves in the rain<a class="anchor" href="#rain" aria-label="Link to this section">#</a></h3>
+          <p>
+            Water on a capacitive screen produces phantom taps. Arm <b>rain lock</b> and the screen
+            swallows every touch, so drops cannot press anything. Hold the droplet to unlock it
+            again. Make sure you dry the phone screen before disabling rain lock.
+          </p>
+        </article>
+
+        <article class="entry" id="icloud" data-tags="icloud sync not syncing missing rides other device backup restore encryption advanced data protection">
+          <h3>iCloud sync is not bringing rides across<a class="anchor" href="#icloud" aria-label="Link to this section">#</a></h3>
+          <ul>
+            <li>Both devices need to be signed in to the <b>same iCloud account</b> with iCloud
+              Drive turned on.</li>
+            <li>Sync is off until you switch it on, in <span class="path">Settings <i>›</i> Data</span>.</li>
+            <li>Give it a connection and a moment. A large library takes a while on its first pass.</li>
+          </ul>
+          <div class="warn">
+            <span class="tag">Take a backup first</span>
+            The app asks you to export a backup before enabling sync, and that advice is worth
+            taking. If you lose every device, a backup file is the only thing that can bring your
+            library back.
+          </div>
+          <p>
+            Your bikes, routes, places and settings are end-to-end encrypted, so only your devices
+            can read them. Recorded ride files use iCloud's standard encryption. Turn on
+            <b>Advanced Data Protection</b> in iOS Settings if you would rather Apple could not read
+            those either.
+          </p>
+        </article>
+
+        <article class="entry" id="health-missing" data-tags="health missing workouts not saving rings apple health permission calories workout">
+          <h3>Rides are not showing in Apple Health<a class="anchor" href="#health-missing" aria-label="Link to this section">#</a></h3>
+          <ul>
+            <li>Turn on <b>Save Rides to Apple Health</b> in
+              <span class="path">Settings <i>›</i> Profile</span>. It is off by default.</li>
+            <li>Check the write permission in the iOS <b>Health</b> app under
+              <span class="path">Sharing <i>›</i> Apps</span>. Health permissions are granted per
+              data type, and it is easy to allow one and not another.</li>
+            <li>Only rides recorded after you turned it on are written. Earlier ones are not
+              back-filled.</li>
+          </ul>
+          <p>
+            Anything already saved to Health is managed in the Health app from then on. Deleting a
+            ride in AuraVelo does not remove the workout there.
+          </p>
+        </article>
+
+        <article class="entry" id="power-curve" data-tags="power curve wrong spike miscalibrated reset best power ftp bad data">
+          <h3>A bad power reading has poisoned my records<a class="anchor" href="#power-curve" aria-label="Link to this section">#</a></h3>
+          <p>
+            The power curve keeps your all-time best for each duration, and only a higher figure
+            ever replaces one. That means a spike from a miscalibrated meter cannot be ridden off.
+          </p>
+          <p>
+            Reset it from <span class="path">Settings <i>›</i> Data <i>›</i> Storage</span>. Your
+            rides are untouched, and the curve rebuilds from the next ride recorded with a power
+            meter.
+          </p>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="data">
+        <h2>Getting your data in and out</h2>
+        <p class="intro">
+          Everything leaves in an open format, whenever you want it to.
+        </p>
+
+        <article class="entry" id="export" data-tags="export gpx tcx fit strava komoot share ride send file save">
+          <h3>Sending a ride to Strava, Komoot or anywhere else<a class="anchor" href="#export" aria-label="Link to this section">#</a></h3>
+          <p>
+            Open the ride and share it. You can choose <b>GPX</b>, <b>TCX</b> or <b>FIT</b>, and it
+            goes wherever the iOS share sheet can reach: another app, Files, AirDrop, email.
+          </p>
+          <p>
+            GPX is the most widely understood. FIT carries the most detail. TCX sits in between and
+            is what a few older training sites prefer.
+          </p>
+          <div class="note">
+            <span class="tag">Not a backup</span>
+            <span class="path">Settings <i>›</i> Data <i>›</i> For Other Apps</span> exports rides
+            and routes for other software to read. It is not a backup: it leaves out your bikes,
+            goals, places and settings. Use <b>Back Up Everything</b> for that.
+          </div>
+        </article>
+
+        <article class="entry" id="import" data-tags="import gpx route share sheet open in bring route in komoot ridewithgps file">
+          <h3>Bringing a route in<a class="anchor" href="#import" aria-label="Link to this section">#</a></h3>
+          <p>
+            AuraVelo registers as a destination for GPX files, so the route arrives from whichever
+            app you found it in.
+          </p>
+          <ol class="steps">
+            <li>Find the GPX in the other app, in Files, or in an email attachment.</li>
+            <li>Tap <b>Share</b>, then choose AuraVelo.</li>
+            <li>It lands in the import inbox, ready to ride or edit.</li>
+          </ol>
+          <p>
+            Routes shared from another AuraVelo rider come in the same way, as does a plain link.
+          </p>
+        </article>
+
+        <article class="entry" id="backup" data-tags="backup restore new phone move transfer everything archive passphrase encrypted library">
+          <h3>Backing up, and moving to a new phone<a class="anchor" href="#backup" aria-label="Link to this section">#</a></h3>
+          <p>
+            <span class="path">Settings <i>›</i> Data <i>›</i> Back Up Everything</span> writes a
+            single file holding your whole library: rides, bikes, routes, goals, places and
+            settings. You can protect it with a passphrase of at least eight characters.
+          </p>
+          <p>
+            Restoring shows you what the file contains before it changes anything, and gives you
+            control over the awkward parts: whether rides you already have get replaced, whether
+            rides you deliberately deleted come back, and whether settings are overwritten.
+          </p>
+          <div class="note">
+            <span class="tag">What does not travel</span>
+            Paired sensors, purchases and Apple Health permissions stay as they are on the new
+            phone. Emergency contacts are deliberately never included in a backup and never copied
+            between devices, so you will need to add them again on the new phone before crash
+            detection has anyone to message.
+          </div>
+          <p>
+            Your library also lives inside the app's own storage, which is covered by your normal
+            encrypted iPhone backup. Restoring that backup onto a new phone brings AuraVelo with it.
+          </p>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="offline">
+        <h2>Riding without signal</h2>
+
+        <article class="entry" id="offline-maps" data-tags="offline maps download area no signal abroad roaming cache tiles region radius">
+          <h3>Downloading an area<a class="anchor" href="#offline-maps" aria-label="Link to this section">#</a></h3>
+          <p>
+            Recording never needs a connection. GPS keeps working and the ride is written to the
+            phone as you go. Only the map tiles need the network, and recently ridden areas are
+            already kept automatically.
+          </p>
+          <p>
+            Download an area on purpose when you are heading somewhere new and expect to be without
+            signal. There are two ways in, both from
+            <span class="path">Settings <i>›</i> Maps <i>›</i> Offline Maps</span>:
+          </p>
+          <ul>
+            <li><b>Choose an area on the map.</b> Pan and pinch to frame it; the download size is
+              shown as you go.</li>
+            <li><b>Around a saved route.</b> Pick a route and it covers the corridor along it.</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- ==================================================== -->
+      <section class="chapter" id="safety">
+        <h2>Crash detection</h2>
+
+        <article class="entry" id="crash" data-tags="crash detection incident emergency contact sos alarm countdown safety message send help">
+          <h3>What it does, and what it will not do<a class="anchor" href="#crash" aria-label="Link to this section">#</a></h3>
+          <p>
+            If a hard impact is followed by you stopping and staying still, AuraVelo sounds an alarm
+            and counts down, with the delay set to 30, 60 or 90 seconds. Cancel it and nothing
+            happens.
+          </p>
+          <div class="warn">
+            <span class="tag">Read this part properly</span>
+            If you do not cancel, AuraVelo <b>prepares</b> a message to your contacts, but iPhone
+            will not send it for you. <b>Someone has to tap Send.</b> Do not rely on this to summon
+            help if you are knocked out. It does not replace your iPhone's own Crash Detection or
+            Emergency SOS, and it is not a substitute for telling someone where you are going.
+          </div>
+          <p>
+            Turn it on in <span class="path">Settings <i>›</i> Safety</span>. It stays off until you
+            add at least one emergency contact, because without one there is nothing for it to do.
+            Contacts are stored on the phone as a name and a number only, are excluded from backups,
+            and never leave the device unless you send a message yourself.
+          </p>
+          <p>
+            There is a <b>Try It Now</b> button on the same screen. It runs the alarm and countdown
+            exactly as a real incident would, without preparing any message, so you know what it
+            sounds like before it matters.
+          </p>
+        </article>
+      </section>
+
+      <div class="no-results" id="noResults">
+        <p>Nothing here matches <b id="noResultsTerm"></b>.</p>
+        <p style="margin-top:10px">
+          Try a broader word, or <a href="#" id="clearFromEmpty">clear the search</a>.
+        </p>
+      </div>
+
+      <!-- ==================================================== -->
+      <div class="help-box" id="help">
+        <h2>Still stuck?</h2>
+        <p>
+          Send a report from <span class="path">Settings <i>›</i> Feedback</span>. It opens an email
+          with a short diagnostic footer attached: app and iOS version, device model, your units and
+          a count of how many rides and sensors you have. No profile, no locations, no ride data and
+          nothing that identifies you.
+        </p>
+        <div class="row">
+          <a class="btn btn-primary" href="mailto:auravelo@icloud.com?subject=AuraVelo%20Problem%20Report">Email the developer</a>
+        </div>
+        <p style="margin-top:22px;font-size:0.88rem">
+          AuraVelo is offered free and as-is, with no dedicated support desk, but reports are read.
+        </p>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="shell">
+    <div class="foot-grid">
+      <a class="brand-lockup" href="../index.html">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="15" fill="#1C0D10"/>
+          <path d="M32 11 Q36.5 27.5 53 32 Q36.5 36.5 32 53 Q27.5 36.5 11 32 Q27.5 27.5 32 11Z" fill="url(#markGrad)"/>
+        </svg>
+        <span>AuraVelo</span>
+      </a>
+      <ul class="foot-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#privacy">Privacy</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+        <li><a href="https://apps.apple.com/app/id6794049781" rel="noopener">App Store</a></li>
+      </ul>
+    </div>
+    <p class="foot-note">
+      AuraVelo · with <span class="heart">♥</span> from openPeak · Guide written against version 1.4.<br>
+      Brand settings named here vary by model and firmware, so treat them as a description of what
+      to look for rather than a compatibility list. Apple, Apple Watch, Apple Health and App Store
+      are trademarks of Apple&nbsp;Inc. Other names belong to their respective owners.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $  = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ==========================================================
+     Search. Matches the heading, the body text and a hand-written
+     tag list, so "Garmin" finds the band page and "wont pair"
+     finds the scan troubleshooting.
+     ========================================================== */
+  (function search() {
+    var input = $("#search");
+    var clear = $("#searchClear");
+    var count = $("#searchCount");
+    var empty = $("#noResults");
+    var term  = $("#noResultsTerm");
+    var help  = $("#help");
+    if (!input) return;
+
+    var entries = $$(".entry").map(function (el) {
+      return {
+        el: el,
+        chapter: el.closest(".chapter"),
+        text: ((el.dataset.tags || "") + " " + el.textContent).toLowerCase().replace(/\s+/g, " ")
+      };
+    });
+    var chapters = $$(".chapter");
+
+    function apply(q) {
+      q = q.trim().toLowerCase();
+      clear.classList.toggle("on", q.length > 0);
+
+      if (!q) {
+        entries.forEach(function (e) { e.el.hidden = false; });
+        chapters.forEach(function (c) { c.hidden = false; });
+        empty.classList.remove("on");
+        help.style.display = "";
+        count.textContent = "";
+        return;
+      }
+
+      // Every word has to appear somewhere in the entry.
+      var words = q.split(/\s+/);
+      var hits = 0;
+      entries.forEach(function (e) {
+        var ok = words.every(function (w) { return e.text.indexOf(w) > -1; });
+        e.el.hidden = !ok;
+        if (ok) hits++;
+      });
+      chapters.forEach(function (c) {
+        c.hidden = $$(".entry", c).every(function (el) { return el.hidden; });
+      });
+
+      empty.classList.toggle("on", hits === 0);
+      help.style.display = hits === 0 ? "none" : "";
+      term.textContent = q;
+      count.innerHTML = hits === 0
+        ? "No matches."
+        : "<b>" + hits + "</b> " + (hits === 1 ? "answer" : "answers") + " matching “" + q + "”.";
+    }
+
+    var timer;
+    input.addEventListener("input", function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () { apply(input.value); }, 90);
+    });
+    clear.addEventListener("click", function () { input.value = ""; apply(""); input.focus(); });
+    $("#clearFromEmpty").addEventListener("click", function (e) {
+      e.preventDefault(); input.value = ""; apply(""); input.focus();
+    });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { input.value = ""; apply(""); }
+    });
+
+    // "/" focuses the box, the way most documentation does.
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target.tagName;
+      if (t === "INPUT" || t === "TEXTAREA" || e.target.isContentEditable) return;
+      e.preventDefault();
+      input.focus();
+      input.select();
+    });
+
+    // A search in the URL, so a filtered view can be linked to.
+    var initial = new URLSearchParams(location.search).get("q");
+    if (initial) { input.value = initial; apply(initial); }
+  }());
+
+  /* ==========================================================
+     Contents: highlight whichever chapter is in view
+     ========================================================== */
+  (function spy() {
+    var links = $$("#tocList a");
+    var sections = links
+      .map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); })
+      .filter(Boolean);
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) {
+          a.setAttribute("aria-current", a.getAttribute("href") === "#" + e.target.id ? "true" : "false");
+        });
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    sections.forEach(function (s) { io.observe(s); });
+  }());
+
+  /* ==========================================================
+     Anchor links copy their URL, since the point of them is
+     sending someone straight to one answer.
+     ========================================================== */
+  $$(".entry h3 .anchor").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      if (!navigator.clipboard) return;
+      e.preventDefault();
+      var url = location.origin + location.pathname + a.getAttribute("href");
+      navigator.clipboard.writeText(url).then(function () {
+        var was = a.textContent;
+        a.textContent = "copied";
+        a.style.opacity = "1";
+        setTimeout(function () { a.textContent = was; a.style.opacity = ""; }, 1400);
+      }).catch(function () {});
+      history.replaceState(null, "", a.getAttribute("href"));
+      document.getElementById(a.getAttribute("href").slice(1))
+        .scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
+    });
+  });
+
+}());
+</script>
+</body>
+</html>
